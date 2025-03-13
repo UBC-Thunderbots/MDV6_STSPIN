@@ -1,0 +1,4 @@
+C:/Users/kenny/.st_workbench/projects/MDv6OL/Src/register_interface.c:34:16:RI_SetRegCommandParser	72	static
+C:/Users/kenny/.st_workbench/projects/MDv6OL/Src/register_interface.c:108:16:RI_GetRegCommandParser	88	static
+C:/Users/kenny/.st_workbench/projects/MDv6OL/Src/register_interface.c:1026:9:RI_GetIDSize	0	static
+C:/Users/kenny/.st_workbench/projects/MDv6OL/Src/register_interface.c:1060:16:RI_GetPtrReg	0	static
