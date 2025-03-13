@@ -35,6 +35,16 @@
 #include "pqd_motor_power_measurement.h"
 
 /* USER CODE BEGIN Additional define */
+/* Open Loop Parameter Definitions */
+#define OPEN_LOOP_VOLTAGE_d   30000   /*!< Three Phase voltage amplitude in int16_t format *
+/*Present averaged phase stator voltage value, expressed
+  *         in s16V (0-to-peak), where
+  *         PhaseVoltage(V) = [PhaseVoltage(s16A) * Vbus(V)] /[sqrt(3) *32767].
+  * */
+#define OPEN_LOOP_VF          false
+#define OPEN_LOOP_OFFSET      30000   /*! Offset of V/F curve expressed in int16_t Voltage applied when frequency is zero. */
+#define OPEN_LOOP_K           44  // Slope of V/F curve expressed in int16_t Voltage for each 0.1Hz of mechanical frequency increment. */
+
 
 /* USER CODE END Additional define */
 
@@ -102,6 +112,19 @@ PID_Handle_t PIDIdHandle_M1 =
   .hKdDivisor           = 0x0000U,
   .hKdDivisorPOW2       = 0x0000U,
 };
+
+/**
+ * @brief OpenLoop Voltage Controller parameters Motor 1
+ */
+OpenLoop_Handle_t OpenLoopM1 =
+{
+  // Initialize Open Loop control structures
+  .hDefaultVoltage = OPEN_LOOP_VOLTAGE_d; // Default voltage setting
+  .VFMode = OPEN_LOOP_VF; // Disable
+  .hVFOffset = OPEN_LOOP_OFFSET; // Base voltage when stopped
+  .hVFSlope = OPEN_LOOP_K;  // Adjust for speed control
+  .hVoltage = 24;
+}
 
 /**
   * @brief  SpeednTorque Controller parameters Motor 1
@@ -288,11 +311,13 @@ CircleLimitation_Handle_t CircleLimitationM1 =
 };
 
 MCI_Handle_t Mci[NBR_OF_MOTORS];
+OpenLoop_Handle_t *pOLV[NBR_OF_MOTORS] = {&OpenLoopM1};
 SpeednTorqCtrl_Handle_t *pSTC[NBR_OF_MOTORS] = { &SpeednTorqCtrlM1 };
 NTC_Handle_t *pTemperatureSensor[NBR_OF_MOTORS] = {&TempSensor_M1};
 PID_Handle_t *pPIDIq[NBR_OF_MOTORS] = {&PIDIqHandle_M1};
 PID_Handle_t *pPIDId[NBR_OF_MOTORS] = {&PIDIdHandle_M1};
 PQD_MotorPowMeas_Handle_t *pMPM[NBR_OF_MOTORS] = {&PQD_MotorPowMeasM1};
+
 /* USER CODE BEGIN Additional configuration */
 /* USER CODE END Additional configuration */
 

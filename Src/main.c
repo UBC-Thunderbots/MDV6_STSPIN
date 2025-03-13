@@ -69,28 +69,10 @@ static void MX_NVIC_Init(void);
 /* USER CODE BEGIN 0 */
 
 /* Open Loop Parameter Definitions */
-
-#define OPEN_LOOP_VOLTAGE_d   30000   /*!< Three Phase voltage amplitude in int16_t format */
-
-/*Present averaged phase stator voltage value, expressed
-  *         in s16V (0-to-peak), where
-  *         PhaseVoltage(V) = [PhaseVoltage(s16A) * Vbus(V)] /[sqrt(3) *32767].
-  * */
-
-#define OPEN_LOOP_VF          false
-
-#define OPEN_LOOP_OFFSET      30000   /*! Offset of V/F curve expressed in int16_t Voltage applied when frequency is zero. */
-
-#define OPEN_LOOP_K           44  // Slope of V/F curve expressed in int16_t Voltage for each 0.1Hz of mechanical frequency increment. */
-
 #define DUTY_CYCLE            10  // need to set a low duty cycle otherwise the motor won't start
 
-OpenLoop_Handle_t OpenLoop_Params;
-
 /* Open Loop Speed and Duration Definitions */
-
 #define SPEED_RPM             100
-
 #define DURATION_MS           1000
 
 /* USER CODE END 0 */
@@ -141,22 +123,16 @@ int main(void)
       HAL_Delay(200);
     }
 
-    // Initialize Open Loop control structures
-    OpenLoop_Params.hDefaultVoltage = OPEN_LOOP_VOLTAGE_d; // Default voltage setting
-    OpenLoop_Params.VFMode = OPEN_LOOP_VF; // Disable
-    OpenLoop_Params.hVFOffset = OPEN_LOOP_OFFSET; // Base voltage when stopped
-    OpenLoop_Params.hVFSlope = OPEN_LOOP_K;  // Adjust for speed control
-    OpenLoop_Params.hVoltage = 24;
 
     // call it once for live expression
     MC_GetSTMStateMotor1(); // set a breakpoint on the line if reading the state via Debugger
     MC_GetOccurredFaultsMotor1();
 
-    // set OL phase voltage
+    // set OL voltage mode
     MCI_SetOpenLoopVoltage(&Mci[M1]);
 
     // set duty cycle
-    OL_UpdateVoltage(&OpenLoop_Params, ((DUTY_CYCLE * 32767) / 100));
+    OL_UpdateVoltage(pOLV[M1], ((DUTY_CYCLE * 32767) / 100));
 
     // execute speed ramp
     MCI_ExecSpeedRamp(&Mci[M1], 60, DURATION_MS);

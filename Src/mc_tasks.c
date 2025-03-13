@@ -787,9 +787,13 @@ inline uint16_t FOC_CurrControllerM1(void)
   RCM_ExecNextConv();
   Ialphabeta = MCM_Clarke(Iab);
   Iqd = MCM_Park(Ialphabeta, hElAngle);
-  Vqd.q = PI_Controller(pPIDIq[M1], (int32_t)(FOCVars[M1].Iqdref.q) - Iqd.q);
-  Vqd.d = PI_Controller(pPIDId[M1], (int32_t)(FOCVars[M1].Iqdref.d) - Iqd.d);
-  Vqd = Circle_Limitation(&CircleLimitationM1, Vqd);
+  // Vqd.q = PI_Controller(pPIDIq[M1], (int32_t)(FOCVars[M1].Iqdref.q) - Iqd.q);
+  // Vqd.d = PI_Controller(pPIDId[M1], (int32_t)(FOCVars[M1].Iqdref.d) - Iqd.d);
+  // Vqd = Circle_Limitation(&CircleLimitationM1, Vqd);
+  
+  // Override the Vqd using OL_VqdConditioning()
+  Vqd = OL_VqdConditioning(pOLV[M1], MC_NULL); // ignore pVss for now; not using it.
+
   hElAngle += SPD_GetInstElSpeedDpp(speedHandle)*REV_PARK_ANGLE_COMPENSATION_FACTOR;
   Valphabeta = MCM_Rev_Park(Vqd, hElAngle);
   RCM_ReadOngoingConv();

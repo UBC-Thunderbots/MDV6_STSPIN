@@ -52,6 +52,7 @@ extern NTC_Handle_t TempSensor_M1;
 
 extern PWMC_R1_Handle_t PWM_Handle_M1;
 
+extern OpenLoop_Handle_t OpenLoopM1;
 extern SpeednTorqCtrl_Handle_t SpeednTorqCtrlM1;
 extern PQD_MotorPowMeas_Handle_t PQD_MotorPowMeasM1;
 extern PQD_MotorPowMeas_Handle_t *pPQD_MotorPowMeasM1;
@@ -63,6 +64,7 @@ extern CircleLimitation_Handle_t CircleLimitationM1;
 extern RampExtMngr_Handle_t RampExtMngrHFParamsM1;
 
 extern MCI_Handle_t Mci[NBR_OF_MOTORS];
+extern OpenLoop_Handle_t *pOLV[NBR_OF_MOTORS];
 extern SpeednTorqCtrl_Handle_t *pSTC[NBR_OF_MOTORS];
 extern PID_Handle_t *pPIDIq[NBR_OF_MOTORS];
 extern PID_Handle_t *pPIDId[NBR_OF_MOTORS];
