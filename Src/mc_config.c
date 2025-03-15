@@ -119,12 +119,12 @@ PID_Handle_t PIDIdHandle_M1 =
 OpenLoop_Handle_t OpenLoopM1 =
 {
   // Initialize Open Loop control structures
-  .hDefaultVoltage = OPEN_LOOP_VOLTAGE_d; // Default voltage setting
-  .VFMode = OPEN_LOOP_VF; // Disable
-  .hVFOffset = OPEN_LOOP_OFFSET; // Base voltage when stopped
-  .hVFSlope = OPEN_LOOP_K;  // Adjust for speed control
-  .hVoltage = 24;
-}
+  .hDefaultVoltage = OPEN_LOOP_VOLTAGE_d, // Default voltage setting
+  .VFMode = OPEN_LOOP_VF, // Disable
+  .hVFOffset = OPEN_LOOP_OFFSET, // Base voltage when stopped
+  .hVFSlope = OPEN_LOOP_K,  // Adjust for speed control
+  .hVoltage = 24,
+};
 
 /**
   * @brief  SpeednTorque Controller parameters Motor 1

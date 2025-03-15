@@ -1,5 +1,5 @@
 Middlewares/MotorControl/pwm_common.o: \
- C:/Users/kenny/.st_workbench/projects/MDv6OL/MCSDK_v6.1.2-Full/MotorControl/MCSDK/MCLib/Any/Src/pwm_common.c \
+ C:/Users/tarak/OneDrive/Documents/ThunderBots/MDV6_STSPIN/MCSDK_v6.1.2-Full/MotorControl/MCSDK/MCLib/Any/Src/pwm_common.c \
  ../../MCSDK_v6.1.2-Full/MotorControl/MCSDK/MCLib/Any/Inc/pwm_common.h \
  ../../MCSDK_v6.1.2-Full/MotorControl/MCSDK/MCLib/Any/Inc/mc_type.h \
  ../../Inc/mc_stm_types.h \

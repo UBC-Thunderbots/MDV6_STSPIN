@@ -1,6 +1,6 @@
 Application/User/main.o: \
- C:/Users/kenny/.st_workbench/projects/MDv6OL/Src/main.c ../../Inc/main.h \
- ../../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal.h \
+ C:/Users/tarak/OneDrive/Documents/ThunderBots/MDV6_STSPIN/Src/main.c \
+ ../../Inc/main.h ../../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal.h \
  ../../Inc/stm32f0xx_hal_conf.h \
  ../../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_rcc.h \
  ../../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_def.h \
@@ -61,6 +61,7 @@ Application/User/main.o: \
  ../../MCSDK_v6.1.2-Full/MotorControl/MCSDK/MCLib/Any/Inc/bus_voltage_sensor.h \
  ../../MCSDK_v6.1.2-Full/MotorControl/MCSDK/MCLib/Any/Inc/virtual_bus_voltage_sensor.h \
  ../../MCSDK_v6.1.2-Full/MotorControl/MCSDK/MCLib/Any/Inc/pqd_motor_power_measurement.h \
+ ../../MCSDK_v6.1.2-Full/MotorControl/MCSDK/MCLib/Any/Inc/open_loop.h \
  ../../Inc/r1_ps_pwm_curr_fdbk.h \
  ../../MCSDK_v6.1.2-Full/MotorControl/MCSDK/MCLib/Any/Inc/encoder_speed_pos_fdbk.h \
  ../../MCSDK_v6.1.2-Full/MotorControl/MCSDK/MCLib/Any/Inc/enc_align_ctrl.h \
@@ -70,8 +71,7 @@ Application/User/main.o: \
  ../../Inc/parameters_conversion.h ../../Inc/mc_math.h \
  ../../Inc/parameters_conversion_f0xx.h ../../Inc/pmsm_motor_parameters.h \
  ../../Inc/drive_parameters.h ../../Inc/power_stage_parameters.h \
- ../../Inc/mc_api.h \
- ../../MCSDK_v6.1.2-Full/MotorControl/MCSDK/MCLib/Any/Inc/open_loop.h
+ ../../Inc/mc_api.h
 ../../Inc/main.h:
 ../../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal.h:
 ../../Inc/stm32f0xx_hal_conf.h:
@@ -136,6 +136,7 @@ Application/User/main.o: \
 ../../MCSDK_v6.1.2-Full/MotorControl/MCSDK/MCLib/Any/Inc/bus_voltage_sensor.h:
 ../../MCSDK_v6.1.2-Full/MotorControl/MCSDK/MCLib/Any/Inc/virtual_bus_voltage_sensor.h:
 ../../MCSDK_v6.1.2-Full/MotorControl/MCSDK/MCLib/Any/Inc/pqd_motor_power_measurement.h:
+../../MCSDK_v6.1.2-Full/MotorControl/MCSDK/MCLib/Any/Inc/open_loop.h:
 ../../Inc/r1_ps_pwm_curr_fdbk.h:
 ../../MCSDK_v6.1.2-Full/MotorControl/MCSDK/MCLib/Any/Inc/encoder_speed_pos_fdbk.h:
 ../../MCSDK_v6.1.2-Full/MotorControl/MCSDK/MCLib/Any/Inc/enc_align_ctrl.h:
@@ -149,4 +150,3 @@ Application/User/main.o: \
 ../../Inc/drive_parameters.h:
 ../../Inc/power_stage_parameters.h:
 ../../Inc/mc_api.h:
-../../MCSDK_v6.1.2-Full/MotorControl/MCSDK/MCLib/Any/Inc/open_loop.h:

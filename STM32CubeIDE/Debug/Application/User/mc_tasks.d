@@ -1,5 +1,5 @@
 Application/User/mc_tasks.o: \
- C:/Users/kenny/.st_workbench/projects/MDv6OL/Src/mc_tasks.c \
+ C:/Users/tarak/OneDrive/Documents/ThunderBots/MDV6_STSPIN/Src/mc_tasks.c \
  ../../Inc/main.h ../../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal.h \
  ../../Inc/stm32f0xx_hal_conf.h \
  ../../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_rcc.h \
@@ -61,6 +61,7 @@ Application/User/mc_tasks.o: \
  ../../MCSDK_v6.1.2-Full/MotorControl/MCSDK/MCLib/Any/Inc/bus_voltage_sensor.h \
  ../../MCSDK_v6.1.2-Full/MotorControl/MCSDK/MCLib/Any/Inc/virtual_bus_voltage_sensor.h \
  ../../MCSDK_v6.1.2-Full/MotorControl/MCSDK/MCLib/Any/Inc/pqd_motor_power_measurement.h \
+ ../../MCSDK_v6.1.2-Full/MotorControl/MCSDK/MCLib/Any/Inc/open_loop.h \
  ../../Inc/r1_ps_pwm_curr_fdbk.h \
  ../../MCSDK_v6.1.2-Full/MotorControl/MCSDK/MCLib/Any/Inc/encoder_speed_pos_fdbk.h \
  ../../MCSDK_v6.1.2-Full/MotorControl/MCSDK/MCLib/Any/Inc/enc_align_ctrl.h \
@@ -140,6 +141,7 @@ Application/User/mc_tasks.o: \
 ../../MCSDK_v6.1.2-Full/MotorControl/MCSDK/MCLib/Any/Inc/bus_voltage_sensor.h:
 ../../MCSDK_v6.1.2-Full/MotorControl/MCSDK/MCLib/Any/Inc/virtual_bus_voltage_sensor.h:
 ../../MCSDK_v6.1.2-Full/MotorControl/MCSDK/MCLib/Any/Inc/pqd_motor_power_measurement.h:
+../../MCSDK_v6.1.2-Full/MotorControl/MCSDK/MCLib/Any/Inc/open_loop.h:
 ../../Inc/r1_ps_pwm_curr_fdbk.h:
 ../../MCSDK_v6.1.2-Full/MotorControl/MCSDK/MCLib/Any/Inc/encoder_speed_pos_fdbk.h:
 ../../MCSDK_v6.1.2-Full/MotorControl/MCSDK/MCLib/Any/Inc/enc_align_ctrl.h:

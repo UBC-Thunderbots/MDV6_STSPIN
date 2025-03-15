@@ -1,5 +1,5 @@
 Middlewares/MotorControl/encoder_speed_pos_fdbk.o: \
- C:/Users/kenny/.st_workbench/projects/MDv6OL/MCSDK_v6.1.2-Full/MotorControl/MCSDK/MCLib/Any/Src/encoder_speed_pos_fdbk.c \
+ C:/Users/tarak/OneDrive/Documents/ThunderBots/MDV6_STSPIN/MCSDK_v6.1.2-Full/MotorControl/MCSDK/MCLib/Any/Src/encoder_speed_pos_fdbk.c \
  ../../MCSDK_v6.1.2-Full/MotorControl/MCSDK/MCLib/Any/Inc/encoder_speed_pos_fdbk.h \
  ../../MCSDK_v6.1.2-Full/MotorControl/MCSDK/MCLib/Any/Inc/speed_pos_fdbk.h \
  ../../MCSDK_v6.1.2-Full/MotorControl/MCSDK/MCLib/Any/Inc/mc_type.h \

@@ -30,6 +30,7 @@
 #include "mc_interface.h"
 #include "digital_output.h"
 #include "pwm_common.h"
+#include "open_loop.h"
 
 #include "mc_tasks.h"
 #include "parameters_conversion.h"
@@ -792,7 +793,7 @@ inline uint16_t FOC_CurrControllerM1(void)
   // Vqd = Circle_Limitation(&CircleLimitationM1, Vqd);
   
   // Override the Vqd using OL_VqdConditioning()
-  Vqd = OL_VqdConditioning(pOLV[M1], MC_NULL); // ignore pVss for now; not using it.
+  Vqd = OL_VqdConditioning(pOLV[M1]);
 
   hElAngle += SPD_GetInstElSpeedDpp(speedHandle)*REV_PARK_ANGLE_COMPENSATION_FACTOR;
   Valphabeta = MCM_Rev_Park(Vqd, hElAngle);

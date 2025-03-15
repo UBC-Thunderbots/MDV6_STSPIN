@@ -1,5 +1,5 @@
 Middlewares/MotorControl/pqd_motor_power_measurement.o: \
- C:/Users/kenny/.st_workbench/projects/MDv6OL/MCSDK_v6.1.2-Full/MotorControl/MCSDK/MCLib/Any/Src/pqd_motor_power_measurement.c \
+ C:/Users/tarak/OneDrive/Documents/ThunderBots/MDV6_STSPIN/MCSDK_v6.1.2-Full/MotorControl/MCSDK/MCLib/Any/Src/pqd_motor_power_measurement.c \
  ../../MCSDK_v6.1.2-Full/MotorControl/MCSDK/MCLib/Any/Inc/pqd_motor_power_measurement.h \
  ../../MCSDK_v6.1.2-Full/MotorControl/MCSDK/MCLib/Any/Inc/bus_voltage_sensor.h \
  ../../MCSDK_v6.1.2-Full/MotorControl/MCSDK/MCLib/Any/Inc/mc_type.h \

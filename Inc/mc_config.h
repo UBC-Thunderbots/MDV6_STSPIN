@@ -32,6 +32,7 @@
 #include "r_divider_bus_voltage_sensor.h"
 #include "virtual_bus_voltage_sensor.h"
 #include "pqd_motor_power_measurement.h"
+#include "open_loop.h"
 
 #include "r1_ps_pwm_curr_fdbk.h"
 

@@ -1,5 +1,5 @@
 Middlewares/MotorControl/virtual_speed_sensor.o: \
- C:/Users/kenny/.st_workbench/projects/MDv6OL/MCSDK_v6.1.2-Full/MotorControl/MCSDK/MCLib/Any/Src/virtual_speed_sensor.c \
+ C:/Users/tarak/OneDrive/Documents/ThunderBots/MDV6_STSPIN/MCSDK_v6.1.2-Full/MotorControl/MCSDK/MCLib/Any/Src/virtual_speed_sensor.c \
  ../../MCSDK_v6.1.2-Full/MotorControl/MCSDK/MCLib/Any/Inc/virtual_speed_sensor.h \
  ../../MCSDK_v6.1.2-Full/MotorControl/MCSDK/MCLib/Any/Inc/speed_pos_fdbk.h \
  ../../MCSDK_v6.1.2-Full/MotorControl/MCSDK/MCLib/Any/Inc/mc_type.h \

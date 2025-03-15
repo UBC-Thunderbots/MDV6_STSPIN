@@ -1,5 +1,5 @@
 Application/User/mc_api.o: \
- C:/Users/kenny/.st_workbench/projects/MDv6OL/Src/mc_api.c \
+ C:/Users/tarak/OneDrive/Documents/ThunderBots/MDV6_STSPIN/Src/mc_api.c \
  ../../Inc/mc_interface.h \
  ../../MCSDK_v6.1.2-Full/MotorControl/MCSDK/MCLib/Any/Inc/mc_type.h \
  ../../Inc/mc_stm_types.h \
@@ -62,6 +62,7 @@ Application/User/mc_api.o: \
  ../../MCSDK_v6.1.2-Full/MotorControl/MCSDK/MCLib/Any/Inc/bus_voltage_sensor.h \
  ../../MCSDK_v6.1.2-Full/MotorControl/MCSDK/MCLib/Any/Inc/virtual_bus_voltage_sensor.h \
  ../../MCSDK_v6.1.2-Full/MotorControl/MCSDK/MCLib/Any/Inc/pqd_motor_power_measurement.h \
+ ../../MCSDK_v6.1.2-Full/MotorControl/MCSDK/MCLib/Any/Inc/open_loop.h \
  ../../Inc/r1_ps_pwm_curr_fdbk.h \
  ../../MCSDK_v6.1.2-Full/MotorControl/MCSDK/MCLib/Any/Inc/encoder_speed_pos_fdbk.h \
  ../../MCSDK_v6.1.2-Full/MotorControl/MCSDK/MCLib/Any/Inc/enc_align_ctrl.h \
@@ -134,6 +135,7 @@ Application/User/mc_api.o: \
 ../../MCSDK_v6.1.2-Full/MotorControl/MCSDK/MCLib/Any/Inc/bus_voltage_sensor.h:
 ../../MCSDK_v6.1.2-Full/MotorControl/MCSDK/MCLib/Any/Inc/virtual_bus_voltage_sensor.h:
 ../../MCSDK_v6.1.2-Full/MotorControl/MCSDK/MCLib/Any/Inc/pqd_motor_power_measurement.h:
+../../MCSDK_v6.1.2-Full/MotorControl/MCSDK/MCLib/Any/Inc/open_loop.h:
 ../../Inc/r1_ps_pwm_curr_fdbk.h:
 ../../MCSDK_v6.1.2-Full/MotorControl/MCSDK/MCLib/Any/Inc/encoder_speed_pos_fdbk.h:
 ../../MCSDK_v6.1.2-Full/MotorControl/MCSDK/MCLib/Any/Inc/enc_align_ctrl.h:

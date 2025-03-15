@@ -1,5 +1,5 @@
 Application/User/regular_conversion_manager.o: \
- C:/Users/kenny/.st_workbench/projects/MDv6OL/Src/regular_conversion_manager.c \
+ C:/Users/tarak/OneDrive/Documents/ThunderBots/MDV6_STSPIN/Src/regular_conversion_manager.c \
  ../../MCSDK_v6.1.2-Full/MotorControl/MCSDK/MCLib/Any/Inc/mc_type.h \
  ../../Inc/mc_stm_types.h \
  ../../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_ll_bus.h \
@@ -60,6 +60,7 @@ Application/User/regular_conversion_manager.o: \
  ../../MCSDK_v6.1.2-Full/MotorControl/MCSDK/MCLib/Any/Inc/bus_voltage_sensor.h \
  ../../MCSDK_v6.1.2-Full/MotorControl/MCSDK/MCLib/Any/Inc/virtual_bus_voltage_sensor.h \
  ../../MCSDK_v6.1.2-Full/MotorControl/MCSDK/MCLib/Any/Inc/pqd_motor_power_measurement.h \
+ ../../MCSDK_v6.1.2-Full/MotorControl/MCSDK/MCLib/Any/Inc/open_loop.h \
  ../../Inc/r1_ps_pwm_curr_fdbk.h \
  ../../MCSDK_v6.1.2-Full/MotorControl/MCSDK/MCLib/Any/Inc/encoder_speed_pos_fdbk.h \
  ../../MCSDK_v6.1.2-Full/MotorControl/MCSDK/MCLib/Any/Inc/enc_align_ctrl.h \
@@ -128,6 +129,7 @@ Application/User/regular_conversion_manager.o: \
 ../../MCSDK_v6.1.2-Full/MotorControl/MCSDK/MCLib/Any/Inc/bus_voltage_sensor.h:
 ../../MCSDK_v6.1.2-Full/MotorControl/MCSDK/MCLib/Any/Inc/virtual_bus_voltage_sensor.h:
 ../../MCSDK_v6.1.2-Full/MotorControl/MCSDK/MCLib/Any/Inc/pqd_motor_power_measurement.h:
+../../MCSDK_v6.1.2-Full/MotorControl/MCSDK/MCLib/Any/Inc/open_loop.h:
 ../../Inc/r1_ps_pwm_curr_fdbk.h:
 ../../MCSDK_v6.1.2-Full/MotorControl/MCSDK/MCLib/Any/Inc/encoder_speed_pos_fdbk.h:
 ../../MCSDK_v6.1.2-Full/MotorControl/MCSDK/MCLib/Any/Inc/enc_align_ctrl.h:

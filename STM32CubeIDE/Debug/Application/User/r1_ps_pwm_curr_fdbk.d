@@ -1,5 +1,5 @@
 Application/User/r1_ps_pwm_curr_fdbk.o: \
- C:/Users/kenny/.st_workbench/projects/MDv6OL/Src/r1_ps_pwm_curr_fdbk.c \
+ C:/Users/tarak/OneDrive/Documents/ThunderBots/MDV6_STSPIN/Src/r1_ps_pwm_curr_fdbk.c \
  ../../Inc/r1_ps_pwm_curr_fdbk.h \
  ../../MCSDK_v6.1.2-Full/MotorControl/MCSDK/MCLib/Any/Inc/pwm_curr_fdbk.h \
  ../../MCSDK_v6.1.2-Full/MotorControl/MCSDK/MCLib/Any/Inc/mc_type.h \
