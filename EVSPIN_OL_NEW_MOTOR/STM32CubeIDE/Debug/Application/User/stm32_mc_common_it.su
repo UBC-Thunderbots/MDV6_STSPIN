@@ -1,0 +1,4 @@
+C:/Users/tarak/OneDrive/Documents/ThunderBots/EVSPIN_OL_NEW_MOTOR/EVSPIN_OL_NEW_MOTOR/Src/stm32_mc_common_it.c:67:6:USART1_IRQHandler	8	static,ignoring_inline_asm
+C:/Users/tarak/OneDrive/Documents/ThunderBots/EVSPIN_OL_NEW_MOTOR/EVSPIN_OL_NEW_MOTOR/Src/stm32_mc_common_it.c:129:6:HardFault_Handler	8	static
+C:/Users/tarak/OneDrive/Documents/ThunderBots/EVSPIN_OL_NEW_MOTOR/EVSPIN_OL_NEW_MOTOR/Src/stm32_mc_common_it.c:148:6:SysTick_Handler	8	static
+C:/Users/tarak/OneDrive/Documents/ThunderBots/EVSPIN_OL_NEW_MOTOR/EVSPIN_OL_NEW_MOTOR/Src/stm32_mc_common_it.c:193:6:EXTI4_15_IRQHandler	8	static

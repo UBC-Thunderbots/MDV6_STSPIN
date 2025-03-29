@@ -1,0 +1,13 @@
+../../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_ll_gpio.h:664:22:LL_GPIO_LockPin	8	static
+C:/Users/tarak/OneDrive/Documents/ThunderBots/EVSPIN_OL_NEW_MOTOR/EVSPIN_OL_NEW_MOTOR/Src/mc_tasks.c:89:13:MCboot	8	static
+C:/Users/tarak/OneDrive/Documents/ThunderBots/EVSPIN_OL_NEW_MOTOR/EVSPIN_OL_NEW_MOTOR/Src/mc_tasks.c:244:13:TSK_SetChargeBootCapDelayM1	0	static
+C:/Users/tarak/OneDrive/Documents/ThunderBots/EVSPIN_OL_NEW_MOTOR/EVSPIN_OL_NEW_MOTOR/Src/mc_tasks.c:255:13:TSK_ChargeBootCapDelayHasElapsedM1	0	static
+C:/Users/tarak/OneDrive/Documents/ThunderBots/EVSPIN_OL_NEW_MOTOR/EVSPIN_OL_NEW_MOTOR/Src/mc_tasks.c:271:13:TSK_SetStopPermanencyTimeM1	0	static
+C:/Users/tarak/OneDrive/Documents/ThunderBots/EVSPIN_OL_NEW_MOTOR/EVSPIN_OL_NEW_MOTOR/Src/mc_tasks.c:282:13:TSK_StopPermanencyTimeHasElapsedM1	0	static
+C:/Users/tarak/OneDrive/Documents/ThunderBots/EVSPIN_OL_NEW_MOTOR/EVSPIN_OL_NEW_MOTOR/Src/mc_tasks.c:308:16:TSK_HighFrequencyTask	8	static
+C:/Users/tarak/OneDrive/Documents/ThunderBots/EVSPIN_OL_NEW_MOTOR/EVSPIN_OL_NEW_MOTOR/Src/mc_tasks.c:356:13:TSK_SafetyTask_PWMOFF	24	static
+C:/Users/tarak/OneDrive/Documents/ThunderBots/EVSPIN_OL_NEW_MOTOR/EVSPIN_OL_NEW_MOTOR/Src/mc_tasks.c:331:13:TSK_SafetyTask	8	static
+C:/Users/tarak/OneDrive/Documents/ThunderBots/EVSPIN_OL_NEW_MOTOR/EVSPIN_OL_NEW_MOTOR/Src/mc_tasks.c:156:13:MC_RunMotorControlTasks	16	static
+C:/Users/tarak/OneDrive/Documents/ThunderBots/EVSPIN_OL_NEW_MOTOR/EVSPIN_OL_NEW_MOTOR/Src/mc_tasks.c:404:13:TSK_HardwareFaultTask	8	static
+C:/Users/tarak/OneDrive/Documents/ThunderBots/EVSPIN_OL_NEW_MOTOR/EVSPIN_OL_NEW_MOTOR/Src/mc_tasks.c:417:13:UI_HandleStartStopButton_cb	8	static
+C:/Users/tarak/OneDrive/Documents/ThunderBots/EVSPIN_OL_NEW_MOTOR/EVSPIN_OL_NEW_MOTOR/Src/mc_tasks.c:435:13:mc_lock_pins	16	static

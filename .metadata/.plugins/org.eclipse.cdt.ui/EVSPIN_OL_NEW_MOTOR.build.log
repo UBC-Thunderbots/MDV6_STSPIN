@@ -1,0 +1,17 @@
+16:43:23 **** Incremental Build of configuration Debug for project EVSPIN_OL_NEW_MOTOR ****
+make -j8 all 
+arm-none-eabi-gcc "C:/Users/tarak/OneDrive/Documents/ThunderBots/EVSPIN_OL_NEW_MOTOR/EVSPIN_OL_NEW_MOTOR/Src/main.c" -mcpu=cortex-m0 -std=gnu11 -g3 -DDEBUG -DARM_MATH_CM0 -DUSE_HAL_DRIVER -DSTM32F031x6 -c -I../../Inc -I../../Drivers/STM32F0xx_HAL_Driver/Inc -I../../Drivers/STM32F0xx_HAL_Driver/Inc/Legacy -I../../MCSDK_v6.3.2-Full/MotorControl/MCSDK/MCLib/Any/Inc -I../../Drivers/CMSIS/Device/ST/STM32F0xx/Include -I../../Drivers/CMSIS/Include -I../../Drivers/CMSIS/DSP/Include -Os -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Application/User/main.d" -MT"Application/User/main.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Application/User/main.o"
+arm-none-eabi-gcc -o "EVSPIN_OL_NEW_MOTOR.elf" @"objects.list"   -mcpu=cortex-m0 -T"C:\Users\tarak\OneDrive\Documents\ThunderBots\EVSPIN_OL_NEW_MOTOR\EVSPIN_OL_NEW_MOTOR\STM32CubeIDE\STM32F031C6TX_FLASH.ld" --specs=nosys.specs -Wl,-Map="EVSPIN_OL_NEW_MOTOR.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: EVSPIN_OL_NEW_MOTOR.elf
+ 
+arm-none-eabi-size   EVSPIN_OL_NEW_MOTOR.elf 
+arm-none-eabi-objdump -h -S  EVSPIN_OL_NEW_MOTOR.elf  > "EVSPIN_OL_NEW_MOTOR.list"
+   text	   data	    bss	    dec	    hex	filename
+  30228	   1028	   2316	  33572	   8324	EVSPIN_OL_NEW_MOTOR.elf
+Finished building: default.size.stdout
+ 
+Finished building: EVSPIN_OL_NEW_MOTOR.list
+ 
+
+16:43:25 Build Finished. 0 errors, 0 warnings. (took 2s.52ms)
+
