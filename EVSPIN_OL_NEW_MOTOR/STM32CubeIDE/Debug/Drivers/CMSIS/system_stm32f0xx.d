@@ -1,5 +1,5 @@
 Drivers/CMSIS/system_stm32f0xx.o: \
- C:/Users/tarak/OneDrive/Documents/ThunderBots/EVSPIN_OL_NEW_MOTOR/EVSPIN_OL_NEW_MOTOR/Src/system_stm32f0xx.c \
+ C:/Users/tarak/OneDrive/Documents/ThunderBots/MDV6_STSPIN/EVSPIN_OL_NEW_MOTOR/Src/system_stm32f0xx.c \
  ../../Drivers/CMSIS/Device/ST/STM32F0xx/Include/stm32f0xx.h \
  ../../Drivers/CMSIS/Device/ST/STM32F0xx/Include/stm32f031x6.h \
  ../../Drivers/CMSIS/Include/core_cm0.h \

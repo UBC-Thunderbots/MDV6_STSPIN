@@ -1,7 +1,7 @@
-C:/Users/tarak/OneDrive/Documents/ThunderBots/EVSPIN_OL_NEW_MOTOR/EVSPIN_OL_NEW_MOTOR/Src/mc_tasks_foc.c:385:13:FOC_Clear	2
-C:/Users/tarak/OneDrive/Documents/ThunderBots/EVSPIN_OL_NEW_MOTOR/EVSPIN_OL_NEW_MOTOR/Src/mc_tasks_foc.c:82:13:FOC_Init	1
-C:/Users/tarak/OneDrive/Documents/ThunderBots/EVSPIN_OL_NEW_MOTOR/EVSPIN_OL_NEW_MOTOR/Src/mc_tasks_foc.c:150:6:TSK_MF_StopProcessing	1
-C:/Users/tarak/OneDrive/Documents/ThunderBots/EVSPIN_OL_NEW_MOTOR/EVSPIN_OL_NEW_MOTOR/Src/mc_tasks_foc.c:431:13:FOC_InitAdditionalMethods	1
-C:/Users/tarak/OneDrive/Documents/ThunderBots/EVSPIN_OL_NEW_MOTOR/EVSPIN_OL_NEW_MOTOR/Src/mc_tasks_foc.c:454:13:FOC_CalcCurrRef	3
-C:/Users/tarak/OneDrive/Documents/ThunderBots/EVSPIN_OL_NEW_MOTOR/EVSPIN_OL_NEW_MOTOR/Src/mc_tasks_foc.c:168:13:TSK_MediumFrequencyTaskM1	24
-C:/Users/tarak/OneDrive/Documents/ThunderBots/EVSPIN_OL_NEW_MOTOR/EVSPIN_OL_NEW_MOTOR/Src/mc_tasks_foc.c:513:16:FOC_HighFrequencyTask	4
+C:/Users/tarak/OneDrive/Documents/ThunderBots/MDV6_STSPIN/EVSPIN_OL_NEW_MOTOR/Src/mc_tasks_foc.c:385:13:FOC_Clear	2
+C:/Users/tarak/OneDrive/Documents/ThunderBots/MDV6_STSPIN/EVSPIN_OL_NEW_MOTOR/Src/mc_tasks_foc.c:82:13:FOC_Init	1
+C:/Users/tarak/OneDrive/Documents/ThunderBots/MDV6_STSPIN/EVSPIN_OL_NEW_MOTOR/Src/mc_tasks_foc.c:150:6:TSK_MF_StopProcessing	1
+C:/Users/tarak/OneDrive/Documents/ThunderBots/MDV6_STSPIN/EVSPIN_OL_NEW_MOTOR/Src/mc_tasks_foc.c:431:13:FOC_InitAdditionalMethods	1
+C:/Users/tarak/OneDrive/Documents/ThunderBots/MDV6_STSPIN/EVSPIN_OL_NEW_MOTOR/Src/mc_tasks_foc.c:454:13:FOC_CalcCurrRef	3
+C:/Users/tarak/OneDrive/Documents/ThunderBots/MDV6_STSPIN/EVSPIN_OL_NEW_MOTOR/Src/mc_tasks_foc.c:168:13:TSK_MediumFrequencyTaskM1	24
+C:/Users/tarak/OneDrive/Documents/ThunderBots/MDV6_STSPIN/EVSPIN_OL_NEW_MOTOR/Src/mc_tasks_foc.c:513:16:FOC_HighFrequencyTask	4

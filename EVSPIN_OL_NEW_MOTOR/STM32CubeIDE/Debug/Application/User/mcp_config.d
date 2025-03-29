@@ -1,5 +1,5 @@
 Application/User/mcp_config.o: \
- C:/Users/tarak/OneDrive/Documents/ThunderBots/EVSPIN_OL_NEW_MOTOR/EVSPIN_OL_NEW_MOTOR/Src/mcp_config.c \
+ C:/Users/tarak/OneDrive/Documents/ThunderBots/MDV6_STSPIN/EVSPIN_OL_NEW_MOTOR/Src/mcp_config.c \
  ../../Inc/parameters_conversion.h ../../Inc/mc_math.h \
  ../../Inc/mc_type.h ../../Inc/mc_stm_types.h \
  ../../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_ll_bus.h \

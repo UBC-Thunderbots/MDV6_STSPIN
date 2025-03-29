@@ -1,5 +1,5 @@
 Middlewares/MotorControl/speed_torq_ctrl.o: \
- C:/Users/tarak/OneDrive/Documents/ThunderBots/EVSPIN_OL_NEW_MOTOR/EVSPIN_OL_NEW_MOTOR/MCSDK_v6.3.2-Full/MotorControl/MCSDK/MCLib/Any/Src/speed_torq_ctrl.c \
+ C:/Users/tarak/OneDrive/Documents/ThunderBots/MDV6_STSPIN/EVSPIN_OL_NEW_MOTOR/MCSDK_v6.3.2-Full/MotorControl/MCSDK/MCLib/Any/Src/speed_torq_ctrl.c \
  ../../MCSDK_v6.3.2-Full/MotorControl/MCSDK/MCLib/Any/Inc/speed_torq_ctrl.h \
  ../../Inc/mc_type.h ../../Inc/mc_stm_types.h \
  ../../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_ll_bus.h \

@@ -1,5 +1,5 @@
 Application/User/pwm_common.o: \
- C:/Users/tarak/OneDrive/Documents/ThunderBots/EVSPIN_OL_NEW_MOTOR/EVSPIN_OL_NEW_MOTOR/Src/pwm_common.c \
+ C:/Users/tarak/OneDrive/Documents/ThunderBots/MDV6_STSPIN/EVSPIN_OL_NEW_MOTOR/Src/pwm_common.c \
  ../../Inc/pwm_common.h ../../Inc/mc_type.h ../../Inc/mc_stm_types.h \
  ../../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_ll_bus.h \
  ../../Drivers/CMSIS/Device/ST/STM32F0xx/Include/stm32f0xx.h \

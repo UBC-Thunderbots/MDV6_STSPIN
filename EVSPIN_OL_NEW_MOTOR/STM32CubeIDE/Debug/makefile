@@ -62,8 +62,8 @@ all: main-build
 main-build: EVSPIN_OL_NEW_MOTOR.elf secondary-outputs
 
 # Tool invocations
-EVSPIN_OL_NEW_MOTOR.elf EVSPIN_OL_NEW_MOTOR.map: $(OBJS) $(USER_OBJS) C:\Users\tarak\OneDrive\Documents\ThunderBots\EVSPIN_OL_NEW_MOTOR\EVSPIN_OL_NEW_MOTOR\STM32CubeIDE\STM32F031C6TX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
-	arm-none-eabi-gcc -o "EVSPIN_OL_NEW_MOTOR.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m0 -T"C:\Users\tarak\OneDrive\Documents\ThunderBots\EVSPIN_OL_NEW_MOTOR\EVSPIN_OL_NEW_MOTOR\STM32CubeIDE\STM32F031C6TX_FLASH.ld" --specs=nosys.specs -Wl,-Map="EVSPIN_OL_NEW_MOTOR.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+EVSPIN_OL_NEW_MOTOR.elf EVSPIN_OL_NEW_MOTOR.map: $(OBJS) $(USER_OBJS) C:\Users\tarak\OneDrive\Documents\ThunderBots\MDV6_STSPIN\EVSPIN_OL_NEW_MOTOR\STM32CubeIDE\STM32F031C6TX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
+	arm-none-eabi-gcc -o "EVSPIN_OL_NEW_MOTOR.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m0 -T"C:\Users\tarak\OneDrive\Documents\ThunderBots\MDV6_STSPIN\EVSPIN_OL_NEW_MOTOR\STM32CubeIDE\STM32F031C6TX_FLASH.ld" --specs=nosys.specs -Wl,-Map="EVSPIN_OL_NEW_MOTOR.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
 	@echo 'Finished building target: $@'
 	@echo ' '
 

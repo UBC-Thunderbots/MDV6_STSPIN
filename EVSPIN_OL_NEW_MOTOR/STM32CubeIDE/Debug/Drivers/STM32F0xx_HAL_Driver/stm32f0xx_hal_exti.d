@@ -1,5 +1,5 @@
 Drivers/STM32F0xx_HAL_Driver/stm32f0xx_hal_exti.o: \
- C:/Users/tarak/OneDrive/Documents/ThunderBots/EVSPIN_OL_NEW_MOTOR/EVSPIN_OL_NEW_MOTOR/Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c \
+ C:/Users/tarak/OneDrive/Documents/ThunderBots/MDV6_STSPIN/EVSPIN_OL_NEW_MOTOR/Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c \
  ../../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal.h \
  ../../Inc/stm32f0xx_hal_conf.h \
  ../../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_rcc.h \

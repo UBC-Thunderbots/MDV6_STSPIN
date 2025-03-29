@@ -1,5 +1,5 @@
 Application/User/r1_ps_pwm_curr_fdbk.o: \
- C:/Users/tarak/OneDrive/Documents/ThunderBots/EVSPIN_OL_NEW_MOTOR/EVSPIN_OL_NEW_MOTOR/Src/r1_ps_pwm_curr_fdbk.c \
+ C:/Users/tarak/OneDrive/Documents/ThunderBots/MDV6_STSPIN/EVSPIN_OL_NEW_MOTOR/Src/r1_ps_pwm_curr_fdbk.c \
  ../../Inc/r1_ps_pwm_curr_fdbk.h ../../Inc/pwm_curr_fdbk.h \
  ../../Inc/mc_type.h ../../Inc/mc_stm_types.h \
  ../../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_ll_bus.h \
