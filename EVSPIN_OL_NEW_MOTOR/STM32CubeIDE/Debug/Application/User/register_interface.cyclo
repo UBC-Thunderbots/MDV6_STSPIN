@@ -1,7 +1,0 @@
-C:/Users/tarak/OneDrive/Documents/ThunderBots/MDV6_STSPIN/EVSPIN_OL_NEW_MOTOR/Src/register_interface.c:1171:9:RI_MovString	3
-C:/Users/tarak/OneDrive/Documents/ThunderBots/MDV6_STSPIN/EVSPIN_OL_NEW_MOTOR/Src/register_interface.c:31:9:RI_SetRegisterGlobal	13
-C:/Users/tarak/OneDrive/Documents/ThunderBots/MDV6_STSPIN/EVSPIN_OL_NEW_MOTOR/Src/register_interface.c:165:9:RI_SetRegisterMotor1	64
-C:/Users/tarak/OneDrive/Documents/ThunderBots/MDV6_STSPIN/EVSPIN_OL_NEW_MOTOR/Src/register_interface.c:545:9:RI_GetRegisterGlobal	14
-C:/Users/tarak/OneDrive/Documents/ThunderBots/MDV6_STSPIN/EVSPIN_OL_NEW_MOTOR/Src/register_interface.c:690:11:RI_GetRegisterMotor1	81
-C:/Users/tarak/OneDrive/Documents/ThunderBots/MDV6_STSPIN/EVSPIN_OL_NEW_MOTOR/Src/register_interface.c:1197:9:RI_GetIDSize	2
-C:/Users/tarak/OneDrive/Documents/ThunderBots/MDV6_STSPIN/EVSPIN_OL_NEW_MOTOR/Src/register_interface.c:1232:16:RI_GetPtrReg	19

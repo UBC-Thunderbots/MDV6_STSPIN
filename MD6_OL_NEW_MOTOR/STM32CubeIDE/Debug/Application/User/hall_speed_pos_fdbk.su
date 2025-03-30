@@ -1,0 +1,7 @@
+C:/Users/tarak/OneDrive/Documents/ThunderBots/MDV6_STSPIN_OL_NEW_MOTOR/MD6_OL_NEW_MOTOR/Src/hall_speed_pos_fdbk.c:812:13:HALL_Init_Electrical_Angle	20	static
+C:/Users/tarak/OneDrive/Documents/ThunderBots/MDV6_STSPIN_OL_NEW_MOTOR/MD6_OL_NEW_MOTOR/Src/hall_speed_pos_fdbk.c:91:13:HALL_Init	40	static
+C:/Users/tarak/OneDrive/Documents/ThunderBots/MDV6_STSPIN_OL_NEW_MOTOR/MD6_OL_NEW_MOTOR/Src/hall_speed_pos_fdbk.c:199:13:HALL_Clear	16	static
+C:/Users/tarak/OneDrive/Documents/ThunderBots/MDV6_STSPIN_OL_NEW_MOTOR/MD6_OL_NEW_MOTOR/Src/hall_speed_pos_fdbk.c:265:16:HALL_CalcElAngle	32	static
+C:/Users/tarak/OneDrive/Documents/ThunderBots/MDV6_STSPIN_OL_NEW_MOTOR/MD6_OL_NEW_MOTOR/Src/hall_speed_pos_fdbk.c:330:13:HALL_CalcAvrgMecSpeedUnit	16	static
+C:/Users/tarak/OneDrive/Documents/ThunderBots/MDV6_STSPIN_OL_NEW_MOTOR/MD6_OL_NEW_MOTOR/Src/hall_speed_pos_fdbk.c:419:14:HALL_TIMx_CC_IRQHandler	40	static
+C:/Users/tarak/OneDrive/Documents/ThunderBots/MDV6_STSPIN_OL_NEW_MOTOR/MD6_OL_NEW_MOTOR/Src/hall_speed_pos_fdbk.c:763:14:HALL_TIMx_UP_IRQHandler	16	static
