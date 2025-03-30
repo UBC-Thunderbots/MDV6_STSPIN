@@ -9,13 +9,11 @@
   *           Execute regular conv directly from Temperature and VBus sensors
   *           Execute user regular conversion scheduled by medium frequency task
   *           Manage user conversion state machine
-  *           +
-  *           +
   *
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; Copyright (c) 2022 STMicroelectronics.
+  * <h2><center>&copy; Copyright (c) 2023 STMicroelectronics.
   * All rights reserved.</center></h2>
   *
   * This software component is licensed by ST under Ultimate Liberty license
@@ -81,11 +79,12 @@
   *
   * ...
   */
-typedef enum {
+typedef enum
+{
   notvalid,
   ongoing,
   valid
-}  RCM_status_t;
+} RCM_status_t;
 
 typedef struct
 {
@@ -127,7 +126,7 @@ static RCM_NoInj_t RCM_NoInj_array[RCM_MAX_CONV];
 static uint8_t RCM_currentHandle;
 static uint16_t RCM_UserConvValue;
 static RCM_UserConvState_t RCM_UserConvState;
-static uint8_t RCM_UserConvHandle;
+static RegConv_t* RCM_UserConvHandle;
 
 /* Private function prototypes -----------------------------------------------*/
 
@@ -160,25 +159,23 @@ static uint8_t RCM_UserConvHandle;
   *
   * @param  fctCB Function called once the regular conversion is executed.
   *
-  * @param  data Used to save a user context. this parameter will be send back by
+  * @param  Data Used to save a user context. this parameter will be send back by
   *               the fctCB function. @b Note: This parameter can be NULL if not used.
   *
-  *  @retval the handle of the registered conversion or 255 if the registration failed
   */
-uint8_t RCM_RegisterRegConv_WithCB (RegConv_t *regConv, RCM_exec_cb_t fctCB, void *data)
+void RCM_RegisterRegConv_WithCB (RegConv_t *regConv, RCM_exec_cb_t fctCB, void *data)
 {
-  uint8_t handle;
-  handle = RCM_RegisterRegConv(regConv);
-  if (handle < RCM_MAX_CONV)
+
+  RCM_RegisterRegConv(regConv);
+  if (regConv->convHandle < RCM_MAX_CONV)
   {
-    RCM_CB_array [handle].cb = fctCB;
-    RCM_CB_array [handle].data = data;
+    RCM_CB_array [regConv->convHandle].cb = fctCB;
+    RCM_CB_array [regConv->convHandle].data = data;
   }
   else
   {
     /* Nothing to do */
   }
-  return handle;
 }
 
 /**
@@ -200,12 +197,11 @@ uint8_t RCM_RegisterRegConv_WithCB (RegConv_t *regConv, RCM_exec_cb_t fctCB, voi
   * @param  regConv Pointer to the regular conversion parameters.
   *         Contains ADC, Channel and sampling time to be used.
   *
-  *  @retval the handle of the registered conversion or 255 if the registration failed
   */
-uint8_t RCM_RegisterRegConv(RegConv_t *regConv)
+void RCM_RegisterRegConv(RegConv_t *regConv)
 {
   uint8_t handle = 255U;
-#ifdef NULL_PTR_REG_CON_MNG
+#ifdef NULL_PTR_CHECK_REG_CON_MNG
   if (MC_NULL == regConv)
   {
     handle = 0U;
@@ -221,20 +217,20 @@ uint8_t RCM_RegisterRegConv(RegConv_t *regConv)
     {
       if ((0 == RCM_handle_array [i]) && (handle > RCM_MAX_CONV))
       {
-        handle = i; /* First location available, but still looping to check that this config does not already exist*/
+        handle = i; /* First location available, but still looping to check that this config does not already exist */
       }
       else
       {
         /* Nothing to do */
       }
-      /* Ticket 64042 : If RCM_handle_array [i] is null access to data member will cause Memory Fault. */
+      /* Ticket 64042 : If RCM_handle_array [i] is null access to data member will cause Memory Fault */
       if (RCM_handle_array [i] != 0)
       {
         if ((RCM_handle_array [i]->channel == regConv->channel)
          && (RCM_handle_array [i]->regADC == regConv->regADC))
         {
           handle = i; /* Reuse the same handle */
-          i = RCM_MAX_CONV; /* we can skip the rest of the loop*/
+          i = RCM_MAX_CONV; /* We can skip the rest of the loop */
         }
         else
         {
@@ -250,7 +246,7 @@ uint8_t RCM_RegisterRegConv(RegConv_t *regConv)
     if (handle < RCM_MAX_CONV)
     {
       RCM_handle_array [handle] = regConv;
-      RCM_CB_array [handle].cb = NULL; /* if a previous callback was attached, it is cleared*/
+      RCM_CB_array [handle].cb = NULL; /* If a previous callback was attached, it is cleared */
       if (0U == LL_ADC_IsEnabled(regConv->regADC))
       {
 
@@ -265,7 +261,7 @@ uint8_t RCM_RegisterRegConv(RegConv_t *regConv)
       {
         /* Nothing to do */
       }
-      /* conversion handler is created, will be enabled by the first call to RCM_ExecRegularConv*/
+      /* Conversion handler is created, will be enabled by the first call to RCM_ExecRegularConv */
       RCM_NoInj_array[handle].enable = false;
       RCM_NoInj_array[handle].next = handle;
       RCM_NoInj_array[handle].prev = handle;
@@ -274,10 +270,10 @@ uint8_t RCM_RegisterRegConv(RegConv_t *regConv)
     {
       /* Nothing to do handle is already set to error value : 255 */
     }
-#ifdef NULL_PTR_REG_CON_MNG
+#ifdef NULL_PTR_CHECK_REG_CON_MNG
   }
 #endif
-  return (handle);
+  regConv->convHandle = handle;
 }
 
 /*
@@ -292,16 +288,17 @@ uint8_t RCM_RegisterRegConv(RegConv_t *regConv)
  *
  * NOTE: This function is not part of the public API and users should not call it.
  */
-uint16_t RCM_ExecRegularConv (uint8_t handle)
+uint16_t RCM_ExecRegularConv (RegConv_t *regConv)
 {
   uint16_t retVal;
+  uint8_t handle = regConv->convHandle;
   uint8_t formerNext;
   uint8_t i=0;
   uint8_t LastEnable = RCM_MAX_CONV;
 
   if (false == RCM_NoInj_array [handle].enable)
   {
-    /* find position in the list */
+    /* Find position in the list */
     while (i < RCM_MAX_CONV)
     {
       if (true == RCM_NoInj_array [i].enable)
@@ -314,24 +311,24 @@ uint16_t RCM_ExecRegularConv (uint8_t handle)
           RCM_NoInj_array[handle].prev = i;
           RCM_NoInj_array[i].next = handle;
           RCM_NoInj_array[formerNext].prev = handle;
-          i = RCM_MAX_CONV; /* stop the loop, handler inserted*/
+          i = RCM_MAX_CONV; /* Stop the loop, handler inserted */
         }
         else
         { /* We found an enabled regular conv,
-           * but do not know yet if it is the one we have to be linked to. */
+           * but do not know yet if it is the one we have to be linked to */
           LastEnable = i;
         }
       }
       else
       {
-        /* nothing to do */
+        /* Nothing to do */
       }
       i++;
       if (RCM_MAX_CONV == i)
-      /* We reach end of the array without handler inserted*/
+      /* We reach end of the array without handler inserted */
       {
        if (LastEnable != RCM_MAX_CONV )
-       /* we find a regular conversion with smaller position to be linked with */
+       /* We find a regular conversion with smaller position to be linked with */
        {
          formerNext = RCM_NoInj_array[LastEnable].next;
          RCM_NoInj_array[handle].next = formerNext;
@@ -340,21 +337,21 @@ uint16_t RCM_ExecRegularConv (uint8_t handle)
          RCM_NoInj_array[formerNext].prev = handle;
        }
        else
-       { /* the current handle is the only one in the list */
-         /* previous and next are already pointing to itself (done at registerRegConv) */
+       { /* The current handle is the only one in the list */
+         /* Previous and next are already pointing to itself (done at registerRegConv) */
          RCM_currentHandle = handle;
        }
       }
       else
       {
-        /* Nothing to do we are parsing the array, nothing inserted yet*/
+        /* Nothing to do we are parsing the array, nothing inserted yet */
       }
     }
     /* The handle is now linked with others, we can set the enable flag */
     RCM_NoInj_array[handle].enable = true;
     RCM_NoInj_array[handle].status = notvalid;
     if (RCM_NoInj_array[RCM_currentHandle].status != ongoing)
-    {/* select the new conversion to be the next scheduled only if a conversion is not ongoing*/
+    {/* Select the new conversion to be the next scheduled only if a conversion is not ongoing */
       RCM_currentHandle = handle;
     }
     else
@@ -367,14 +364,14 @@ uint16_t RCM_ExecRegularConv (uint8_t handle)
     /* Nothing to do the current handle is already scheduled */
   }
   if (false == PWM_Handle_M1.ADCRegularLocked)
-  /* The ADC is free to be used asynchronously*/
+  /* The ADC is free to be used asynchronously */
   {
     LL_ADC_REG_SetDMATransfer(RCM_handle_array[handle]->regADC, LL_ADC_REG_DMA_TRANSFER_NONE);
 
     /* ADC STOP condition requested to write CHSELR is true because of the ADCSTOP is set by hardware
-       at the end of A/D conversion if the external Trigger of ADC is disabled.*/
+       at the end of A/D conversion if the external Trigger of ADC is disabled */
 
-    /*By default it is ADSTART = 0, then at the first time the CFGR1 can be written. */
+    /* By default it is ADSTART = 0, then at the first time the CFGR1 can be written */
 
     /* Disabling External Trigger of ADC */
     LL_ADC_REG_SetTriggerSource(RCM_handle_array[handle]->regADC, LL_ADC_REG_TRIG_SOFTWARE);
@@ -407,7 +404,7 @@ uint16_t RCM_ExecRegularConv (uint8_t handle)
     /* Nothing to do */
   }
   retVal = RCM_NoInj_array[handle].value;
-  return retVal;
+  return (retVal);
 }
 
 /**
@@ -421,14 +418,14 @@ uint16_t RCM_ExecRegularConv (uint8_t handle)
  *
  * @param  handle used for the user conversion.
  *
- * @return true if the regular conversion could be scheduled and false otherwise.
+ * @return True if the regular conversion could be scheduled and false otherwise.
  */
-bool RCM_RequestUserConv(uint8_t handle)
+bool RCM_RequestUserConv(RegConv_t *regConv)
 {
   bool retVal = false;
   if (RCM_USERCONV_IDLE == RCM_UserConvState)
   {
-    RCM_UserConvHandle = handle;
+    RCM_UserConvHandle = regConv;
     /* must be done last so that RCM_UserConvHandle already has the right value */
     RCM_UserConvState = RCM_USERCONV_REQUESTED;
     retVal = true;
@@ -437,7 +434,7 @@ bool RCM_RequestUserConv(uint8_t handle)
   {
     /* Nothing to do */
   }
-  return retVal;
+  return (retVal);
 }
 
 /**
@@ -460,42 +457,51 @@ uint16_t RCM_GetUserConv(void)
   {
     /* Nothing to do */
   }
-  return hRetVal;
+  return (hRetVal);
 }
 
 /*
  *  This function must be scheduled by mc_task.
  *  It executes the current user conversion that has been selected by the
- *  latest call to RCM_RequestUserConv
+ *  latest call to RCM_RequestUserConv.
  *
  * NOTE: This function is not part of the public API and users should not call it.
  */
 void RCM_ExecUserConv()
 {
-  if (RCM_USERCONV_REQUESTED == RCM_UserConvState)
+  uint8_t handle;
+  if (RCM_UserConvHandle != NULL)
   {
-    RCM_UserConvValue = RCM_ExecRegularConv(RCM_UserConvHandle);
-    /* Regular conversion is read from RCM_NoInj_array but we must take care that first conversion is done*/
-    /* status could also be ongoing, but decision is taken to provide previous conversion */
-    /* instead of waiting for RCM_NoInj_array [RCM_UserConvHandle].status == valid */
-    if (RCM_NoInj_array [RCM_UserConvHandle].status != notvalid)
+    handle = RCM_UserConvHandle->convHandle;
+    if (RCM_USERCONV_REQUESTED == RCM_UserConvState)
     {
-      RCM_UserConvState = RCM_USERCONV_EOC;
+      RCM_UserConvValue = RCM_ExecRegularConv(RCM_UserConvHandle);
+      /* Regular conversion is read from RCM_NoInj_array but we must take care that first conversion is done */
+      /* Status could also be ongoing, but decision is taken to provide previous conversion
+       * instead of waiting for RCM_NoInj_array [handle].status == valid */
+      if (RCM_NoInj_array [handle].status != notvalid)
+      {
+        RCM_UserConvState = RCM_USERCONV_EOC;
+      }
+      else
+      {
+        /* Nothing to do */
+      }
+      if (RCM_CB_array[handle].cb != NULL)
+      {
+        RCM_UserConvState = RCM_USERCONV_IDLE;
+        RCM_CB_array[handle].cb(RCM_UserConvHandle, RCM_UserConvValue,
+                                            RCM_CB_array[handle].data);
+      }
+      else
+      {
+        /* Nothing to do */
+      }
     }
-    else
-    {
-      /* Nothing to do */
-    }
-    if (RCM_CB_array[RCM_UserConvHandle].cb != NULL)
-    {
-      RCM_UserConvState = RCM_USERCONV_IDLE;
-      RCM_CB_array[RCM_UserConvHandle].cb(RCM_UserConvHandle, RCM_UserConvValue,
-                                          RCM_CB_array[RCM_UserConvHandle].data);
-    }
-    else
-    {
-      /* Nothing to do */
-    }
+  }
+  else
+  {
+     /* Nothing to do */
   }
 }
 
@@ -532,11 +538,12 @@ RCM_UserConvState_t RCM_GetUserConvState(void)
  *       RCM_RequestUserConv() again.
  *
  */
-bool RCM_PauseRegularConv(uint8_t handle)
+bool RCM_PauseRegularConv(RegConv_t *regConv)
 {
   bool retVal;
   uint8_t Prev;
   uint8_t Next;
+  uint8_t handle = regConv->convHandle;
 
   if (handle < RCM_MAX_CONV)
   {
@@ -584,11 +591,11 @@ void RCM_ExecNextConv(void)
   {
     /* When this function is called, the ADC conversions triggered by External
        event for current reading has been completed.
-       ADC is therefore ready to be started because already stopped.*/
+       ADC is therefore ready to be started because already stopped */
 
     /* Clear EOC */
     LL_ADC_ClearFlag_EOC(RCM_handle_array[RCM_currentHandle]->regADC);
-    /* Disabling ADC DMA request  */
+    /* Disabling ADC DMA request */
     LL_ADC_REG_SetDMATransfer(RCM_handle_array[RCM_currentHandle]->regADC, LL_ADC_REG_DMA_TRANSFER_NONE);
 
     /* Disabling External Trigger of ADC */
@@ -599,13 +606,14 @@ void RCM_ExecNextConv(void)
                                          RCM_handle_array[RCM_currentHandle]->samplingTime);
     (void)LL_ADC_REG_SetSequencerChannels(RCM_handle_array[RCM_currentHandle]->regADC,
                                        __LL_ADC_DECIMAL_NB_TO_CHANNEL(RCM_handle_array[RCM_currentHandle]->channel));
+
     /* Start ADC for regular conversion */
     LL_ADC_REG_StartConversion(RCM_handle_array[RCM_currentHandle]->regADC);
     RCM_NoInj_array[RCM_currentHandle].status = ongoing;
   }
   else
   {
-    /* nothing to do, conversion not enabled have already notvalid status */
+    /* Nothing to do, conversion not enabled have already notvalid status */
   }
 }
 
@@ -642,7 +650,7 @@ void RCM_ReadOngoingConv(void)
     RCM_NoInj_array[RCM_currentHandle].value
                   = LL_ADC_REG_ReadConversionData12(RCM_handle_array[RCM_currentHandle]->regADC);
     RCM_NoInj_array[RCM_currentHandle].status = valid;
-    /* Restore back DMA configuration. */
+    /* Restore back DMA configuration */
     LL_ADC_REG_SetDMATransfer( RCM_handle_array[RCM_currentHandle]->regADC, LL_ADC_REG_DMA_TRANSFER_LIMITED );
   }
 
@@ -658,5 +666,5 @@ void RCM_ReadOngoingConv(void)
   * @}
   */
 
-/************************ (C) COPYRIGHT 2022 STMicroelectronics *****END OF FILE****/
+/************************ (C) COPYRIGHT 2023 STMicroelectronics *****END OF FILE****/
 

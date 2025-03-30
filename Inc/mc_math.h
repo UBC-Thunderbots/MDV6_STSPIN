@@ -9,7 +9,7 @@
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; Copyright (c) 2022 STMicroelectronics.
+  * <h2><center>&copy; Copyright (c) 2023 STMicroelectronics.
   * All rights reserved.</center></h2>
   *
   * This software component is licensed by ST under Ultimate Liberty license
@@ -74,8 +74,8 @@ typedef struct
   *         Ialpha and Ibeta in a stationary qd reference frame.
   *                               Ialpha = Ia
   *                       Ibeta = -(2*Ib+Ia)/sqrt(3)
-  * @param  Curr_Input: stator current Ia and Ib in ab_t format
-  * @retval Stator current Ialpha and Ibeta in alphabeta_t format
+  * @param  Curr_Input: stator current Ia and Ib in ab_t format.
+  * @retval Stator current Ialpha and Ibeta in alphabeta_t format.
   */
 alphabeta_t MCM_Clarke(ab_t Input);
 
@@ -85,9 +85,9 @@ alphabeta_t MCM_Clarke(ab_t Input);
   *         synchronous reference frame (properly oriented), so as Iq and Id.
   *                   Id= Ialpha *sin(theta)+qIbeta *cos(Theta)
   *                   Iq=qIalpha *cos(Theta)-qIbeta *sin(Theta)
-  * @param  Curr_Input: stator values alpha and beta in alphabeta_t format
-  * @param  Theta: rotating frame angular position in q1.15 format
-  * @retval Stator current q and d in qd_t format
+  * @param  Curr_Input: stator values alpha and beta in alphabeta_t format.
+  * @param  Theta: rotating frame angular position in q1.15 format.
+  * @retval Stator current q and d in qd_t format.
   */
 qd_t MCM_Park(alphabeta_t Input, int16_t Theta);
 
@@ -97,25 +97,23 @@ qd_t MCM_Park(alphabeta_t Input, int16_t Theta);
   *         frame, so as to obtain qValpha and qVbeta:
   *                  Valfa= Vq*Cos(theta)+ Vd*Sin(theta)
   *                  Vbeta=-Vq*Sin(theta)+ Vd*Cos(theta)
-  * @param  Curr_Input: stator voltage Vq and Vd in qd_t format
-  * @param  Theta: rotating frame angular position in q1.15 format
-  * @retval Stator values alpha and beta in alphabeta_t format
+  * @param  Curr_Input: stator voltage Vq and Vd in qd_t format.
+  * @param  Theta: rotating frame angular position in q1.15 format.
+  * @retval Stator values alpha and beta in alphabeta_t format.
   */
 alphabeta_t MCM_Rev_Park(qd_t Input, int16_t Theta);
 
 /**
-  * @brief  This function returns cosine and sine functions of the angle fed in
-  *         input
-  * @param  hAngle: angle in q1.15 format
-  * @retval Trig_Components Cos(angle) and Sin(angle) in Trig_Components format
+  * @brief  This function returns cosine and sine functions of the angle fed in input.
+  * @param  hAngle: angle in q1.15 format.
+  * @retval Trig_Components Cos(angle) and Sin(angle) in Trig_Components format.
   */
 Trig_Components MCM_Trig_Functions(int16_t hAngle);
 
 /**
-  * @brief  It calculates the square root of a non-negative s32. It returns 0
-  *         for negative s32.
-  * @param  Input int32_t number
-  * @retval int32_t Square root of Input (0 if Input<0)
+  * @brief  It calculates the square root of a non-negative s32. It returns 0 for negative s32.
+  * @param  Input int32_t number.
+  * @retval int32_t Square root of Input (0 if Input<0).
   */
 int32_t MCM_Sqrt(int32_t wInput);
 
@@ -172,7 +170,7 @@ int32_t MCM_Sqrt(int32_t wInput);
      19428 , 19455 , 19482 , 19509 , 19536 , 19562 , 19589 , 19616,\
      19643 , 19669 , 19696 , 19723 , 19749 , 19776 , 19802 , 19829,\
      19855 , 19881 , 19908 , 19934 , 19960 , 19987 , 20013 , 20039,\
-     20065 , 20091 , 20117 , 20143 , 20169 , 20195 , 20221 , 20247,\
+     20065 , 20091 , 20117 , 20143 , 20169 , 20235 , 20231 , 20247,\
      20273 , 20299 , 20325 , 20350 , 20376 , 20402 , 20428 , 20453,\
      20479 , 20504 , 20530 , 20556 , 20581 , 20606 , 20632 , 20657,\
      20683 , 20708 , 20733 , 20759 , 20784 , 20809 , 20834 , 20859,\
@@ -246,7 +244,7 @@ int32_t MCM_Sqrt(int32_t wInput);
      31594 , 31610 , 31627 , 31643 , 31660 , 31676 , 31693 , 31709,\
      31726 , 31743 , 31759 , 31776 , 31792 , 31809 , 31825 , 31841,\
      31858 , 31874 , 31891 , 31907 , 31924 , 31940 , 31957 , 31973,\
-     31989 , 32006 , 32022 , 32038 , 32055 , 32071 , 32087 , 32104,\
+     31989 , 32006 , 32023 , 32038 , 32055 , 32071 , 32087 , 32104,\
      32120 , 32136 , 32153 , 32169 , 32185 , 32202 , 32218 , 32234,\
      32250 , 32267 , 32283 , 32299 , 32315 , 32332 , 32348 , 32364,\
      32380 , 32396 , 32413 , 32429 , 32445 , 32461 , 32477 , 32493,\
@@ -270,38 +268,41 @@ int32_t MCM_Sqrt(int32_t wInput);
 #define ATAN1DIV8192  (int16_t)1
 
 /**
-  * @brief  It executes Modulus algorithm
-  * @param  alpha component
-  *         beta component
-  * @retval int16_t Modulus
+  * @brief  It executes Modulus algorithm.
+  * @param  alpha component,
+  *         beta component.
+  * @retval int16_t Modulus.
   */
-static inline int16_t MCM_Modulus( int16_t alpha, int16_t beta )
+static inline int16_t MCM_Modulus(int16_t alpha, int16_t beta)
 {
 
   int32_t wAux1;
   int32_t wAux2;
 
-  wAux1 = ( int32_t )( alpha  * alpha );
-  wAux2 = ( int32_t )( beta * beta );
+  wAux1 = (int32_t)(alpha  * alpha);
+  wAux2 = (int32_t)(beta * beta);
 
   wAux1 += wAux2;
-  wAux1 = MCM_Sqrt( wAux1 );
+  wAux1 = MCM_Sqrt(wAux1);
 
-  if ( wAux1 > INT16_MAX )
+  if (wAux1 > INT16_MAX)
   {
-    wAux1 = ( int32_t ) INT16_MAX;
+    wAux1 = (int32_t)INT16_MAX;
+  }
+  else
+  {
+    /* Nothing to do */
   }
 
-  return ( ( int16_t )wAux1 );
+  return ((int16_t)wAux1);
 
 }
 
 /**
-  * @brief  It executes CORDIC algorithm for rotor position extraction from B-emf
-  *         alpha and beta
-  * @param  wBemf_alfa_est estimated Bemf alpha on the stator reference frame
-  *         wBemf_beta_est estimated Bemf beta on the stator reference frame
-  * @retval int16_t rotor electrical angle (s16degrees)
+  * @brief  It executes CORDIC algorithm for rotor position extraction from B-emf alpha and beta.
+  * @param  wBemf_alfa_est estimated Bemf alpha on the stator reference frame.
+  *         wBemf_beta_est estimated Bemf beta on the stator reference frame.
+  * @retval int16_t rotor electrical angle (s16degrees).
   */
 static inline int16_t MCM_PhaseComputation(int32_t wBemf_alfa_est, int32_t wBemf_beta_est)
 {
@@ -314,14 +315,14 @@ static inline int16_t MCM_PhaseComputation(int32_t wBemf_alfa_est, int32_t wBemf
   {
     if (wBemf_beta_est < 0)
     {
-      /*Quadrant III, add 90 degrees so as to move to quadrant IV*/
+      /* Quadrant III, add 90 degrees so as to move to quadrant IV */
       hAngle = 16384;
-      wXi = - ( wBemf_beta_est / 2 );
+      wXi = - (wBemf_beta_est / 2);
       wYi = wBemf_alfa_est / 2;
     }
     else
     {
-      /*Quadrant II, subtract 90 degrees so as to move to quadrant I*/
+      /* Quadrant II, subtract 90 degrees so as to move to quadrant I */
       hAngle = -16384;
       wXi = wBemf_beta_est / 2;
       wYi = - (wBemf_alfa_est / 2);
@@ -329,144 +330,144 @@ static inline int16_t MCM_PhaseComputation(int32_t wBemf_alfa_est, int32_t wBemf
   }
   else
   {
-    /* Quadrant I or IV*/
+    /* Quadrant I or IV */
     hAngle = 0;
     wXi = wBemf_alfa_est / 2;
     wYi = wBemf_beta_est / 2;
   }
   wXold = wXi;
 
-  /*begin the successive approximation process*/
-  /*iteration0*/
+  /* Begin the successive approximation process */
+  /* Iteration 0 */
   if (wYi < 0)
   {
-    /*vector is in Quadrant IV*/
+    /* Vector is in Quadrant IV */
     hAngle += ATAN1DIV1;
     wXi = wXi - wYi;
     wYi = wXold + wYi;
   }
   else
   {
-    /*vector is in Quadrant I*/
+    /* Vector is in Quadrant I */
     hAngle -= ATAN1DIV1;
     wXi = wXi + wYi;
     wYi = -wXold + wYi;
   }
   wXold = wXi;
 
-  /*iteration1*/
+  /* Iteration 1 */
   if (wYi < 0)
   {
-    /*vector is in Quadrant IV*/
+    /* Vector is in Quadrant IV */
     hAngle += ATAN1DIV2;
     wXi = wXi - (wYi / 2);
     wYi = (wXold / 2) + wYi;
   }
   else
   {
-    /*vector is in Quadrant I*/
+    /* Vector is in Quadrant I */
     hAngle -= ATAN1DIV2;
     wXi = wXi + (wYi / 2);
     wYi = (-wXold / 2) + wYi;
   }
   wXold = wXi;
 
-  /*iteration2*/
+  /* Iteration 2 */
   if (wYi < 0)
   {
-    /*vector is in Quadrant IV*/
+    /* Vector is in Quadrant IV */
     hAngle += ATAN1DIV4;
     wXi = wXi - (wYi / 4);
     wYi = (wXold / 4) + wYi;
   }
   else
   {
-    /*vector is in Quadrant I*/
+    /* Vector is in Quadrant I */
     hAngle -= ATAN1DIV4;
     wXi = wXi + (wYi / 4);
     wYi = (-wXold / 4) + wYi;
   }
   wXold = wXi;
 
-  /*iteration3*/
+  /* Iteration 3 */
   if (wYi < 0)
   {
-    /*vector is in Quadrant IV*/
+    /* Vector is in Quadrant IV */
     hAngle += ATAN1DIV8;
     wXi = wXi - (wYi / 8);
     wYi = (wXold / 8) + wYi;
   }
   else
   {
-    /*vector is in Quadrant I*/
+    /* Vector is in Quadrant I */
     hAngle -= ATAN1DIV8;
     wXi = wXi + (wYi / 8);
     wYi = (-wXold / 8) + wYi;
   }
   wXold = wXi;
 
-  /*iteration4*/
+  /* Iteration4 */
   if (wYi < 0)
   {
-    /*vector is in Quadrant IV*/
+    /* Vector is in Quadrant IV */
     hAngle += ATAN1DIV16;
     wXi = wXi - (wYi / 16);
     wYi = (wXold / 16) + wYi;
   }
   else
   {
-    /*vector is in Quadrant I*/
+    /* Vector is in Quadrant I */
     hAngle -= ATAN1DIV16;
     wXi = wXi + (wYi / 16);
     wYi = (-wXold / 16) + wYi;
   }
   wXold = wXi;
 
-  /*iteration5*/
+  /* Iteration 5 */
   if (wYi < 0)
   {
-    /*vector is in Quadrant IV*/
+    /* Vector is in Quadrant IV */
     hAngle += ATAN1DIV32;
     wXi = wXi - (wYi / 32);
     wYi = (wXold / 32) + wYi;
   }
   else
   {
-    /*vector is in Quadrant I*/
+    /* Vector is in Quadrant I */
     hAngle -= ATAN1DIV32;
     wXi = wXi + (wYi / 32);
     wYi = (-wXold / 32) + wYi;
   }
   wXold = wXi;
 
-  /*iteration6*/
+  /* Iteration 6 */
   if (wYi < 0)
   {
-    /*vector is in Quadrant IV*/
+    /* Vector is in Quadrant IV */
     hAngle += ATAN1DIV64;
     wXi = wXi - (wYi / 64);
     wYi = (wXold / 64) + wYi;
   }
   else
   {
-    /*vector is in Quadrant I*/
+    /* Vector is in Quadrant I */
     hAngle -= ATAN1DIV64;
     wXi = wXi + (wYi / 64);
     wYi = (-wXold / 64) + wYi;
   }
   wXold = wXi;
 
-  /*iteration7*/
+  /* Iteration 7 */
   if (wYi < 0)
   {
-    /*vector is in Quadrant IV*/
+    /* Vector is in Quadrant IV */
     hAngle += ATAN1DIV128;
     wXi = wXi - (wYi / 128);
     wYi = (wXold / 128) + wYi;
   }
   else
   {
-    /*vector is in Quadrant I*/
+    /* Vector is in Quadrant I */
     hAngle -= ATAN1DIV128;
     wXi = wXi + (wYi / 128);
     wYi = (-wXold / 128) + wYi;
@@ -477,12 +478,11 @@ static inline int16_t MCM_PhaseComputation(int32_t wBemf_alfa_est, int32_t wBemf
 }
 
 /**
-  * @brief  This function codify a floting point number into the relative
-  *         32bit integer.
-  * @param  float Floting point number to be coded.
+  * @brief  This function codify a floting point number into the relative 32bit integer.
+  * @param  float_t Floting point number to be coded.
   * @retval uint32_t Coded 32bit integer.
   */
-uint32_t MCM_floatToIntBit(float x);
+uint32_t MCM_floatToIntBit(float_t x);
 
 /**
   * @}
@@ -492,4 +492,4 @@ uint32_t MCM_floatToIntBit(float x);
   * @}
   */
 #endif /* MC_MATH_H*/
-/******************* (C) COPYRIGHT 2022 STMicroelectronics *****END OF FILE****/
+/******************* (C) COPYRIGHT 2023 STMicroelectronics *****END OF FILE****/

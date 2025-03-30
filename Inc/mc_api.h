@@ -7,7 +7,7 @@
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; Copyright (c) 2022 STMicroelectronics.
+  * <h2><center>&copy; Copyright (c) 2023 STMicroelectronics.
   * All rights reserved.</center></h2>
   *
   * This software component is licensed by ST under Ultimate Liberty license
@@ -34,6 +34,10 @@
   * @{
   */
 
+/** @addtogroup CAI
+  * @{
+  */
+
 /** @addtogroup MCIAPI
   * @{
   */
@@ -45,25 +49,25 @@ bool MC_StartMotor1(void);
 bool MC_StopMotor1(void);
 
 /* Programs a Speed ramp for Motor 1 */
-void MC_ProgramSpeedRampMotor1( int16_t hFinalSpeed, uint16_t hDurationms );
+void MC_ProgramSpeedRampMotor1(int16_t hFinalSpeed, uint16_t hDurationms);
 
 /* Programs a Speed ramp for Motor 1 */
-void MC_ProgramSpeedRampMotor1_F( float FinalSpeed, uint16_t hDurationms );
+void MC_ProgramSpeedRampMotor1_F(float_t FinalSpeed, uint16_t hDurationms);
 
 /* Programs a Torque ramp for Motor 1 */
-void MC_ProgramTorqueRampMotor1( int16_t hFinalTorque, uint16_t hDurationms );
+void MC_ProgramTorqueRampMotor1(int16_t hFinalTorque, uint16_t hDurationms);
 
 /* Programs a Torque ramp for Motor 1 */
-void MC_ProgramTorqueRampMotor1_F( float FinalTorque, uint16_t hDurationms );
+void MC_ProgramTorqueRampMotor1_F(float_t FinalTorque, uint16_t hDurationms);
 
 /* Programs a current reference for Motor 1 */
-void MC_SetCurrentReferenceMotor1( qd_t Iqdref );
+void MC_SetCurrentReferenceMotor1(qd_t Iqdref);
 
 /* Programs a current reference for Motor 1 */
-void MC_SetCurrentReferenceMotor1_F( qd_f_t IqdRef );
+void MC_SetCurrentReferenceMotor1_F(qd_f_t IqdRef);
 
 /* Returns the state of the last submited command for Motor 1 */
-MCI_CommandState_t  MC_GetCommandStateMotor1( void);
+MCI_CommandState_t MC_GetCommandStateMotor1(void);
 
 /* Stops the execution of the current speed ramp for Motor 1 if any */
 bool MC_StopSpeedRampMotor1(void);
@@ -79,19 +83,19 @@ bool MC_HasRampCompletedMotor1(void);
 int16_t MC_GetMecSpeedReferenceMotor1(void);
 
 /* Returns the current mechanical rotor speed reference set for Motor 1, expressed in rpm */
-//float MC_GetMecSpeedReferenceMotor1_F(void);
+float_t MC_GetMecSpeedReferenceMotor1_F(void);
 
 /* Returns the last computed average mechanical rotor speed for Motor 1, expressed in the unit defined by #SPEED_UNIT */
 int16_t MC_GetMecSpeedAverageMotor1(void);
 
 /* Returns the last computed average mechanical rotor speed for Motor 1, expressed in rpm */
-//float MC_GetAverageMecSpeedMotor1_F(void);
+float_t MC_GetAverageMecSpeedMotor1_F(void);
 
 /* Returns the final speed of the last ramp programmed for Motor 1, if this ramp was a speed ramp */
 int16_t MC_GetLastRampFinalSpeedMotor1(void);
 
 /* Returns the final speed of the last ramp programmed for Motor 1, if this ramp was a speed ramp */
-float MC_GetLastRampFinalSpeedMotor1_F(void);
+float_t MC_GetLastRampFinalSpeedM1_F(void);
 
 /* Returns the current Control Mode for Motor 1 (either Speed or Torque) */
 MC_ControlMode_t MC_GetControlModeMotor1(void);
@@ -142,22 +146,22 @@ int16_t MC_GetElAngledppMotor1(void);
 int16_t MC_GetTerefMotor1(void);
 
 /* returns the current electrical torque reference in Ampere for Motor 1 */
-float MC_GetTerefMotor1_F(void);
+float_t MC_GetTerefMotor1_F(void);
 
 /* re-initializes Iq and Id references to their default values */
 void MC_Clear_IqdrefMotor1(void);
 
 /* Sets the polarization offset values to use for Motor 1*/
-bool MC_SetPolarizationOffsetsMotor1( PolarizationOffsets_t * PolarizationOffsets );
+bool MC_SetPolarizationOffsetsMotor1(PolarizationOffsets_t * PolarizationOffsets);
 
 /* @brief Returns the polarization offset values measured or set for Motor 1 */
-bool MC_GetPolarizationOffsetsMotor1( PolarizationOffsets_t * PolarizationOffsets );
+bool MC_GetPolarizationOffsetsMotor1(PolarizationOffsets_t * PolarizationOffsets);
 
 /* Starts the polarization offsets measurement procedure for Motor 1. */
-bool MC_StartPolarizationOffsetsMeasurementMotor1( void );
+bool MC_StartPolarizationOffsetsMeasurementMotor1(void);
 
 /* Acknowledge a Motor Control fault on Motor 1 */
-bool MC_AcknowledgeFaultMotor1( void );
+bool MC_AcknowledgeFaultMotor1(void);
 
 /* Returns a bitfiled showing faults that occured since the State Machine of Motor 1 was moved to FAULT_NOW state */
 uint16_t MC_GetOccurredFaultsMotor1(void);
@@ -168,11 +172,15 @@ uint16_t MC_GetCurrentFaultsMotor1(void);
 /* returns the current state of Motor 1 state machine */
 MCI_State_t  MC_GetSTMStateMotor1(void);
 
-/* returns the current power of Motor 1 in float format */
-float MC_GetAveragePowerMotor1_F(void);
+/* returns the current power of Motor 1 in float_t format */
+float_t MC_GetAveragePowerMotor1_F(void);
 
 /* Call the Profiler command */
 uint8_t MC_ProfilerCommand (uint16_t rxLength, uint8_t *rxBuffer, int16_t txSyncFreeSpace, uint16_t *txLength, uint8_t *txBuffer);
+
+/**
+  * @}
+  */
 
 /**
   * @}
@@ -187,4 +195,4 @@ uint8_t MC_ProfilerCommand (uint16_t rxLength, uint8_t *rxBuffer, int16_t txSync
 #endif /* __cpluplus */
 
 #endif /* MC_API_H */
-/******************* (C) COPYRIGHT 2022 STMicroelectronics *****END OF FILE****/
+/******************* (C) COPYRIGHT 2023 STMicroelectronics *****END OF FILE****/

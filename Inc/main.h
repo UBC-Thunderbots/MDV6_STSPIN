@@ -60,10 +60,15 @@ void Error_Handler(void);
 /* USER CODE END EFP */
 
 /* Private defines -----------------------------------------------------------*/
-#define M1_ENCODER_A_Pin GPIO_PIN_0
-#define M1_ENCODER_A_GPIO_Port GPIOA
-#define M1_ENCODER_B_Pin GPIO_PIN_1
-#define M1_ENCODER_B_GPIO_Port GPIOA
+#define Start_Stop_Pin GPIO_PIN_15
+#define Start_Stop_GPIO_Port GPIOC
+#define Start_Stop_EXTI_IRQn EXTI4_15_IRQn
+#define M1_HALL_H1_Pin GPIO_PIN_0
+#define M1_HALL_H1_GPIO_Port GPIOA
+#define M1_HALL_H2_Pin GPIO_PIN_1
+#define M1_HALL_H2_GPIO_Port GPIOA
+#define M1_HALL_H3_Pin GPIO_PIN_2
+#define M1_HALL_H3_GPIO_Port GPIOA
 #define M1_CURR_AMPL_Pin GPIO_PIN_5
 #define M1_CURR_AMPL_GPIO_Port GPIOA
 #define M1_BUS_VOLTAGE_Pin GPIO_PIN_1
@@ -84,6 +89,14 @@ void Error_Handler(void);
 #define M1_PWM_WH_GPIO_Port GPIOA
 #define M1_EN_DRIVER_Pin GPIO_PIN_11
 #define M1_EN_DRIVER_GPIO_Port GPIOA
+#define TMS_Pin GPIO_PIN_13
+#define TMS_GPIO_Port GPIOA
+#define TCK_Pin GPIO_PIN_14
+#define TCK_GPIO_Port GPIOA
+#define UART_TX_Pin GPIO_PIN_6
+#define UART_TX_GPIO_Port GPIOB
+#define UART_RX_Pin GPIO_PIN_7
+#define UART_RX_GPIO_Port GPIOB
 
 /* USER CODE BEGIN Private defines */
 

@@ -7,7 +7,7 @@
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; Copyright (c) 2022 STMicroelectronics.
+  * <h2><center>&copy; Copyright (c) 2023 STMicroelectronics.
   * All rights reserved.</center></h2>
   *
   * This software component is licensed by ST under Ultimate Liberty license
@@ -33,14 +33,14 @@
 
 /**
  * @defgroup MCAppHooks Motor Control Applicative hooks
- * @brief User defined functions that are called in the Motor Control tasks
+ * @brief User defined functions that are called in the Motor Control tasks.
  *
  *
  * @{
  */
 
 /**
- * @brief Hook function called right after the Medium Frequency Task
+ * @brief Hook function called right before the end of the MCboot function.
  *
  *
  *
@@ -58,7 +58,7 @@ __weak void MC_APP_BootHook(void)
 }
 
 /**
- * @brief Hook function called right after the Medium Frequency Task
+ * @brief Hook function called right after the Medium Frequency Task for Motor 1.
  *
  *
  *
@@ -68,7 +68,7 @@ __weak void MC_APP_PostMediumFrequencyHook_M1(void)
   /*
    * This function can be overloaded or the application can inject
    * code into it that will be executed right after the Medium
-   * Frequency Task of Motor 1.
+   * Frequency Task of Motor 1
    */
 
 /* USER SECTION BEGIN PostMediumFrequencyHookM1 */
@@ -82,4 +82,4 @@ __weak void MC_APP_PostMediumFrequencyHook_M1(void)
 
 /** @} */
 
-/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/
+/************************ (C) COPYRIGHT 2023 STMicroelectronics *****END OF FILE****/

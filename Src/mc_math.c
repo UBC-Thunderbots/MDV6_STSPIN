@@ -1,3 +1,4 @@
+
 /**
   ******************************************************************************
   * @file    mc_math.c
@@ -8,7 +9,7 @@
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; Copyright (c) 2022 STMicroelectronics.
+  * <h2><center>&copy; Copyright (c) 2023 STMicroelectronics.
   * All rights reserved.</center></h2>
   *
   * This software component is licensed by ST under Ultimate Liberty license
@@ -79,7 +80,7 @@
 /* Private variables ---------------------------------------------------------*/
 const int16_t hSin_Cos_Table[256] = SIN_COS_TABLE;
 
-#define divSQRT_3 (int32_t)0x49E6    /* 1/sqrt(3) in q1.15 format=0.5773315*/
+#define divSQRT_3 (int32_t)0x49E6    /* 1/sqrt(3) in q1.15 format=0.5773315 */
 
 #if defined (CCMRAM)
 #if defined (__ICCARM__)
@@ -94,8 +95,8 @@ __attribute__( ( section ( ".ccmram" ) ) )
   *         alpha and beta in a stationary qd reference frame.
   *                               alpha = a
   *                       beta = -(2*b+a)/sqrt(3)
-  * @param  Input: stator values a and b in ab_t format
-  * @retval Stator values alpha and beta in alphabeta_t format
+  * @param  Input: stator values a and b in ab_t format.
+  * @retval Stator values alpha and beta in alphabeta_t format.
   */
 __weak alphabeta_t MCM_Clarke(ab_t Input)
 {
@@ -113,7 +114,7 @@ __weak alphabeta_t MCM_Clarke(ab_t Input)
 
   b_divSQRT3_tmp = divSQRT_3 * ((int32_t)Input.b);
 
-  /*qIbeta = -(2*qIbs+qIas)/sqrt(3)*/
+  /* qIbeta = -(2*qIbs+qIas)/sqrt(3) */
 #ifndef FULL_MISRA_C_COMPLIANCY_MC_MATH
   /* WARNING: the below instruction is not MISRA compliant, user should verify
     that Cortex-M3 assembly instruction ASR (arithmetic shift right) is used by
@@ -144,6 +145,10 @@ __weak alphabeta_t MCM_Clarke(ab_t Input)
   {
     Output.beta = -32767;
   }
+  else
+  {
+    /* Nothing to do */
+  }
 
   return (Output);
 }
@@ -161,8 +166,8 @@ __attribute__( ( section ( ".ccmram" ) ) )
   *         synchronous reference frame (properly oriented), so as q and d.
   *                   d= alpha *sin(theta)+ beta *cos(Theta)
   *                   q= alpha *cos(Theta)- beta *sin(Theta)
-  * @param  Input: stator values alpha and beta in alphabeta_t format
-  * @param  Theta: rotating frame angular position in q1.15 format
+  * @param  Input: stator values alpha and beta in alphabeta_t format.
+  * @param  Theta: rotating frame angular position in q1.15 format.
   * @retval Stator values q and d in qd_t format
   */
 __weak qd_t MCM_Park(alphabeta_t Input, int16_t Theta)
@@ -178,13 +183,13 @@ __weak qd_t MCM_Park(alphabeta_t Input, int16_t Theta)
 
   Local_Vector_Components = MCM_Trig_Functions(Theta);
 
-  /*No overflow guaranteed*/
+  /* No overflow guaranteed */
   q_tmp_1 = Input.alpha * ((int32_t )Local_Vector_Components.hCos);
 
-  /*No overflow guaranteed*/
+  /* No overflow guaranteed */
   q_tmp_2 = Input.beta * ((int32_t)Local_Vector_Components.hSin);
 
-  /*Iq component in Q1.15 Format */
+  /* Iq component in Q1.15 Format */
 #ifndef FULL_MISRA_C_COMPLIANCY_MC_MATH
   /* WARNING: the below instruction is not MISRA compliant, user should verify
     that Cortex-M3 assembly instruction ASR (arithmetic shift right) is used by
@@ -210,18 +215,22 @@ __weak qd_t MCM_Park(alphabeta_t Input, int16_t Theta)
 
   Output.q = hqd_tmp;
 
-  if (((int16_t )-32768) == Output.q)
+  if (((int16_t)-32768) == Output.q)
   {
     Output.q = -32767;
   }
+  else
+  {
+    /* Nothing to do */
+  }
 
-  /*No overflow guaranteed*/
+  /* No overflow guaranteed */
   d_tmp_1 = Input.alpha * ((int32_t )Local_Vector_Components.hSin);
 
-  /*No overflow guaranteed*/
+  /* No overflow guaranteed */
   d_tmp_2 = Input.beta * ((int32_t )Local_Vector_Components.hCos);
 
-  /*Id component in Q1.15 Format */
+  /* Id component in Q1.15 Format */
 #ifndef FULL_MISRA_C_COMPLIANCY_MC_MATH
   /* WARNING: the below instruction is not MISRA compliant, user should verify
     that Cortex-M3 assembly instruction ASR (arithmetic shift right) is used by
@@ -251,6 +260,10 @@ __weak qd_t MCM_Park(alphabeta_t Input, int16_t Theta)
   {
     Output.d = -32767;
   }
+  else
+  {
+    /* Nothing to do */
+  }
 
   return (Output);
 }
@@ -268,9 +281,9 @@ __attribute__( ( section ( ".ccmram" ) ) )
   *         frame, so as to obtain qValpha and qVbeta:
   *                  Valfa= Vq*Cos(theta)+ Vd*Sin(theta)
   *                  Vbeta=-Vq*Sin(theta)+ Vd*Cos(theta)
-  * @param  Input: stator voltage Vq and Vd in qd_t format
-  * @param  Theta: rotating frame angular position in q1.15 format
-  * @retval Stator voltage Valpha and Vbeta in qd_t format
+  * @param  Input: stator voltage Vq and Vd in qd_t format.
+  * @param  Theta: rotating frame angular position in q1.15 format.
+  * @retval Stator voltage Valpha and Vbeta in qd_t format.
   */
 __weak alphabeta_t MCM_Rev_Park(qd_t Input, int16_t Theta)
 {
@@ -283,7 +296,7 @@ __weak alphabeta_t MCM_Rev_Park(qd_t Input, int16_t Theta)
 
   Local_Vector_Components = MCM_Trig_Functions(Theta);
 
-  /*No overflow guaranteed*/
+  /* No overflow guaranteed */
   alpha_tmp1 = Input.q * ((int32_t)Local_Vector_Components.hCos);
   alpha_tmp2 = Input.d * ((int32_t)Local_Vector_Components.hSin);
 
@@ -321,10 +334,9 @@ __attribute__( ( section ( ".ccmram" ) ) )
 #endif
 #endif
 /**
-  * @brief  This function returns cosine and sine functions of the angle fed in
-  *         input
-  * @param  hAngle: angle in q1.15 format
-  * @retval Sin(angle) and Cos(angle) in Trig_Components format
+  * @brief  This function returns cosine and sine functions of the angle fed in input.
+  * @param  hAngle: angle in q1.15 format.
+  * @retval Sin(angle) and Cos(angle) in Trig_Components format.
   */
 
 __weak Trig_Components MCM_Trig_Functions(int16_t hAngle)
@@ -384,10 +396,9 @@ __attribute__( ( section ( ".ccmram" ) ) )
 #endif
 #endif
 /**
-  * @brief  It calculates the square root of a non-negative int32_t. It returns 0
-  *         for negative int32_t.
-  * @param  Input int32_t number
-  * @retval int32_t Square root of Input (0 if Input<0)
+  * @brief  It calculates the square root of a non-negative int32_t. It returns 0 for negative int32_t.
+  * @param  Input int32_t number.
+  * @retval int32_t Square root of Input (0 if Input<0).
   */
 __weak int32_t MCM_Sqrt(int32_t wInput)
 {
@@ -432,14 +443,13 @@ __weak int32_t MCM_Sqrt(int32_t wInput)
 }
 
 /**
-  * @brief  This function codify a floating point number into the relative
-  *         32bit integer.
+  * @brief  This function codify a floating point number into the relative 32bit integer.
   * @param  float Floating point number to be coded.
   * @retval uint32_t Coded 32bit integer.
   */
 __weak uint32_t MCM_floatToIntBit( float_t x ) //cstat !MISRAC2012-Dir-4.6_a
 {
-  uint32_t *pInt;
+  const uint32_t *pInt;
   pInt = (uint32_t *)(&x); //cstat !MISRAC2012-Rule-11.3
   return (*pInt);
 }
@@ -452,4 +462,4 @@ __weak uint32_t MCM_floatToIntBit( float_t x ) //cstat !MISRAC2012-Dir-4.6_a
   * @}
   */
 
-/******************* (C) COPYRIGHT 2022 STMicroelectronics *****END OF FILE****/
+/******************* (C) COPYRIGHT 2023 STMicroelectronics *****END OF FILE****/

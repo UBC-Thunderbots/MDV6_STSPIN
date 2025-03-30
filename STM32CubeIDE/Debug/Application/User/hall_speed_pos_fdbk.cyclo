@@ -1,0 +1,7 @@
+D:/UBC Tbots Local/FW_hall_sensors_Mar22/MDv6_wheel_hall_Mar22/Src/hall_speed_pos_fdbk.c:812:13:HALL_Init_Electrical_Angle	8
+D:/UBC Tbots Local/FW_hall_sensors_Mar22/MDv6_wheel_hall_Mar22/Src/hall_speed_pos_fdbk.c:91:13:HALL_Init	4
+D:/UBC Tbots Local/FW_hall_sensors_Mar22/MDv6_wheel_hall_Mar22/Src/hall_speed_pos_fdbk.c:199:13:HALL_Clear	1
+D:/UBC Tbots Local/FW_hall_sensors_Mar22/MDv6_wheel_hall_Mar22/Src/hall_speed_pos_fdbk.c:265:16:HALL_CalcElAngle	4
+D:/UBC Tbots Local/FW_hall_sensors_Mar22/MDv6_wheel_hall_Mar22/Src/hall_speed_pos_fdbk.c:330:13:HALL_CalcAvrgMecSpeedUnit	6
+D:/UBC Tbots Local/FW_hall_sensors_Mar22/MDv6_wheel_hall_Mar22/Src/hall_speed_pos_fdbk.c:419:14:HALL_TIMx_CC_IRQHandler	37
+D:/UBC Tbots Local/FW_hall_sensors_Mar22/MDv6_wheel_hall_Mar22/Src/hall_speed_pos_fdbk.c:763:14:HALL_TIMx_UP_IRQHandler	4

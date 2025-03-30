@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
-	<name>MDv6OL</name>
+	<name>MDv6_wheel_hall_Mar22</name>
 	<comment></comment>
 	<projects>
 	</projects>
@@ -31,9 +31,19 @@
 	</natures>
 	<linkedResources>
 		<link>
-			<name>MDv6OL.ioc</name>
+			<name>MDv6_wheel_hall_Mar22.ioc</name>
 			<type>1</type>
-			<locationURI>PARENT-1-PROJECT_LOC/MDv6OL.ioc</locationURI>
+			<locationURI>PARENT-1-PROJECT_LOC/MDv6_wheel_hall_Mar22.ioc</locationURI>
+		</link>
+		<link>
+			<name>Application/User/aspep.c</name>
+			<type>1</type>
+			<locationURI>PARENT-1-PROJECT_LOC/Src/aspep.c</locationURI>
+		</link>
+		<link>
+			<name>Application/User/hall_speed_pos_fdbk.c</name>
+			<type>1</type>
+			<locationURI>PARENT-1-PROJECT_LOC/Src/hall_speed_pos_fdbk.c</locationURI>
 		</link>
 		<link>
 			<name>Application/User/main.c</name>
@@ -81,6 +91,16 @@
 			<locationURI>PARENT-1-PROJECT_LOC/Src/mc_tasks.c</locationURI>
 		</link>
 		<link>
+			<name>Application/User/mcp.c</name>
+			<type>1</type>
+			<locationURI>PARENT-1-PROJECT_LOC/Src/mcp.c</locationURI>
+		</link>
+		<link>
+			<name>Application/User/mcp_config.c</name>
+			<type>1</type>
+			<locationURI>PARENT-1-PROJECT_LOC/Src/mcp_config.c</locationURI>
+		</link>
+		<link>
 			<name>Application/User/motorcontrol.c</name>
 			<type>1</type>
 			<locationURI>PARENT-1-PROJECT_LOC/Src/motorcontrol.c</locationURI>
@@ -119,6 +139,11 @@
 			<name>Application/User/stm32f0xx_mc_it.c</name>
 			<type>1</type>
 			<locationURI>PARENT-1-PROJECT_LOC/Src/stm32f0xx_mc_it.c</locationURI>
+		</link>
+		<link>
+			<name>Application/User/usart_aspep_driver.c</name>
+			<type>1</type>
+			<locationURI>PARENT-1-PROJECT_LOC/Src/usart_aspep_driver.c</locationURI>
 		</link>
 		<link>
 			<name>Drivers/CMSIS/system_stm32f0xx.c</name>
@@ -211,84 +236,84 @@
 			<locationURI>PARENT-1-PROJECT_LOC/Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_tim_ex.c</locationURI>
 		</link>
 		<link>
+			<name>Drivers/STM32F0xx_HAL_Driver/stm32f0xx_hal_uart.c</name>
+			<type>1</type>
+			<locationURI>PARENT-1-PROJECT_LOC/Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_uart.c</locationURI>
+		</link>
+		<link>
+			<name>Drivers/STM32F0xx_HAL_Driver/stm32f0xx_hal_uart_ex.c</name>
+			<type>1</type>
+			<locationURI>PARENT-1-PROJECT_LOC/Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_uart_ex.c</locationURI>
+		</link>
+		<link>
 			<name>Middlewares/MotorControl/bus_voltage_sensor.c</name>
 			<type>1</type>
-			<locationURI>PARENT-1-PROJECT_LOC/MCSDK_v6.1.2-Full/MotorControl/MCSDK/MCLib/Any/Src/bus_voltage_sensor.c</locationURI>
+			<locationURI>PARENT-1-PROJECT_LOC/MCSDK_v6.2.0-Full/MotorControl/MCSDK/MCLib/Any/Src/bus_voltage_sensor.c</locationURI>
 		</link>
 		<link>
 			<name>Middlewares/MotorControl/circle_limitation.c</name>
 			<type>1</type>
-			<locationURI>PARENT-1-PROJECT_LOC/MCSDK_v6.1.2-Full/MotorControl/MCSDK/MCLib/Any/Src/circle_limitation.c</locationURI>
+			<locationURI>PARENT-1-PROJECT_LOC/MCSDK_v6.2.0-Full/MotorControl/MCSDK/MCLib/Any/Src/circle_limitation.c</locationURI>
 		</link>
 		<link>
 			<name>Middlewares/MotorControl/digital_output.c</name>
 			<type>1</type>
-			<locationURI>PARENT-1-PROJECT_LOC/MCSDK_v6.1.2-Full/MotorControl/MCSDK/MCLib/Any/Src/digital_output.c</locationURI>
-		</link>
-		<link>
-			<name>Middlewares/MotorControl/enc_align_ctrl.c</name>
-			<type>1</type>
-			<locationURI>PARENT-1-PROJECT_LOC/MCSDK_v6.1.2-Full/MotorControl/MCSDK/MCLib/Any/Src/enc_align_ctrl.c</locationURI>
-		</link>
-		<link>
-			<name>Middlewares/MotorControl/encoder_speed_pos_fdbk.c</name>
-			<type>1</type>
-			<locationURI>PARENT-1-PROJECT_LOC/MCSDK_v6.1.2-Full/MotorControl/MCSDK/MCLib/Any/Src/encoder_speed_pos_fdbk.c</locationURI>
+			<locationURI>PARENT-1-PROJECT_LOC/MCSDK_v6.2.0-Full/MotorControl/MCSDK/MCLib/Any/Src/digital_output.c</locationURI>
 		</link>
 		<link>
 			<name>Middlewares/MotorControl/ntc_temperature_sensor.c</name>
 			<type>1</type>
-			<locationURI>PARENT-1-PROJECT_LOC/MCSDK_v6.1.2-Full/MotorControl/MCSDK/MCLib/Any/Src/ntc_temperature_sensor.c</locationURI>
+			<locationURI>PARENT-1-PROJECT_LOC/MCSDK_v6.2.0-Full/MotorControl/MCSDK/MCLib/Any/Src/ntc_temperature_sensor.c</locationURI>
 		</link>
 		<link>
 			<name>Middlewares/MotorControl/open_loop.c</name>
 			<type>1</type>
-			<locationURI>PARENT-1-PROJECT_LOC/MCSDK_v6.1.2-Full/MotorControl/MCSDK/MCLib/Any/Src/open_loop.c</locationURI>
+			<locationURI>PARENT-1-PROJECT_LOC/MCSDK_v6.2.0-Full/MotorControl/MCSDK/MCLib/Any/Src/open_loop.c</locationURI>
 		</link>
 		<link>
 			<name>Middlewares/MotorControl/pid_regulator.c</name>
 			<type>1</type>
-			<locationURI>PARENT-1-PROJECT_LOC/MCSDK_v6.1.2-Full/MotorControl/MCSDK/MCLib/Any/Src/pid_regulator.c</locationURI>
+			<locationURI>PARENT-1-PROJECT_LOC/MCSDK_v6.2.0-Full/MotorControl/MCSDK/MCLib/Any/Src/pid_regulator.c</locationURI>
 		</link>
 		<link>
 			<name>Middlewares/MotorControl/pqd_motor_power_measurement.c</name>
 			<type>1</type>
-			<locationURI>PARENT-1-PROJECT_LOC/MCSDK_v6.1.2-Full/MotorControl/MCSDK/MCLib/Any/Src/pqd_motor_power_measurement.c</locationURI>
+			<locationURI>PARENT-1-PROJECT_LOC/MCSDK_v6.2.0-Full/MotorControl/MCSDK/MCLib/Any/Src/pqd_motor_power_measurement.c</locationURI>
 		</link>
 		<link>
 			<name>Middlewares/MotorControl/pwm_common.c</name>
 			<type>1</type>
-			<locationURI>PARENT-1-PROJECT_LOC/MCSDK_v6.1.2-Full/MotorControl/MCSDK/MCLib/Any/Src/pwm_common.c</locationURI>
+			<locationURI>PARENT-1-PROJECT_LOC/MCSDK_v6.2.0-Full/MotorControl/MCSDK/MCLib/Any/Src/pwm_common.c</locationURI>
 		</link>
 		<link>
 			<name>Middlewares/MotorControl/r_divider_bus_voltage_sensor.c</name>
 			<type>1</type>
-			<locationURI>PARENT-1-PROJECT_LOC/MCSDK_v6.1.2-Full/MotorControl/MCSDK/MCLib/Any/Src/r_divider_bus_voltage_sensor.c</locationURI>
+			<locationURI>PARENT-1-PROJECT_LOC/MCSDK_v6.2.0-Full/MotorControl/MCSDK/MCLib/Any/Src/r_divider_bus_voltage_sensor.c</locationURI>
 		</link>
 		<link>
 			<name>Middlewares/MotorControl/ramp_ext_mngr.c</name>
 			<type>1</type>
-			<locationURI>PARENT-1-PROJECT_LOC/MCSDK_v6.1.2-Full/MotorControl/MCSDK/MCLib/Any/Src/ramp_ext_mngr.c</locationURI>
+			<locationURI>PARENT-1-PROJECT_LOC/MCSDK_v6.2.0-Full/MotorControl/MCSDK/MCLib/Any/Src/ramp_ext_mngr.c</locationURI>
 		</link>
 		<link>
 			<name>Middlewares/MotorControl/revup_ctrl.c</name>
 			<type>1</type>
-			<locationURI>PARENT-1-PROJECT_LOC/MCSDK_v6.1.2-Full/MotorControl/MCSDK/MCLib/Any/Src/revup_ctrl.c</locationURI>
+			<locationURI>PARENT-1-PROJECT_LOC/MCSDK_v6.2.0-Full/MotorControl/MCSDK/MCLib/Any/Src/revup_ctrl.c</locationURI>
 		</link>
 		<link>
 			<name>Middlewares/MotorControl/speed_pos_fdbk.c</name>
 			<type>1</type>
-			<locationURI>PARENT-1-PROJECT_LOC/MCSDK_v6.1.2-Full/MotorControl/MCSDK/MCLib/Any/Src/speed_pos_fdbk.c</locationURI>
+			<locationURI>PARENT-1-PROJECT_LOC/MCSDK_v6.2.0-Full/MotorControl/MCSDK/MCLib/Any/Src/speed_pos_fdbk.c</locationURI>
 		</link>
 		<link>
 			<name>Middlewares/MotorControl/speed_torq_ctrl.c</name>
 			<type>1</type>
-			<locationURI>PARENT-1-PROJECT_LOC/MCSDK_v6.1.2-Full/MotorControl/MCSDK/MCLib/Any/Src/speed_torq_ctrl.c</locationURI>
+			<locationURI>PARENT-1-PROJECT_LOC/MCSDK_v6.2.0-Full/MotorControl/MCSDK/MCLib/Any/Src/speed_torq_ctrl.c</locationURI>
 		</link>
 		<link>
 			<name>Middlewares/MotorControl/virtual_speed_sensor.c</name>
 			<type>1</type>
-			<locationURI>PARENT-1-PROJECT_LOC/MCSDK_v6.1.2-Full/MotorControl/MCSDK/MCLib/Any/Src/virtual_speed_sensor.c</locationURI>
+			<locationURI>PARENT-1-PROJECT_LOC/MCSDK_v6.2.0-Full/MotorControl/MCSDK/MCLib/Any/Src/virtual_speed_sensor.c</locationURI>
 		</link>
 	</linkedResources>
 </projectDescription>

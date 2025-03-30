@@ -7,7 +7,7 @@
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; Copyright (c) 2022 STMicroelectronics.
+  * <h2><center>&copy; Copyright (c) 2023 STMicroelectronics.
   * All rights reserved.</center></h2>
   *
   * This software component is licensed by ST under Ultimate Liberty license
@@ -46,6 +46,7 @@ extern "C" {
 #define NONE    ((uint8_t)(0x00))
 #define EXT_MODE  ((uint8_t)(0x01))
 #define INT_MODE  ((uint8_t)(0x02))
+#define DAC_MODE  ((uint8_t)(0x03))
 
 /* Exported types ------------------------------------------------------------*/
 
@@ -59,16 +60,11 @@ typedef struct
   ADC_TypeDef * ADCx;            /*!< First ADC peripheral to be used.*/
   TIM_TypeDef * TIMx;              /*!< timer used for PWM generation.*/
   DMA_TypeDef * DMAx;              /*!< timer used for PWM generation.*/
-  GPIO_TypeDef * pwm_en_u_port;    /*!< Channel 1N (low side) GPIO output */
-  GPIO_TypeDef * pwm_en_v_port;    /*!< Channel 2N (low side) GPIO output*/
-  GPIO_TypeDef * pwm_en_w_port;    /*!< Channel 3N (low side)  GPIO output */
+
   uint32_t DMAChannelX;            /*!< DMA channel used to modify CCR on the fly */
   uint32_t DMASamplingPtChannelX;  /*!< DMA channel used to modify sampling point on the fly */
   uint32_t AdcExtTrigger;          /*!< ADC trigger */
   uint32_t DMA_ADC_DR_ChannelX;    /*!< DMA channel used to transfer ADC data to memory buffer */
-  uint16_t pwm_en_u_pin;                    /*!< Channel 1N (low side) GPIO output pin */
-  uint16_t pwm_en_v_pin;                    /*!< Channel 2N (low side) GPIO output pin */
-  uint16_t pwm_en_w_pin;                    /*!< Channel 3N (low side)  GPIO output pin */
 
  /* PWM generation parameters --------------------------------------------------*/
 
@@ -78,9 +74,6 @@ typedef struct
 
   /* DAC settings --------------------------------------------------------------*/
   /* PWM Driving signals initialization ----------------------------------------*/
-  LowSideOutputsFunction_t LowSideOutputs; /*!< Low side or enabling signals
-                                                generation method are defined
-                                                here.*/
   uint8_t  IChannel;
   uint8_t ISamplingTime;
   uint8_t  RepetitionCounter;         /*!< It expresses the number of PWM
@@ -88,11 +81,7 @@ typedef struct
                                             registers are updated again. In
                                             particular:
                                             RepetitionCounter= (2* #PWM periods)-1*/
-  /* Emergency input (BKIN2) signal initialization -----------------------------*/
-  FunctionalState EmergencyStop;  /*!< It enable/disable the management of
-                                       an emergency input instantaneously
-                                       stopping PWM generation. It must be
-                                       either equal to ENABLE or DISABLE */
+
   /* Internal COMP settings ----------------------------------------------------*/
   /* Dual MC parameters --------------------------------------------------------*/
   uint8_t  FreqRatio;             /*!< It is used in case of dual MC to
@@ -136,9 +125,6 @@ typedef struct
   uint8_t TCCnt;
 
   bool UpdateFlagBuffer;       /*!< buffered version of Timer update IT flag */
-  bool OverCurrentFlag;        /*!< This flag is set when an overcurrent occurs.*/
-  bool OverVoltageFlag;        /*!< This flag is set when an overvoltage occurs.*/
-  bool BrakeActionLock;        /*!< This flag is set to avoid that brake action is interrupted.*/
   bool FOCDurationFlag;        /*!< This flag is used to detect FOC duration error.*/
   bool TCDoneFlag;             /*!< This flag is used to indicate that last DMA TC of the period is done.*/
   bool ADCRegularLocked;
@@ -200,11 +186,6 @@ void R1_CurrentReadingCalibration( PWMC_Handle_t * pHdl );
 uint16_t R1_CalcDutyCycles( PWMC_Handle_t * pHdl );
 
 /**
-  * It is used to check if an overcurrent occurred since last call.
-  */
-uint16_t R1_IsOverCurrentOccurred( PWMC_Handle_t * pHdl );
-
-/**
   * This function handles motor DMAx TC interrupt request.
   */
 void *R1_DMAx_TC_IRQHandler( PWMC_R1_Handle_t * pHandle );
@@ -254,4 +235,4 @@ void R1_GetOffsetCalib(PWMC_Handle_t *pHdl, PolarizationOffsets_t *offsets);
 
 #endif /*__R1_PS_F30X_PWMCURRFDBK_H*/
 
-/******************* (C) COPYRIGHT 2022 STMicroelectronics *****END OF FILE****/
+/******************* (C) COPYRIGHT 2023 STMicroelectronics *****END OF FILE****/

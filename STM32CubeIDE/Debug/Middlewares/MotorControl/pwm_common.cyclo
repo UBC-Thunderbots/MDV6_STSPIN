@@ -1,2 +1,2 @@
-C:/Users/kenny/.st_workbench/projects/MDv6OL/MCSDK_v6.1.2-Full/MotorControl/MCSDK/MCLib/Any/Src/pwm_common.c:45:13:startTimers	2
-C:/Users/kenny/.st_workbench/projects/MDv6OL/MCSDK_v6.1.2-Full/MotorControl/MCSDK/MCLib/Any/Src/pwm_common.c:78:13:waitForPolarizationEnd	5
+D:/UBC Tbots Local/FW_hall_sensors_Mar22/MDv6_wheel_hall_Mar22/MCSDK_v6.2.0-Full/MotorControl/MCSDK/MCLib/Any/Src/pwm_common.c:45:13:startTimers	2
+D:/UBC Tbots Local/FW_hall_sensors_Mar22/MDv6_wheel_hall_Mar22/MCSDK_v6.2.0-Full/MotorControl/MCSDK/MCLib/Any/Src/pwm_common.c:79:13:waitForPolarizationEnd	5

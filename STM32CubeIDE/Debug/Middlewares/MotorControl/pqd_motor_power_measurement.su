@@ -1,3 +1,3 @@
-C:/Users/kenny/.st_workbench/projects/MDv6OL/MCSDK_v6.1.2-Full/MotorControl/MCSDK/MCLib/Any/Src/pqd_motor_power_measurement.c:65:13:PQD_CalcElMotorPower	8	static
-C:/Users/kenny/.st_workbench/projects/MDv6OL/MCSDK_v6.1.2-Full/MotorControl/MCSDK/MCLib/Any/Src/pqd_motor_power_measurement.c:97:13:PQD_Clear	0	static
-C:/Users/kenny/.st_workbench/projects/MDv6OL/MCSDK_v6.1.2-Full/MotorControl/MCSDK/MCLib/Any/Src/pqd_motor_power_measurement.c:122:14:PQD_GetAvrgElMotorPowerW	16	static
+D:/UBC Tbots Local/FW_hall_sensors_Mar22/MDv6_wheel_hall_Mar22/MCSDK_v6.2.0-Full/MotorControl/MCSDK/MCLib/Any/Src/pqd_motor_power_measurement.c:65:13:PQD_CalcElMotorPower	8	static
+D:/UBC Tbots Local/FW_hall_sensors_Mar22/MDv6_wheel_hall_Mar22/MCSDK_v6.2.0-Full/MotorControl/MCSDK/MCLib/Any/Src/pqd_motor_power_measurement.c:98:13:PQD_Clear	0	static
+D:/UBC Tbots Local/FW_hall_sensors_Mar22/MDv6_wheel_hall_Mar22/MCSDK_v6.2.0-Full/MotorControl/MCSDK/MCLib/Any/Src/pqd_motor_power_measurement.c:123:16:PQD_GetAvrgElMotorPowerW	16	static

@@ -1,5 +1,5 @@
 Drivers/STM32F0xx_HAL_Driver/stm32f0xx_hal_cortex.o: \
- C:/Users/kenny/.st_workbench/projects/MDv6OL/Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_cortex.c \
+ D:/UBC\ Tbots\ Local/FW_hall_sensors_Mar22/MDv6_wheel_hall_Mar22/Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_cortex.c \
  ../../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal.h \
  ../../Inc/stm32f0xx_hal_conf.h \
  ../../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_rcc.h \
@@ -28,7 +28,9 @@ Drivers/STM32F0xx_HAL_Driver/stm32f0xx_hal_cortex.o: \
  ../../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_pwr.h \
  ../../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_pwr_ex.h \
  ../../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_tim.h \
- ../../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_tim_ex.h
+ ../../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_tim_ex.h \
+ ../../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_uart.h \
+ ../../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_uart_ex.h
 ../../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal.h:
 ../../Inc/stm32f0xx_hal_conf.h:
 ../../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_rcc.h:
@@ -58,3 +60,5 @@ Drivers/STM32F0xx_HAL_Driver/stm32f0xx_hal_cortex.o: \
 ../../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_pwr_ex.h:
 ../../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_tim.h:
 ../../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_tim_ex.h:
+../../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_uart.h:
+../../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_uart_ex.h:

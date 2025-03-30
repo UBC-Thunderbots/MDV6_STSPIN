@@ -1,2 +1,2 @@
-C:/Users/kenny/.st_workbench/projects/MDv6OL/MCSDK_v6.1.2-Full/MotorControl/MCSDK/MCLib/Any/Src/digital_output.c:45:13:DOUT_SetOutputState	4
-C:/Users/kenny/.st_workbench/projects/MDv6OL/MCSDK_v6.1.2-Full/MotorControl/MCSDK/MCLib/Any/Src/digital_output.c:85:23:DOUT_GetOutputState	1
+D:/UBC Tbots Local/FW_hall_sensors_Mar22/MDv6_wheel_hall_Mar22/MCSDK_v6.2.0-Full/MotorControl/MCSDK/MCLib/Any/Src/digital_output.c:45:13:DOUT_SetOutputState	4
+D:/UBC Tbots Local/FW_hall_sensors_Mar22/MDv6_wheel_hall_Mar22/MCSDK_v6.2.0-Full/MotorControl/MCSDK/MCLib/Any/Src/digital_output.c:85:23:DOUT_GetOutputState	1

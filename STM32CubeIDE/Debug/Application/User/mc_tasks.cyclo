@@ -1,18 +1,20 @@
-C:/Users/kenny/.st_workbench/projects/MDv6OL/Src/mc_tasks.c:571:13:FOC_Clear	1
-C:/Users/kenny/.st_workbench/projects/MDv6OL/Src/mc_tasks.c:105:13:MCboot	2
-C:/Users/kenny/.st_workbench/projects/MDv6OL/Src/mc_tasks.c:610:13:FOC_InitAdditionalMethods	1
-C:/Users/kenny/.st_workbench/projects/MDv6OL/Src/mc_tasks.c:634:13:FOC_CalcCurrRef	2
-C:/Users/kenny/.st_workbench/projects/MDv6OL/Src/mc_tasks.c:661:13:TSK_SetChargeBootCapDelayM1	1
-C:/Users/kenny/.st_workbench/projects/MDv6OL/Src/mc_tasks.c:672:13:TSK_ChargeBootCapDelayHasElapsedM1	1
-C:/Users/kenny/.st_workbench/projects/MDv6OL/Src/mc_tasks.c:688:13:TSK_SetStopPermanencyTimeM1	1
-C:/Users/kenny/.st_workbench/projects/MDv6OL/Src/mc_tasks.c:237:6:TSK_MF_StopProcessing	1
-C:/Users/kenny/.st_workbench/projects/MDv6OL/Src/mc_tasks.c:699:13:TSK_StopPermanencyTimeHasElapsedM1	1
-C:/Users/kenny/.st_workbench/projects/MDv6OL/Src/mc_tasks.c:303:13:TSK_MediumFrequencyTaskM1	29
-C:/Users/kenny/.st_workbench/projects/MDv6OL/Src/mc_tasks.c:253:13:MC_Scheduler	5
-C:/Users/kenny/.st_workbench/projects/MDv6OL/Src/mc_tasks.c:725:16:TSK_HighFrequencyTask	2
-C:/Users/kenny/.st_workbench/projects/MDv6OL/Src/mc_tasks.c:836:13:TSK_SafetyTask_PWMOFF	4
-C:/Users/kenny/.st_workbench/projects/MDv6OL/Src/mc_tasks.c:814:13:TSK_SafetyTask	2
-C:/Users/kenny/.st_workbench/projects/MDv6OL/Src/mc_tasks.c:215:13:MC_RunMotorControlTasks	2
-C:/Users/kenny/.st_workbench/projects/MDv6OL/Src/mc_tasks.c:886:23:GetMCI	2
-C:/Users/kenny/.st_workbench/projects/MDv6OL/Src/mc_tasks.c:902:13:TSK_HardwareFaultTask	1
-C:/Users/kenny/.st_workbench/projects/MDv6OL/Src/mc_tasks.c:918:13:mc_lock_pins	1
+../../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_ll_gpio.h:664:22:LL_GPIO_LockPin	1
+D:/UBC Tbots Local/FW_hall_sensors_Mar22/MDv6_wheel_hall_Mar22/Src/mc_tasks.c:522:13:FOC_Clear	1
+D:/UBC Tbots Local/FW_hall_sensors_Mar22/MDv6_wheel_hall_Mar22/Src/mc_tasks.c:105:13:MCboot	2
+D:/UBC Tbots Local/FW_hall_sensors_Mar22/MDv6_wheel_hall_Mar22/Src/mc_tasks.c:558:13:FOC_InitAdditionalMethods	1
+D:/UBC Tbots Local/FW_hall_sensors_Mar22/MDv6_wheel_hall_Mar22/Src/mc_tasks.c:581:13:FOC_CalcCurrRef	2
+D:/UBC Tbots Local/FW_hall_sensors_Mar22/MDv6_wheel_hall_Mar22/Src/mc_tasks.c:608:13:TSK_SetChargeBootCapDelayM1	1
+D:/UBC Tbots Local/FW_hall_sensors_Mar22/MDv6_wheel_hall_Mar22/Src/mc_tasks.c:619:13:TSK_ChargeBootCapDelayHasElapsedM1	1
+D:/UBC Tbots Local/FW_hall_sensors_Mar22/MDv6_wheel_hall_Mar22/Src/mc_tasks.c:635:13:TSK_SetStopPermanencyTimeM1	1
+D:/UBC Tbots Local/FW_hall_sensors_Mar22/MDv6_wheel_hall_Mar22/Src/mc_tasks.c:230:6:TSK_MF_StopProcessing	1
+D:/UBC Tbots Local/FW_hall_sensors_Mar22/MDv6_wheel_hall_Mar22/Src/mc_tasks.c:646:13:TSK_StopPermanencyTimeHasElapsedM1	1
+D:/UBC Tbots Local/FW_hall_sensors_Mar22/MDv6_wheel_hall_Mar22/Src/mc_tasks.c:327:13:TSK_MediumFrequencyTaskM1	22
+D:/UBC Tbots Local/FW_hall_sensors_Mar22/MDv6_wheel_hall_Mar22/Src/mc_tasks.c:245:13:MC_Scheduler	7
+D:/UBC Tbots Local/FW_hall_sensors_Mar22/MDv6_wheel_hall_Mar22/Src/mc_tasks.c:672:16:TSK_HighFrequencyTask	2
+D:/UBC Tbots Local/FW_hall_sensors_Mar22/MDv6_wheel_hall_Mar22/Src/mc_tasks.c:787:13:TSK_SafetyTask_PWMOFF	3
+D:/UBC Tbots Local/FW_hall_sensors_Mar22/MDv6_wheel_hall_Mar22/Src/mc_tasks.c:762:13:TSK_SafetyTask	2
+D:/UBC Tbots Local/FW_hall_sensors_Mar22/MDv6_wheel_hall_Mar22/Src/mc_tasks.c:208:13:MC_RunMotorControlTasks	2
+D:/UBC Tbots Local/FW_hall_sensors_Mar22/MDv6_wheel_hall_Mar22/Src/mc_tasks.c:835:22:GetMCI	2
+D:/UBC Tbots Local/FW_hall_sensors_Mar22/MDv6_wheel_hall_Mar22/Src/mc_tasks.c:855:13:TSK_HardwareFaultTask	1
+D:/UBC Tbots Local/FW_hall_sensors_Mar22/MDv6_wheel_hall_Mar22/Src/mc_tasks.c:868:13:UI_HandleStartStopButton_cb	2
+D:/UBC Tbots Local/FW_hall_sensors_Mar22/MDv6_wheel_hall_Mar22/Src/mc_tasks.c:886:13:mc_lock_pins	1

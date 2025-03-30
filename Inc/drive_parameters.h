@@ -9,7 +9,7 @@
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; Copyright (c) 2022 STMicroelectronics.
+  * <h2><center>&copy; Copyright (c) 2023 STMicroelectronics.
   * All rights reserved.</center></h2>
   *
   * This software component is licensed by ST under Ultimate Liberty license
@@ -31,17 +31,18 @@
 /******** MAIN AND AUXILIARY SPEED/POSITION SENSOR(S) SETTINGS SECTION ********/
 
 /*** Speed measurement settings ***/
-#define MAX_APPLICATION_SPEED_RPM       10000 /*!< rpm, mechanical */
+#define MAX_APPLICATION_SPEED_RPM       4840 /*!< rpm, mechanical */
 #define MIN_APPLICATION_SPEED_RPM       0 /*!< rpm, mechanical,
                                                            absolute value */
 #define M1_SS_MEAS_ERRORS_BEFORE_FAULTS 3 /*!< Number of speed
                                                              measurement errors before
                                                              main sensor goes in fault */
-/*** Encoder **********************/
+/****** Hall sensors ************/
 
-#define ENC_AVERAGING_FIFO_DEPTH        16 /*!< depth of the FIFO used to
-                                                              average mechanical speed in
-                                                              0.1Hz resolution */
+#define HALL_AVERAGING_FIFO_DEPTH        16 /*!< depth of the FIFO used to
+                                                           average mechanical speed in
+                                                           0.1Hz resolution */
+#define HALL_MTPA  false
 
 /* USER CODE BEGIN angle reconstruction M1 */
 #define REV_PARK_ANGLE_COMPENSATION_FACTOR 0
@@ -61,12 +62,15 @@
 /* Torque and flux regulation loops */
 #define REGULATION_EXECUTION_RATE     2    /*!< FOC execution rate in
                                                            number of PWM cycles */
+
+#define ISR_FREQUENCY_HZ (PWM_FREQUENCY/REGULATION_EXECUTION_RATE) /*!< @brief FOC execution rate in
+                                                           Hz */
 /* Gains values for torque and flux control loops */
-#define PID_TORQUE_KP_DEFAULT         3684
-#define PID_TORQUE_KI_DEFAULT         2385
+#define PID_TORQUE_KP_DEFAULT         1250
+#define PID_TORQUE_KI_DEFAULT         2000
 #define PID_TORQUE_KD_DEFAULT         100
-#define PID_FLUX_KP_DEFAULT           3684
-#define PID_FLUX_KI_DEFAULT           2385
+#define PID_FLUX_KP_DEFAULT           1250
+#define PID_FLUX_KI_DEFAULT           2000
 #define PID_FLUX_KD_DEFAULT           100
 
 /* Torque/Flux control loop gains dividers*/
@@ -82,8 +86,8 @@
 #define SPEED_LOOP_FREQUENCY_HZ       ( uint16_t )1000 /*!<Execution rate of speed
                                                       regulation loop (Hz) */
 
-#define PID_SPEED_KP_DEFAULT          2513/(SPEED_UNIT/10) /* Workbench compute the gain for 01Hz unit*/
-#define PID_SPEED_KI_DEFAULT          1801/(SPEED_UNIT/10) /* Workbench compute the gain for 01Hz unit*/
+#define PID_SPEED_KP_DEFAULT          253/(SPEED_UNIT/10) /* Workbench compute the gain for 01Hz unit*/
+#define PID_SPEED_KI_DEFAULT          50/(SPEED_UNIT/10) /* Workbench compute the gain for 01Hz unit*/
 #define PID_SPEED_KD_DEFAULT          0/(SPEED_UNIT/10) /* Workbench compute the gain for 01Hz unit*/
 /* Speed PID parameter dividers */
 #define SP_KPDIV                      64
@@ -92,25 +96,24 @@
 #define SP_KPDIV_LOG                  LOG2((64))
 #define SP_KIDIV_LOG                  LOG2((16384))
 #define SP_KDDIV_LOG                  LOG2((16))
-
 /* USER CODE BEGIN PID_SPEED_INTEGRAL_INIT_DIV */
 #define PID_SPEED_INTEGRAL_INIT_DIV 1 /*  */
 /* USER CODE END PID_SPEED_INTEGRAL_INIT_DIV */
 
 #define SPD_DIFFERENTIAL_TERM_ENABLING DISABLE
-#define IQMAX                          4165
+#define IQMAX_A                          9.5
 
 /* Default settings */
 #define DEFAULT_CONTROL_MODE           MCM_SPEED_MODE
-#define DEFAULT_TARGET_SPEED_RPM       3600
+#define DEFAULT_TARGET_SPEED_RPM       1742
 #define DEFAULT_TARGET_SPEED_UNIT      (DEFAULT_TARGET_SPEED_RPM*SPEED_UNIT/U_RPM)
-#define DEFAULT_TORQUE_COMPONENT       0
-#define DEFAULT_FLUX_COMPONENT         0
+#define DEFAULT_TORQUE_COMPONENT_A       0
+#define DEFAULT_FLUX_COMPONENT_A         0
 
 /**************************    FIRMWARE PROTECTIONS SECTION   *****************/
 #define OV_VOLTAGE_THRESHOLD_V          29 /*!< Over-voltage
                                                          threshold */
-#define UD_VOLTAGE_THRESHOLD_V          10 /*!< Under-voltage
+#define UD_VOLTAGE_THRESHOLD_V          20 /*!< Under-voltage
                                                           threshold */
 #ifdef NOT_IMPLEMENTED
 
@@ -135,18 +138,11 @@
 #define OVP_SELECTION2                  COMP_Selection_COMP1
 
 /******************************   START-UP PARAMETERS   **********************/
-/* Encoder alignment */
-#define ALIGNMENT_DURATION              700 /*!< milliseconds */
-#define ALIGNMENT_ANGLE_DEG             90 /*!< degrees [0...359] */
-#define FINAL_I_ALIGNMENT               4165 /*!< s16A */
-// With ALIGNMENT_ANGLE_DEG equal to 90 degrees final alignment
-// phase current = (FINAL_I_ALIGNMENT * 1.65/ Av)/(32767 * Rshunt)
-// being Av the voltage gain between Rshunt and A/D input
 
 #define TRANSITION_DURATION            25  /* Switch over duration, ms */
 
 /******************************   BUS VOLTAGE Motor 1  **********************/
-#define  M1_VBUS_SAMPLING_TIME  LL_ADC_SAMPLING_CYCLE(28)
+#define  M1_VBUS_SAMPLING_TIME  LL_ADC_SAMPLING_CYCLE(13)
 /******************************   Current sensing Motor 1   **********************/
 #define ADC_SAMPLING_CYCLES (7 + SAMPLING_CYCLE_CORRECTION)
 
@@ -162,4 +158,4 @@
 /* ##@@_USER_CODE_END_##@@ */
 
 #endif /*DRIVE_PARAMETERS_H*/
-/******************* (C) COPYRIGHT 2022 STMicroelectronics *****END OF FILE****/
+/******************* (C) COPYRIGHT 2023 STMicroelectronics *****END OF FILE****/
