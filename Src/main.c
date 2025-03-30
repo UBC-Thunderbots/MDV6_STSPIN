@@ -113,6 +113,16 @@ int main(void)
   MX_NVIC_Init();
   /* USER CODE BEGIN 2 */
 
+  // call it once for live expression
+  MC_GetSTMStateMotor1(); // set a breakpoint on the line if reading the state via Debugger
+  MC_GetOccurredFaultsMotor1();
+
+  MC_ProgramSpeedRampMotor1(250,1000);
+  MC_StartMotor1();
+  HAL_Delay(10000);
+
+  MC_StopMotor1();
+
   /* USER CODE END 2 */
 
   /* Infinite loop */

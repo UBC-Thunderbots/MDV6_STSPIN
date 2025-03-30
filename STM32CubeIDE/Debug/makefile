@@ -62,8 +62,8 @@ all: main-build
 main-build: MDv6_wheel_hall_Mar22.elf secondary-outputs
 
 # Tool invocations
-MDv6_wheel_hall_Mar22.elf MDv6_wheel_hall_Mar22.map: $(OBJS) $(USER_OBJS) D:\UBC\ Tbots\ Local\FW_hall_sensors_Mar22\MDv6_wheel_hall_Mar22\STM32CubeIDE\STM32F031C6TX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
-	arm-none-eabi-gcc -o "MDv6_wheel_hall_Mar22.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m0 -T"D:\UBC Tbots Local\FW_hall_sensors_Mar22\MDv6_wheel_hall_Mar22\STM32CubeIDE\STM32F031C6TX_FLASH.ld" --specs=nosys.specs -Wl,-Map="MDv6_wheel_hall_Mar22.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+MDv6_wheel_hall_Mar22.elf MDv6_wheel_hall_Mar22.map: $(OBJS) $(USER_OBJS) C:\Users\kenny\Desktop\MDV6_STSPIN\STM32CubeIDE\STM32F031C6TX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
+	arm-none-eabi-gcc -o "MDv6_wheel_hall_Mar22.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m0 -T"C:\Users\kenny\Desktop\MDV6_STSPIN\STM32CubeIDE\STM32F031C6TX_FLASH.ld" --specs=nosys.specs -Wl,-Map="MDv6_wheel_hall_Mar22.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
 	@echo 'Finished building target: $@'
 	@echo ' '
 
