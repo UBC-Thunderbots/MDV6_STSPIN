@@ -1,5 +1,5 @@
 Drivers/CMSIS/system_stm32f0xx.o: \
- C:/Users/kenny/.st_workbench/projects/MDv6OL/Src/system_stm32f0xx.c \
+ C:/Users/kenny/.st_workbench/projects/MDV6\ HALL/Src/system_stm32f0xx.c \
  ../../Drivers/CMSIS/Device/ST/STM32F0xx/Include/stm32f0xx.h \
  ../../Drivers/CMSIS/Device/ST/STM32F0xx/Include/stm32f031x6.h \
  ../../Drivers/CMSIS/Include/core_cm0.h \
@@ -19,16 +19,12 @@ Drivers/CMSIS/system_stm32f0xx.o: \
  ../../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_dma.h \
  ../../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_dma_ex.h \
  ../../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_cortex.h \
- ../../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_adc.h \
- ../../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_adc_ex.h \
  ../../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_flash.h \
  ../../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_flash_ex.h \
  ../../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_i2c.h \
  ../../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_i2c_ex.h \
  ../../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_pwr.h \
- ../../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_pwr_ex.h \
- ../../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_tim.h \
- ../../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_tim_ex.h
+ ../../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_pwr_ex.h
 ../../Drivers/CMSIS/Device/ST/STM32F0xx/Include/stm32f0xx.h:
 ../../Drivers/CMSIS/Device/ST/STM32F0xx/Include/stm32f031x6.h:
 ../../Drivers/CMSIS/Include/core_cm0.h:
@@ -48,13 +44,9 @@ Drivers/CMSIS/system_stm32f0xx.o: \
 ../../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_dma.h:
 ../../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_dma_ex.h:
 ../../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_cortex.h:
-../../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_adc.h:
-../../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_adc_ex.h:
 ../../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_flash.h:
 ../../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_flash_ex.h:
 ../../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_i2c.h:
 ../../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_i2c_ex.h:
 ../../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_pwr.h:
 ../../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_pwr_ex.h:
-../../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_tim.h:
-../../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_tim_ex.h:

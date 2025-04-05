@@ -1,0 +1,6 @@
+C:/Users/kenny/.st_workbench/projects/MDV6 HALL/Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_ll_adc.c:169:13:LL_ADC_CommonDeInit	1
+C:/Users/kenny/.st_workbench/projects/MDV6 HALL/Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_ll_adc.c:199:13:LL_ADC_DeInit	10
+C:/Users/kenny/.st_workbench/projects/MDV6 HALL/Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_ll_adc.c:368:13:LL_ADC_Init	2
+C:/Users/kenny/.st_workbench/projects/MDV6 HALL/Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_ll_adc.c:420:6:LL_ADC_StructInit	1
+C:/Users/kenny/.st_workbench/projects/MDV6 HALL/Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_ll_adc.c:463:13:LL_ADC_REG_Init	2
+C:/Users/kenny/.st_workbench/projects/MDV6 HALL/Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_ll_adc.c:525:6:LL_ADC_REG_StructInit	1
