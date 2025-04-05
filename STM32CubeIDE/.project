@@ -286,6 +286,11 @@
 			<locationURI>PARENT-1-PROJECT_LOC/Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_ll_utils.c</locationURI>
 		</link>
 		<link>
+			<name>Drivers/STM32F0xx_HAL_Driver/stm32f0xx_hal_spi.c</name>
+			<type>1</type>
+			<locationURI>PARENT-1-PROJECT_LOC/Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_spi.c</locationURI>
+		</link>
+		<link>
 			<name>Middlewares/MotorControl/bus_voltage_sensor.c</name>
 			<type>1</type>
 			<locationURI>PARENT-1-PROJECT_LOC/MCSDK_v6.3.2-Full/MotorControl/MCSDK/MCLib/Any/Src/bus_voltage_sensor.c</locationURI>
