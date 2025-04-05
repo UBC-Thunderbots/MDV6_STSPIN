@@ -1,3 +1,4 @@
+
 /**
   ******************************************************************************
   * @file    mc_tasks.h
@@ -6,7 +7,7 @@
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; Copyright (c) 2023 STMicroelectronics.
+  * <h2><center>&copy; Copyright (c) 2024 STMicroelectronics.
   * All rights reserved.</center></h2>
   *
   * This software component is licensed by ST under Ultimate Liberty license
@@ -40,6 +41,11 @@
   * @{
   */
 
+#define STOPPERMANENCY_MS              ((uint16_t)400)
+#define STOPPERMANENCY_MS2             ((uint16_t)400)
+#define STOPPERMANENCY_TICKS           (uint16_t)((SYS_TICK_FREQUENCY * STOPPERMANENCY_MS)  / ((uint16_t)1000))
+#define STOPPERMANENCY_TICKS2          (uint16_t)((SYS_TICK_FREQUENCY * STOPPERMANENCY_MS2) / ((uint16_t)1000))
+
 /* Initializes the Motor subsystem core according to user defined parameters */
 void MCboot(MCI_Handle_t *pMCIList[NBR_OF_MOTORS]);
 
@@ -52,10 +58,44 @@ void MC_Scheduler(void);
 /* Executes safety checks (e.g. bus voltage and temperature) for all drive instances */
 void TSK_SafetyTask(void);
 
+/* */
+void FOC_Init(void);
+
+/* */
+uint8_t FOC_HighFrequencyTask(uint8_t bMotorNbr);
+
+/* */
+void FOC_Clear(uint8_t bMotor);
+
 /* Executes the Motor Control duties that require a high frequency rate and a precise timing */
 uint8_t TSK_HighFrequencyTask(void);
 
-void UI_HandleStartStopButton_cb(void);
+/* */
+void TSK_SetChargeBootCapDelayM1(uint16_t hTickCount);
+
+/* */
+bool TSK_ChargeBootCapDelayHasElapsedM1(void);
+
+/* */
+void TSK_SetStopPermanencyTimeM1(uint16_t hTickCount);
+
+/* */
+bool TSK_StopPermanencyTimeHasElapsedM1(void);
+
+/* */
+void TSK_SetStopPermanencyTimeM2(uint16_t SysTickCount);
+
+/* */
+void TSK_SetChargeBootCapDelayM2(uint16_t hTickCount);
+
+/* */
+void TSK_SetChargeBootCapDelayM2(uint16_t hTickCount);
+
+/* */
+bool TSK_StopPermanencyTimeHasElapsedM2(void);
+
+/* */
+bool TSK_ChargeBootCapDelayHasElapsedM2(void);
 
 /* Reserves FOC execution on ADC ISR half a PWM period in advance */
 void TSK_DualDriveFIFOUpdate(uint8_t Motor);
@@ -65,6 +105,7 @@ void TSK_HardwareFaultTask(void);
 
  /* Locks GPIO pins used for Motor Control to prevent accidental reconfiguration */
 void mc_lock_pins(void);
+
 /**
   * @}
   */
@@ -78,4 +119,4 @@ void mc_lock_pins(void);
 #endif /* __cpluplus */
 
 #endif /* MCTASKS_H */
-/******************* (C) COPYRIGHT 2023 STMicroelectronics *****END OF FILE****/
+/******************* (C) COPYRIGHT 2024 STMicroelectronics *****END OF FILE****/

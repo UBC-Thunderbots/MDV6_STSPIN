@@ -1,6 +1,5 @@
 
-/**
-  ******************************************************************************
+/*******************************************************************************
   * @file    mc_configuration_registers.c
   * @author  Motor Control SDK Team, ST Microelectronics
   * @brief   This file provides project configuration information registers.
@@ -9,7 +8,7 @@
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; Copyright (c) 2023 STMicroelectronics.
+  * <h2><center>&copy; Copyright (c) 2024 STMicroelectronics.
   * All rights reserved.</center></h2>
   *
   * This software component is licensed by ST under Ultimate Liberty license
@@ -25,7 +24,7 @@
 #include "register_interface.h"
 #include "parameters_conversion.h"
 
-#define FIRMWARE_NAME_STR "ST MC SDK\tVer.6.2.0"
+#define FIRMWARE_NAME_STR "ST MC SDK\tVer.6.3.2"
 
 const char_t CTL_BOARD[] = "EVSPIN32F0251S1";
 static const char_t M1_PWR_BOARD[] = "EVSPIN32F0251S1";
@@ -59,7 +58,7 @@ static const MotorConfig_reg_t M1_MotorConfig_reg =
   .ls         = 0.00027*1.000,
   .ld         = 0.00027,
   .maxCurrent = 9.5,
-  .name = "DF45L024048-A2"
+  .name = "DF45L024048-82"
 };
 
 static const FOCFwConfig_reg_t M1_FOCConfig_reg =
@@ -79,4 +78,4 @@ const FOCFwConfig_reg_t* FOCConfig_reg[NBR_OF_MOTORS] = {&M1_FOCConfig_reg};
 const MotorConfig_reg_t* MotorConfig_reg[NBR_OF_MOTORS] = {&M1_MotorConfig_reg};
 const ApplicationConfig_reg_t* ApplicationConfig_reg[NBR_OF_MOTORS] = {&M1_ApplicationConfig_reg};
 
-/************************ (C) COPYRIGHT 2023 STMicroelectronics *****END OF FILE****/
+/************************ (C) COPYRIGHT 2024 STMicroelectronics *****END OF FILE****/

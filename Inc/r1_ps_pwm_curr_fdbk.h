@@ -1,3 +1,4 @@
+
 /**
   ******************************************************************************
   * @file    r1_ps_pwm_curr_fdbk.h
@@ -7,7 +8,7 @@
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; Copyright (c) 2023 STMicroelectronics.
+  * <h2><center>&copy; Copyright (c) 2024 STMicroelectronics.
   * All rights reserved.</center></h2>
   *
   * This software component is licensed by ST under Ultimate Liberty license
@@ -51,7 +52,7 @@ extern "C" {
 /* Exported types ------------------------------------------------------------*/
 
 /**
- * @brief  Paamters structure of the r1_ps_pwm_curr_fdbk Component.
+ * @brief  Parameters structure of the r1_ps_pwm_curr_fdbk Component.
  *
  */
 typedef struct
@@ -235,4 +236,4 @@ void R1_GetOffsetCalib(PWMC_Handle_t *pHdl, PolarizationOffsets_t *offsets);
 
 #endif /*__R1_PS_F30X_PWMCURRFDBK_H*/
 
-/******************* (C) COPYRIGHT 2023 STMicroelectronics *****END OF FILE****/
+/******************* (C) COPYRIGHT 2024 STMicroelectronics *****END OF FILE****/

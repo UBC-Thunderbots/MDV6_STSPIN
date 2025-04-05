@@ -1,51 +1,56 @@
-D:/UBC Tbots Local/FW_hall_sensors_Mar22/MDv6_wheel_hall_Mar22/Src/mc_interface.c:70:13:MCI_Init	0	static
-D:/UBC Tbots Local/FW_hall_sensors_Mar22/MDv6_wheel_hall_Mar22/Src/mc_interface.c:119:13:MCI_ExecSpeedRamp	0	static
-D:/UBC Tbots Local/FW_hall_sensors_Mar22/MDv6_wheel_hall_Mar22/Src/mc_interface.c:159:13:MCI_ExecSpeedRamp_F	16	static
-D:/UBC Tbots Local/FW_hall_sensors_Mar22/MDv6_wheel_hall_Mar22/Src/mc_interface.c:199:13:MCI_ExecTorqueRamp	0	static
-D:/UBC Tbots Local/FW_hall_sensors_Mar22/MDv6_wheel_hall_Mar22/Src/mc_interface.c:241:13:MCI_ExecTorqueRamp_F	16	static
-D:/UBC Tbots Local/FW_hall_sensors_Mar22/MDv6_wheel_hall_Mar22/Src/mc_interface.c:273:13:MCI_SetCurrentReferences	8	static
-D:/UBC Tbots Local/FW_hall_sensors_Mar22/MDv6_wheel_hall_Mar22/Src/mc_interface.c:309:13:MCI_SetCurrentReferences_F	32	static
-D:/UBC Tbots Local/FW_hall_sensors_Mar22/MDv6_wheel_hall_Mar22/Src/mc_interface.c:510:13:MCI_GetCalibratedOffsetsMotor	8	static
-D:/UBC Tbots Local/FW_hall_sensors_Mar22/MDv6_wheel_hall_Mar22/Src/mc_interface.c:691:13:MCI_FaultProcessing	0	static
-D:/UBC Tbots Local/FW_hall_sensors_Mar22/MDv6_wheel_hall_Mar22/Src/mc_interface.c:716:13:MCI_ExecBufferedCommands	16	static
-D:/UBC Tbots Local/FW_hall_sensors_Mar22/MDv6_wheel_hall_Mar22/Src/mc_interface.c:789:27:MCI_IsCommandAcknowledged	0	static
-D:/UBC Tbots Local/FW_hall_sensors_Mar22/MDv6_wheel_hall_Mar22/Src/mc_interface.c:821:20:MCI_GetSTMState	0	static
-D:/UBC Tbots Local/FW_hall_sensors_Mar22/MDv6_wheel_hall_Mar22/Src/mc_interface.c:842:17:MCI_GetOccurredFaults	0	static
-D:/UBC Tbots Local/FW_hall_sensors_Mar22/MDv6_wheel_hall_Mar22/Src/mc_interface.c:862:17:MCI_GetCurrentFaults	0	static
-D:/UBC Tbots Local/FW_hall_sensors_Mar22/MDv6_wheel_hall_Mar22/Src/mc_interface.c:360:13:MCI_StartMotor	8	static
-D:/UBC Tbots Local/FW_hall_sensors_Mar22/MDv6_wheel_hall_Mar22/Src/mc_interface.c:422:13:MCI_StartWithPolarizationMotor	8	static
-D:/UBC Tbots Local/FW_hall_sensors_Mar22/MDv6_wheel_hall_Mar22/Src/mc_interface.c:467:13:MCI_StartOffsetMeasurments	8	static
-D:/UBC Tbots Local/FW_hall_sensors_Mar22/MDv6_wheel_hall_Mar22/Src/mc_interface.c:556:13:MCI_SetCalibratedOffsetsMotor	16	static
-D:/UBC Tbots Local/FW_hall_sensors_Mar22/MDv6_wheel_hall_Mar22/Src/mc_interface.c:601:13:MCI_StopMotor	16	static
-D:/UBC Tbots Local/FW_hall_sensors_Mar22/MDv6_wheel_hall_Mar22/Src/mc_interface.c:656:13:MCI_FaultAcknowledged	8	static
-D:/UBC Tbots Local/FW_hall_sensors_Mar22/MDv6_wheel_hall_Mar22/Src/mc_interface.c:886:17:MCI_GetFaultState	0	static
-D:/UBC Tbots Local/FW_hall_sensors_Mar22/MDv6_wheel_hall_Mar22/Src/mc_interface.c:911:25:MCI_GetControlMode	0	static
-D:/UBC Tbots Local/FW_hall_sensors_Mar22/MDv6_wheel_hall_Mar22/Src/mc_interface.c:927:16:MCI_GetImposedMotorDirection	0	static
-D:/UBC Tbots Local/FW_hall_sensors_Mar22/MDv6_wheel_hall_Mar22/Src/mc_interface.c:995:16:MCI_GetLastRampFinalSpeed	0	static
-D:/UBC Tbots Local/FW_hall_sensors_Mar22/MDv6_wheel_hall_Mar22/Src/mc_interface.c:1021:16:MCI_GetLastRampFinalTorque	0	static
-D:/UBC Tbots Local/FW_hall_sensors_Mar22/MDv6_wheel_hall_Mar22/Src/mc_interface.c:1046:17:MCI_GetLastRampFinalDuration	0	static
-D:/UBC Tbots Local/FW_hall_sensors_Mar22/MDv6_wheel_hall_Mar22/Src/mc_interface.c:1070:16:MCI_GetLastRampFinalSpeed_F	8	static
-D:/UBC Tbots Local/FW_hall_sensors_Mar22/MDv6_wheel_hall_Mar22/Src/mc_interface.c:1090:13:MCI_RampCompleted	8	static
-D:/UBC Tbots Local/FW_hall_sensors_Mar22/MDv6_wheel_hall_Mar22/Src/mc_interface.c:1123:13:MCI_StopSpeedRamp	8	static
-D:/UBC Tbots Local/FW_hall_sensors_Mar22/MDv6_wheel_hall_Mar22/Src/mc_interface.c:1136:13:MCI_StopRamp	8	static
-D:/UBC Tbots Local/FW_hall_sensors_Mar22/MDv6_wheel_hall_Mar22/Src/mc_interface.c:1160:13:MCI_GetSpdSensorReliability	8	static
-D:/UBC Tbots Local/FW_hall_sensors_Mar22/MDv6_wheel_hall_Mar22/Src/mc_interface.c:1186:16:MCI_GetAvrgMecSpeedUnit	8	static
-D:/UBC Tbots Local/FW_hall_sensors_Mar22/MDv6_wheel_hall_Mar22/Src/mc_interface.c:1210:16:MCI_GetAvrgMecSpeed_F	8	static
-D:/UBC Tbots Local/FW_hall_sensors_Mar22/MDv6_wheel_hall_Mar22/Src/mc_interface.c:1235:16:MCI_GetMecSpeedRefUnit	8	static
-D:/UBC Tbots Local/FW_hall_sensors_Mar22/MDv6_wheel_hall_Mar22/Src/mc_interface.c:1250:16:MCI_GetMecSpeedRef_F	8	static
-D:/UBC Tbots Local/FW_hall_sensors_Mar22/MDv6_wheel_hall_Mar22/Src/mc_interface.c:1265:13:MCI_GetIab	16	static
-D:/UBC Tbots Local/FW_hall_sensors_Mar22/MDv6_wheel_hall_Mar22/Src/mc_interface.c:1285:15:MCI_GetIab_F	24	static
-D:/UBC Tbots Local/FW_hall_sensors_Mar22/MDv6_wheel_hall_Mar22/Src/mc_interface.c:1312:20:MCI_GetIalphabeta	16	static
-D:/UBC Tbots Local/FW_hall_sensors_Mar22/MDv6_wheel_hall_Mar22/Src/mc_interface.c:1337:13:MCI_GetIqd	16	static
-D:/UBC Tbots Local/FW_hall_sensors_Mar22/MDv6_wheel_hall_Mar22/Src/mc_interface.c:1362:15:MCI_GetIqd_F	24	static
-D:/UBC Tbots Local/FW_hall_sensors_Mar22/MDv6_wheel_hall_Mar22/Src/mc_interface.c:1388:13:MCI_GetIqdHF	16	static
-D:/UBC Tbots Local/FW_hall_sensors_Mar22/MDv6_wheel_hall_Mar22/Src/mc_interface.c:1413:13:MCI_GetIqdref	16	static
-D:/UBC Tbots Local/FW_hall_sensors_Mar22/MDv6_wheel_hall_Mar22/Src/mc_interface.c:1438:15:MCI_GetIqdref_F	24	static
-D:/UBC Tbots Local/FW_hall_sensors_Mar22/MDv6_wheel_hall_Mar22/Src/mc_interface.c:1463:13:MCI_GetVqd	16	static
-D:/UBC Tbots Local/FW_hall_sensors_Mar22/MDv6_wheel_hall_Mar22/Src/mc_interface.c:1488:20:MCI_GetValphabeta	16	static
-D:/UBC Tbots Local/FW_hall_sensors_Mar22/MDv6_wheel_hall_Mar22/Src/mc_interface.c:1514:16:MCI_GetElAngledpp	0	static
-D:/UBC Tbots Local/FW_hall_sensors_Mar22/MDv6_wheel_hall_Mar22/Src/mc_interface.c:1529:16:MCI_GetTeref	0	static
-D:/UBC Tbots Local/FW_hall_sensors_Mar22/MDv6_wheel_hall_Mar22/Src/mc_interface.c:1543:16:MCI_GetTeref_F	8	static
-D:/UBC Tbots Local/FW_hall_sensors_Mar22/MDv6_wheel_hall_Mar22/Src/mc_interface.c:1559:16:MCI_GetPhaseCurrentAmplitude	8	static
-D:/UBC Tbots Local/FW_hall_sensors_Mar22/MDv6_wheel_hall_Mar22/Src/mc_interface.c:1588:16:MCI_GetPhaseVoltageAmplitude	8	static
-D:/UBC Tbots Local/FW_hall_sensors_Mar22/MDv6_wheel_hall_Mar22/Src/mc_interface.c:1625:13:MCI_Clear_Iqdref	8	static
+C:/Users/kenny/.st_workbench/projects/MDV6 HALL/Src/mc_interface.c:77:13:MCI_ExecSpeedRamp	0	static
+C:/Users/kenny/.st_workbench/projects/MDV6 HALL/Src/mc_interface.c:116:13:MCI_ExecSpeedRamp_F	16	static
+C:/Users/kenny/.st_workbench/projects/MDV6 HALL/Src/mc_interface.c:156:13:MCI_ExecTorqueRamp	0	static
+C:/Users/kenny/.st_workbench/projects/MDV6 HALL/Src/mc_interface.c:198:13:MCI_ExecTorqueRamp_F	16	static
+C:/Users/kenny/.st_workbench/projects/MDV6 HALL/Src/mc_interface.c:307:13:MCI_SetSpeedMode	8	static
+C:/Users/kenny/.st_workbench/projects/MDV6 HALL/Src/mc_interface.c:332:13:MCI_SetOpenLoopCurrentMode	8	static
+C:/Users/kenny/.st_workbench/projects/MDV6 HALL/Src/mc_interface.c:348:13:MCI_SetOpenLoopCurrent	8	static
+C:/Users/kenny/.st_workbench/projects/MDV6 HALL/Src/mc_interface.c:360:13:MCI_SetOpenLoopVoltageMode	16	static
+C:/Users/kenny/.st_workbench/projects/MDV6 HALL/Src/mc_interface.c:377:13:MCI_SetOpenLoopVoltage	8	static
+C:/Users/kenny/.st_workbench/projects/MDV6 HALL/Src/mc_interface.c:564:13:MCI_GetCalibratedOffsetsMotor	8	static
+C:/Users/kenny/.st_workbench/projects/MDV6 HALL/Src/mc_interface.c:745:13:MCI_FaultProcessing	0	static
+C:/Users/kenny/.st_workbench/projects/MDV6 HALL/Src/mc_interface.c:770:13:MCI_ExecBufferedCommands	8	static
+C:/Users/kenny/.st_workbench/projects/MDV6 HALL/Src/mc_interface.c:860:27:MCI_IsCommandAcknowledged	0	static
+C:/Users/kenny/.st_workbench/projects/MDV6 HALL/Src/mc_interface.c:892:20:MCI_GetSTMState	0	static
+C:/Users/kenny/.st_workbench/projects/MDV6 HALL/Src/mc_interface.c:913:17:MCI_GetOccurredFaults	0	static
+C:/Users/kenny/.st_workbench/projects/MDV6 HALL/Src/mc_interface.c:933:17:MCI_GetCurrentFaults	0	static
+C:/Users/kenny/.st_workbench/projects/MDV6 HALL/Src/mc_interface.c:414:13:MCI_StartMotor	8	static
+C:/Users/kenny/.st_workbench/projects/MDV6 HALL/Src/mc_interface.c:476:13:MCI_StartWithPolarizationMotor	8	static
+C:/Users/kenny/.st_workbench/projects/MDV6 HALL/Src/mc_interface.c:521:13:MCI_StartOffsetMeasurments	8	static
+C:/Users/kenny/.st_workbench/projects/MDV6 HALL/Src/mc_interface.c:610:13:MCI_SetCalibratedOffsetsMotor	16	static
+C:/Users/kenny/.st_workbench/projects/MDV6 HALL/Src/mc_interface.c:655:13:MCI_StopMotor	16	static
+C:/Users/kenny/.st_workbench/projects/MDV6 HALL/Src/mc_interface.c:710:13:MCI_FaultAcknowledged	8	static
+C:/Users/kenny/.st_workbench/projects/MDV6 HALL/Src/mc_interface.c:957:17:MCI_GetFaultState	0	static
+C:/Users/kenny/.st_workbench/projects/MDV6 HALL/Src/mc_interface.c:982:25:MCI_GetControlMode	0	static
+C:/Users/kenny/.st_workbench/projects/MDV6 HALL/Src/mc_interface.c:230:13:MCI_SetCurrentReferences	24	static
+C:/Users/kenny/.st_workbench/projects/MDV6 HALL/Src/mc_interface.c:279:13:MCI_SetCurrentReferences_F	32	static
+C:/Users/kenny/.st_workbench/projects/MDV6 HALL/Src/mc_interface.c:998:16:MCI_GetImposedMotorDirection	0	static
+C:/Users/kenny/.st_workbench/projects/MDV6 HALL/Src/mc_interface.c:1066:16:MCI_GetLastRampFinalSpeed	0	static
+C:/Users/kenny/.st_workbench/projects/MDV6 HALL/Src/mc_interface.c:1092:16:MCI_GetLastRampFinalTorque	0	static
+C:/Users/kenny/.st_workbench/projects/MDV6 HALL/Src/mc_interface.c:1118:16:MCI_GetLastRampFinalTorque_F	8	static
+C:/Users/kenny/.st_workbench/projects/MDV6 HALL/Src/mc_interface.c:1143:17:MCI_GetLastRampFinalDuration	0	static
+C:/Users/kenny/.st_workbench/projects/MDV6 HALL/Src/mc_interface.c:1167:16:MCI_GetLastRampFinalSpeed_F	8	static
+C:/Users/kenny/.st_workbench/projects/MDV6 HALL/Src/mc_interface.c:1187:13:MCI_RampCompleted	8	static
+C:/Users/kenny/.st_workbench/projects/MDV6 HALL/Src/mc_interface.c:1220:13:MCI_StopSpeedRamp	8	static
+C:/Users/kenny/.st_workbench/projects/MDV6 HALL/Src/mc_interface.c:1233:13:MCI_StopRamp	0	static
+C:/Users/kenny/.st_workbench/projects/MDV6 HALL/Src/mc_interface.c:1257:13:MCI_GetSpdSensorReliability	0	static
+C:/Users/kenny/.st_workbench/projects/MDV6 HALL/Src/mc_interface.c:1283:16:MCI_GetAvrgMecSpeedUnit	8	static
+C:/Users/kenny/.st_workbench/projects/MDV6 HALL/Src/mc_interface.c:1307:16:MCI_GetAvrgMecSpeed_F	8	static
+C:/Users/kenny/.st_workbench/projects/MDV6 HALL/Src/mc_interface.c:1332:16:MCI_GetMecSpeedRefUnit	8	static
+C:/Users/kenny/.st_workbench/projects/MDV6 HALL/Src/mc_interface.c:1347:16:MCI_GetMecSpeedRef_F	8	static
+C:/Users/kenny/.st_workbench/projects/MDV6 HALL/Src/mc_interface.c:1362:13:MCI_GetIab	16	static
+C:/Users/kenny/.st_workbench/projects/MDV6 HALL/Src/mc_interface.c:1382:15:MCI_GetIab_F	24	static
+C:/Users/kenny/.st_workbench/projects/MDV6 HALL/Src/mc_interface.c:1409:20:MCI_GetIalphabeta	16	static
+C:/Users/kenny/.st_workbench/projects/MDV6 HALL/Src/mc_interface.c:1434:13:MCI_GetIqd	16	static
+C:/Users/kenny/.st_workbench/projects/MDV6 HALL/Src/mc_interface.c:1459:15:MCI_GetIqd_F	24	static
+C:/Users/kenny/.st_workbench/projects/MDV6 HALL/Src/mc_interface.c:1485:13:MCI_GetIqdHF	16	static
+C:/Users/kenny/.st_workbench/projects/MDV6 HALL/Src/mc_interface.c:1510:13:MCI_GetIqdref	16	static
+C:/Users/kenny/.st_workbench/projects/MDV6 HALL/Src/mc_interface.c:1535:15:MCI_GetIqdref_F	24	static
+C:/Users/kenny/.st_workbench/projects/MDV6 HALL/Src/mc_interface.c:1560:13:MCI_GetVqd	16	static
+C:/Users/kenny/.st_workbench/projects/MDV6 HALL/Src/mc_interface.c:1585:20:MCI_GetValphabeta	16	static
+C:/Users/kenny/.st_workbench/projects/MDV6 HALL/Src/mc_interface.c:1611:16:MCI_GetElAngledpp	0	static
+C:/Users/kenny/.st_workbench/projects/MDV6 HALL/Src/mc_interface.c:1626:16:MCI_GetTeref	0	static
+C:/Users/kenny/.st_workbench/projects/MDV6 HALL/Src/mc_interface.c:1640:16:MCI_GetTeref_F	8	static
+C:/Users/kenny/.st_workbench/projects/MDV6 HALL/Src/mc_interface.c:1656:16:MCI_GetPhaseCurrentAmplitude	8	static
+C:/Users/kenny/.st_workbench/projects/MDV6 HALL/Src/mc_interface.c:1685:16:MCI_GetPhaseVoltageAmplitude	8	static
+C:/Users/kenny/.st_workbench/projects/MDV6 HALL/Src/mc_interface.c:1722:13:MCI_Clear_Iqdref	8	static

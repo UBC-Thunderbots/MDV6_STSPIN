@@ -1,3 +1,4 @@
+
 /**
   ******************************************************************************
   * @file    mc_stm_types.h
@@ -6,7 +7,7 @@
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; Copyright (c) 2023 STMicroelectronics.
+  * <h2><center>&copy; Copyright (c) 2024 STMicroelectronics.
   * All rights reserved.</center></h2>
   *
   * This software component is licensed by ST under Ultimate Liberty license
@@ -138,6 +139,17 @@ __STATIC_INLINE uint32_t LL_DMA_IsActiveFlag_HT(DMA_TypeDef *DMAx, uint32_t Chan
          1UL : 0UL));
 }
 
+/*
+* Get ADC group regular conversion data, range fit for
+*        ADC resolution 12 bits Left Aligned.
+* param  ADCx ADC instance
+* retval Value between Min_Data=0x0000 and Max_Data=0xFFF0
+*/
+__STATIC_INLINE uint16_t LL_ADC_REG_ReadConversionData12L(const ADC_TypeDef *ADCx)
+{
+  return (uint16_t)(READ_REG(ADCx->DR) & 0x0000FFF0UL);
+}
+
 #define CIRCLE_LIMITATION_SQRT_M0
 
 /**
@@ -198,4 +210,4 @@ __STATIC_INLINE uint32_t LL_DMA_IsActiveFlag_HT(DMA_TypeDef *DMAx, uint32_t Chan
 */
 
 #endif /* MC_STM_TYPES_H */
-/******************* (C) COPYRIGHT 2023 STMicroelectronics *****END OF FILE****/
+/******************* (C) COPYRIGHT 2024 STMicroelectronics *****END OF FILE****/

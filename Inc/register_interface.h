@@ -9,7 +9,7 @@
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; Copyright (c) 2023 STMicroelectronics.
+  * <h2><center>&copy; Copyright (c) 2024 STMicroelectronics.
   * All rights reserved.</center></h2>
   *
   * This software component is licensed by ST under Ultimate Liberty license
@@ -79,9 +79,15 @@
 #define  MC_REG_HT_PROGRESS              ((24U << ELT_IDENTIFIER_POS) | TYPE_DATA_8BIT)
 #define  MC_REG_HT_PLACEMENT             ((25U << ELT_IDENTIFIER_POS) | TYPE_DATA_8BIT)
 #define  MC_REG_HT_MECH_WANTED_DIRECTION ((26U << ELT_IDENTIFIER_POS) | TYPE_DATA_8BIT)
-#define  MC_REG_FAST_DEMAG               ((27U << ELT_IDENTIFIER_POS) | TYPE_DATA_8BIT)
+#define  MC_REG_LOWSIDE_MODULATION       ((27U << ELT_IDENTIFIER_POS) | TYPE_DATA_8BIT)
 #define  MC_REG_QUASI_SYNCH              ((28U << ELT_IDENTIFIER_POS) | TYPE_DATA_8BIT)
 #define  MC_REG_PB_CHARACTERIZATION      ((29U << ELT_IDENTIFIER_POS) | TYPE_DATA_8BIT)
+#define  MC_REG_OPENLOOP_DC              ((30U << ELT_IDENTIFIER_POS) | TYPE_DATA_8BIT)
+#define  MC_REG_COMMUTATION_STEPBUFSIZE  ((31U << ELT_IDENTIFIER_POS) | TYPE_DATA_8BIT)
+#define  MC_REG_OPENLOOP                 ((32U << ELT_IDENTIFIER_POS) | TYPE_DATA_8BIT)
+#define  MC_REG_OPENLOOP_REVUP           ((33U << ELT_IDENTIFIER_POS) | TYPE_DATA_8BIT)
+#define  MC_REG_OPENLOOP_VOLTFACTOR      ((34U << ELT_IDENTIFIER_POS) | TYPE_DATA_8BIT)
+#define  MC_REG_OPENLOOP_SENSING         ((35U << ELT_IDENTIFIER_POS) | TYPE_DATA_8BIT)
 
 /* TYPE_DATA_16BIT registers definition */
 #define  MC_REG_SPEED_KP                 ((2U << ELT_IDENTIFIER_POS) | TYPE_DATA_16BIT)
@@ -182,12 +188,9 @@
 #define  MC_REG_STARTUP_CURRENT_REF      ((105 << ELT_IDENTIFIER_POS) | TYPE_DATA_16BIT)
 #define  MC_REG_PULSE_VALUE              ((106 << ELT_IDENTIFIER_POS) | TYPE_DATA_16BIT)
 #define  MC_REG_FOC_VQREF                ((107 << ELT_IDENTIFIER_POS) | TYPE_DATA_16BIT)
-#define  MC_REG_BEMF_ZCR                 ((108 << ELT_IDENTIFIER_POS) | TYPE_DATA_16BIT)
-#define  MC_REG_BEMF_U                   ((109 << ELT_IDENTIFIER_POS) | TYPE_DATA_16BIT)
-#define  MC_REG_BEMF_V                   ((110 << ELT_IDENTIFIER_POS) | TYPE_DATA_16BIT)
-#define  MC_REG_BEMF_W                   ((111 << ELT_IDENTIFIER_POS) | TYPE_DATA_16BIT)
 #define  MC_REG_OVERVOLTAGETHRESHOLD     ((112U << ELT_IDENTIFIER_POS)| TYPE_DATA_16BIT )
 #define  MC_REG_UNDERVOLTAGETHRESHOLD    ((113U << ELT_IDENTIFIER_POS)| TYPE_DATA_16BIT )
+#define  MC_REG_OPENLOOP_CURRFACTOR      ((108U << ELT_IDENTIFIER_POS) | TYPE_DATA_16BIT)
 
 /* TYPE_DATA_32BIT registers definition */
 #define  MC_REG_FAULTS_FLAGS             ((0 << ELT_IDENTIFIER_POS) | TYPE_DATA_32BIT)
@@ -242,8 +245,7 @@
 #define  MC_REG_HT_HEW_PINS              ((28U << ELT_IDENTIFIER_POS) | TYPE_DATA_RAW)
 #define  MC_REG_HT_CONNECTED_PINS        ((29U << ELT_IDENTIFIER_POS) | TYPE_DATA_RAW)
 #define  MC_REG_HT_PHASE_SHIFT           ((30U << ELT_IDENTIFIER_POS) | TYPE_DATA_RAW)
-#define  MC_REG_BEMF_ADC_CONFIG          ((31U << ELT_IDENTIFIER_POS) | TYPE_DATA_RAW)
-#define  MC_REG_BEMF_ONTIME_ADC_CONFIG   ((32U << ELT_IDENTIFIER_POS) | TYPE_DATA_RAW)
+#define  MC_REG_BEMF_ADC_CONF            ((31U << ELT_IDENTIFIER_POS) | TYPE_DATA_RAW)
 
 uint8_t RI_SetRegisterGlobal(uint16_t regID, uint8_t typeID, uint8_t *data, uint16_t *size, int16_t dataAvailable);
 
@@ -258,4 +260,4 @@ uint8_t RI_GetIDSize(uint16_t dataID);
 
 #endif /* REGISTER_INTERFACE_H */
 
-/************************ (C) COPYRIGHT 2023 STMicroelectronics *****END OF FILE****/
+/************************ (C) COPYRIGHT 2024 STMicroelectronics *****END OF FILE****/

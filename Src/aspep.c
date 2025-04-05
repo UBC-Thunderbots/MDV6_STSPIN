@@ -9,7 +9,7 @@
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; Copyright (c) 2023 STMicroelectronics.
+  * <h2><center>&copy; Copyright (c) 2024 STMicroelectronics.
   * All rights reserved.</center></h2>
   *
   * This software component is licensed by ST under Ultimate Liberty license
@@ -19,6 +19,7 @@
   *
   ******************************************************************************
   */
+
 #include <stdint.h>
 #include "aspep.h"
 
@@ -186,13 +187,12 @@ void ASPEP_start(ASPEP_Handle_t *pHandle)
   else
   {
 #endif
-    pHandle->fASPEP_HWInit(pHandle->HWIp);
+    pHandle->fASPEP_HWInit(pHandle->ASPEPIp);
     pHandle->ASPEP_State = ASPEP_IDLE;
     pHandle->ASPEP_TL_State = WAITING_PACKET;
     pHandle->syncPacketCount = 0; /* Sync packet counter is reset only at startup*/
-
     /* Configure UART to receive first packet*/
-    pHandle->fASPEP_receive(pHandle->HWIp, pHandle->rxHeader, ASPEP_HEADER_SIZE);
+    pHandle->fASPEP_cfg_recept(pHandle->ASPEPIp, pHandle->rxHeader, ASPEP_HEADER_SIZE);
 #ifdef NULL_PTR_CHECK_ASP
   }
 #endif
@@ -476,7 +476,7 @@ uint8_t ASPEP_TXframeProcess(ASPEP_Handle_t *pHandle, uint8_t dataType, void *tx
       }
       /* Enable HF task It */
       __enable_irq(); /*TODO: Enable High frequency task is enough */
-      pHandle->fASPEP_send(pHandle->HWIp, txBuffer, bufferLength);
+      pHandle->fASPEP_cfg_trans(pHandle->ASPEPIp, txBuffer, bufferLength);
     }
     else /* HW resource busy, saving packet to sent it once resource will be freed*/
     {
@@ -547,14 +547,14 @@ void ASPEP_HWDataTransmittedIT(ASPEP_Handle_t *pHandle)
     if (pHandle->syncBuffer.state == pending)
     {
       pHandle->lockBuffer = (void *)&pHandle->syncBuffer;
-      pHandle->fASPEP_send(pHandle->HWIp, pHandle->syncBuffer.buffer, pHandle->syncBuffer.length);
+      pHandle->fASPEP_cfg_trans(pHandle->ASPEPIp, pHandle->syncBuffer.buffer, pHandle->syncBuffer.length);
       pHandle->syncBuffer.state = readLock;
     }
     /* Second prepare transfer of pending buffer */
     else if (pHandle->ctrlBuffer.state == pending)
     {
       pHandle->lockBuffer = (void *)(&pHandle ->ctrlBuffer);
-      pHandle->fASPEP_send(pHandle ->HWIp, pHandle->ctrlBuffer.buffer, ASPEP_CTRL_SIZE);
+      pHandle->fASPEP_cfg_trans(pHandle->ASPEPIp, pHandle->ctrlBuffer.buffer, ASPEP_CTRL_SIZE);
       pHandle->ctrlBuffer.state = readLock;
     }
     else
@@ -676,7 +676,7 @@ uint8_t *ASPEP_RXframeProcess(MCTL_Handle_t *pSupHandle, uint16_t *packetLength)
           }
           else if (PING == pHandle->rxPacketType)
           {
-            packetNumber = pHandle->rxHeader[1];
+            packetNumber = (uint16_t)((packetHeader & 0x0FFFF000U) >> (uint16_t)12U);
             ASPEP_sendPing(pHandle, ASPEP_PING_CFG, packetNumber);
           }
           else if (DATA_PACKET == pHandle->rxPacketType)
@@ -687,7 +687,7 @@ uint8_t *ASPEP_RXframeProcess(MCTL_Handle_t *pSupHandle, uint16_t *packetLength)
 #endif
               pHandle->syncPacketCount++; /* this counter is incremented at each valid data packet received from controller */
               pSupHandle->MCP_PacketAvailable = true; /* Will be consumed in ASPEP_sendPacket */
-              *packetLength = pHandle->rxLength;
+              *packetLength = pHandle->rxLengthASPEP;
               result = pHandle->rxBuffer;
 #if VALID_CRC_DATA
             }
@@ -709,7 +709,7 @@ uint8_t *ASPEP_RXframeProcess(MCTL_Handle_t *pSupHandle, uint16_t *packetLength)
           break;
       }
       /* The valid received packet is now safely consumes, we are ready to receive a new packet */
-      pHandle->fASPEP_receive(pHandle->HWIp, pHandle->rxHeader, ASPEP_HEADER_SIZE);
+      pHandle->fASPEP_cfg_recept(pHandle->ASPEPIp, pHandle->rxHeader, ASPEP_HEADER_SIZE);
     }
     else if (pHandle->badPacketFlag > ASPEP_OK)
     {
@@ -720,9 +720,9 @@ uint8_t *ASPEP_RXframeProcess(MCTL_Handle_t *pSupHandle, uint16_t *packetLength)
         * DMA will be configured to receive next packet as soon as HW IP RX line is free to receive new packet
         * It is important to note that we will detect only the NEXT free line transition, it means the next packet will
         * be lost but the end of this lost packet will generate the IDLE interrupt
-        * the IDLE interrupt will call ASPEP_HWDMAReset (in charge of the IP_aspep driver to call it at the appropriate
+        * the IDLE interrupt will call ASPEP_HWReset (in charge of the IP_aspep driver to call it at the appropriate
         * time)*/
-      pHandle->fASPEP_HWSync(pHandle->HWIp);
+      pHandle->fASPEP_HWSync(pHandle->ASPEPIp);
     }
     else
     {
@@ -766,17 +766,17 @@ void ASPEP_HWDataReceivedIT(ASPEP_Handle_t *pHandle)
             case DATA_PACKET:
             {
               //cstat !MISRAC2012-Rule-11.3
-              pHandle->rxLength = (uint16_t)((*((uint16_t *)pHandle->rxHeader) & 0x1FFF0U) >> (uint16_t)4);
-              if (0U == pHandle->rxLength) /* data packet with length 0 is a valid packet */
+              pHandle->rxLengthASPEP = (uint16_t)((*((uint16_t *)pHandle->rxHeader) & 0x1FFF0U) >> (uint16_t)4);
+              if (0U == pHandle->rxLengthASPEP) /* data packet with length 0 is a valid packet */
               {
                 pHandle->NewPacketAvailable = true;
                 /* The receiver is not reconfigure right now on purpose to avoid race condition when the packet will be
                   *  processed in ASPEP_RXframeProcess */
               }
-              else if (pHandle->rxLength <= pHandle->maxRXPayload)
+              else if (pHandle->rxLengthASPEP <= pHandle->maxRXPayload)
               {
-                pHandle->fASPEP_receive(pHandle->HWIp, pHandle->rxBuffer,  /* need to read + 2 bytes CRC*/
-                                        (pHandle->rxLength + ((uint16_t)ASPEP_DATACRC_SIZE * (uint16_t)pHandle->Capabilities.DATA_CRC)));
+                pHandle->fASPEP_cfg_recept(pHandle->ASPEPIp, pHandle->rxBuffer,  /* need to read + 2 bytes CRC*/
+                                        (pHandle->rxLengthASPEP + ((uint16_t)ASPEP_DATACRC_SIZE * (uint16_t)pHandle->Capabilities.DATA_CRC)));
                 pHandle->ASPEP_TL_State = WAITING_PAYLOAD;
               }
               else
@@ -832,7 +832,7 @@ void ASPEP_HWDataReceivedIT(ASPEP_Handle_t *pHandle)
   *
   * @param  *pHandle Handler of the current instance of the ASPEP component
   */
-void ASPEP_HWDMAReset(ASPEP_Handle_t *pHandle)
+void ASPEP_HWReset(ASPEP_Handle_t *pHandle)
 {
 #ifdef NULL_PTR_CHECK_ASP
   if (NULL == pHandle)
@@ -846,7 +846,7 @@ void ASPEP_HWDMAReset(ASPEP_Handle_t *pHandle)
     /* Otherwise the arrival of a new packet will trigger a NewPacketAvailable despite */
     /* the fact that bytes have been lost because of overrun (debugger paused for instance) */
     pHandle->ASPEP_TL_State = WAITING_PACKET;
-    pHandle->fASPEP_receive(pHandle->HWIp, pHandle->rxHeader, ASPEP_HEADER_SIZE);
+    pHandle->fASPEP_cfg_recept(pHandle->ASPEPIp, pHandle->rxHeader, ASPEP_HEADER_SIZE);
 #ifdef NULL_PTR_CHECK_ASP
   }
 #endif
@@ -860,4 +860,4 @@ void ASPEP_HWDMAReset(ASPEP_Handle_t *pHandle)
   * @}
   */
 
-/************************ (C) COPYRIGHT 2023 STMicroelectronics *****END OF FILE****/
+/************************ (C) COPYRIGHT 2024 STMicroelectronics *****END OF FILE****/

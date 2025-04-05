@@ -13,7 +13,7 @@
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; Copyright (c) 2023 STMicroelectronics.
+  * <h2><center>&copy; Copyright (c) 2024 STMicroelectronics.
   * All rights reserved.</center></h2>
   *
   * This software component is licensed by ST under Ultimate Liberty license
@@ -394,7 +394,7 @@ uint16_t RCM_ExecRegularConv (RegConv_t *regConv)
     }
 
     /* Read the "Regular" conversion (Not related to current sampling) */
-    RCM_NoInj_array[handle].value = LL_ADC_REG_ReadConversionData12(RCM_handle_array[handle]->regADC);
+    RCM_NoInj_array[handle].value = LL_ADC_REG_ReadConversionData12L(RCM_handle_array[handle]->regADC);
     LL_ADC_REG_SetDMATransfer(RCM_handle_array[RCM_currentHandle]->regADC, LL_ADC_REG_DMA_TRANSFER_LIMITED);
     RCM_currentHandle = RCM_NoInj_array[handle].next;
     RCM_NoInj_array[handle].status = valid;
@@ -638,24 +638,31 @@ void RCM_ReadOngoingConv(void)
   uint32_t result;
   RCM_status_t status;
 
-  status = RCM_NoInj_array[RCM_currentHandle].status;
-  result = LL_ADC_IsActiveFlag_EOC(RCM_handle_array[RCM_currentHandle]->regADC);
-  if (( valid == status ) || ( notvalid == status ) || ( 0U == result ))
+  if (true == RCM_NoInj_array [RCM_currentHandle].enable)
   {
-    /* Nothing to do */
-  }
-  else
-  {
-    /* Reading of ADC Converted Value */
-    RCM_NoInj_array[RCM_currentHandle].value
-                  = LL_ADC_REG_ReadConversionData12(RCM_handle_array[RCM_currentHandle]->regADC);
-    RCM_NoInj_array[RCM_currentHandle].status = valid;
-    /* Restore back DMA configuration */
-    LL_ADC_REG_SetDMATransfer( RCM_handle_array[RCM_currentHandle]->regADC, LL_ADC_REG_DMA_TRANSFER_LIMITED );
-  }
+    status = RCM_NoInj_array[RCM_currentHandle].status;
+    result = LL_ADC_IsActiveFlag_EOC(RCM_handle_array[RCM_currentHandle]->regADC);
+    if (( valid == status ) || ( notvalid == status ) || ( 0U == result ))
+    {
+      /* Nothing to do */
+    }
+    else
+    {
+      /* Reading of ADC Converted Value */
+      RCM_NoInj_array[RCM_currentHandle].value
+                    = LL_ADC_REG_ReadConversionData12L(RCM_handle_array[RCM_currentHandle]->regADC);
+      RCM_NoInj_array[RCM_currentHandle].status = valid;
+      /* Restore back DMA configuration */
+      LL_ADC_REG_SetDMATransfer( RCM_handle_array[RCM_currentHandle]->regADC, LL_ADC_REG_DMA_TRANSFER_LIMITED );
+    }
 
-  /* Prepare next conversion */
-  RCM_currentHandle = RCM_NoInj_array [RCM_currentHandle].next;
+    /* Prepare next conversion */
+    RCM_currentHandle = RCM_NoInj_array [RCM_currentHandle].next;
+    }
+    else
+    {
+      /* Nothing to do */
+    }
 }
 
 /**
@@ -666,5 +673,5 @@ void RCM_ReadOngoingConv(void)
   * @}
   */
 
-/************************ (C) COPYRIGHT 2023 STMicroelectronics *****END OF FILE****/
+/************************ (C) COPYRIGHT 2024 STMicroelectronics *****END OF FILE****/
 

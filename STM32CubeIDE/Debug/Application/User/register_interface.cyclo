@@ -1,6 +1,6 @@
-D:/UBC Tbots Local/FW_hall_sensors_Mar22/MDv6_wheel_hall_Mar22/Src/register_interface.c:31:9:RI_SetRegisterGlobal	11
-D:/UBC Tbots Local/FW_hall_sensors_Mar22/MDv6_wheel_hall_Mar22/Src/register_interface.c:153:9:RI_SetRegisterMotor1	30
-D:/UBC Tbots Local/FW_hall_sensors_Mar22/MDv6_wheel_hall_Mar22/Src/register_interface.c:354:9:RI_GetRegisterGlobal	12
-D:/UBC Tbots Local/FW_hall_sensors_Mar22/MDv6_wheel_hall_Mar22/Src/register_interface.c:489:11:RI_GetRegisterMotor1	37
-D:/UBC Tbots Local/FW_hall_sensors_Mar22/MDv6_wheel_hall_Mar22/Src/register_interface.c:764:9:RI_GetIDSize	2
-D:/UBC Tbots Local/FW_hall_sensors_Mar22/MDv6_wheel_hall_Mar22/Src/register_interface.c:799:16:RI_GetPtrReg	7
+C:/Users/kenny/.st_workbench/projects/MDV6 HALL/Src/register_interface.c:31:9:RI_SetRegisterGlobal	11
+C:/Users/kenny/.st_workbench/projects/MDV6 HALL/Src/register_interface.c:153:9:RI_SetRegisterMotor1	29
+C:/Users/kenny/.st_workbench/projects/MDV6 HALL/Src/register_interface.c:372:9:RI_GetRegisterGlobal	12
+C:/Users/kenny/.st_workbench/projects/MDV6 HALL/Src/register_interface.c:507:11:RI_GetRegisterMotor1	40
+C:/Users/kenny/.st_workbench/projects/MDV6 HALL/Src/register_interface.c:788:9:RI_GetIDSize	2
+C:/Users/kenny/.st_workbench/projects/MDV6 HALL/Src/register_interface.c:823:16:RI_GetPtrReg	7

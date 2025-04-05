@@ -8,7 +8,7 @@
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; Copyright (c) 2023 STMicroelectronics.
+  * <h2><center>&copy; Copyright (c) 2024 STMicroelectronics.
   * All rights reserved.</center></h2>
   *
   * This software component is licensed by ST under Ultimate Liberty license
@@ -156,7 +156,7 @@ __weak void HALL_Init(HALL_Handle_t *pHandle)
     pHandle->SensorIsReliable = true;
 
     /* Set IC filter for Channel 1 (ICF1) */
-    LL_TIM_IC_SetFilter(TIMx, LL_TIM_CHANNEL_CH1, (uint32_t)(pHandle->ICx_Filter) << 20U);
+    LL_TIM_IC_SetFilter(TIMx, LL_TIM_CHANNEL_CH1, (uint32_t)(pHandle->ICx_Filter));
 
     /* Force the TIMx prescaler with immediate access (gen update event)
     */
@@ -915,4 +915,4 @@ __weak void HALL_SetMecAngle(HALL_Handle_t *pHandle, int16_t hMecAngle)
   */
 /** @} */
 
-/************************ (C) COPYRIGHT 2023 STMicroelectronics *****END OF FILE****/
+/************************ (C) COPYRIGHT 2024 STMicroelectronics *****END OF FILE****/

@@ -7,7 +7,7 @@
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; Copyright (c) 2023 STMicroelectronics.
+  * <h2><center>&copy; Copyright (c) 2024 STMicroelectronics.
   * All rights reserved.</center></h2>
   *
   * This software component is licensed by ST under Ultimate Liberty license
@@ -205,7 +205,6 @@ struct PWMC_Handle
   int16_t   IbEst;                           /**< Estimated @f$I_{b}@f$ based on averaged @f$ I_q @f$,@f$ I_d @f$ values and used when @f$I_{b}@f$ current is not available. */
   int16_t   IcEst;                           /**< Estimated @f$I_{c}@f$ based on averaged @f$ I_q @f$,@f$ I_d @f$ values and used when @f$I_{c}@f$ current is not available. */
   int16_t   LPFIqd_const;                              /**< Low pass filter constant (averaging coeficient). */
-  uint16_t  DTTest;                                    /**< Reserved. */
   uint16_t PWMperiod;                                  /**< PWM period expressed in timer clock cycles unit:
                                                          *  @f$hPWMPeriod = TimerFreq_{CLK} / F_{PWM}@f$    */
   uint16_t DTCompCnt;                                  /**< Half of Dead time expressed
@@ -239,9 +238,6 @@ typedef enum
   CRC_START, /**< Initializes the current reading calibration. */
   CRC_EXEC   /**< Executes the current reading calibration. */
 } CRCAction_t;
-
-/* Returns the phase current of the motor as read by the ADC (in s16A unit). */
-void PWMC_GetPhaseCurrents(PWMC_Handle_t *pHandle, ab_t *Iab);
 
 /* Converts input voltages @f$ V_{\alpha} @f$ and @f$ V_{\beta} @f$ into PWM duty cycles
  * and feed them to the inverter. */
@@ -283,9 +279,6 @@ uint16_t PWMC_IsFaultOccurred(PWMC_Handle_t *pHandle);
 /* Sets the over current threshold through the DAC reference voltage. */
 void PWMC_OCPSetReferenceVoltage(PWMC_Handle_t *pHandle, uint16_t hDACVref);
 
-/* Retrieves the satus of TurnOnLowSides action. */
-bool PWMC_GetTurnOnLowSidesAction(const PWMC_Handle_t *pHandle);
-
 /* Enables Discontinuous PWM mode using the @p pHandle PWMC component. */
 void PWMC_DPWM_ModeEnable(PWMC_Handle_t *pHandle);
 
@@ -306,8 +299,6 @@ uint16_t PWMC_RLDetectionModeSetDuty(PWMC_Handle_t *pHandle, uint16_t hDuty);
 
 /* Turns on low sides switches and starts ADC triggerin. */
 void PWMC_RLTurnOnLowSidesAndStart(PWMC_Handle_t *pHandle);
-/* Sets the aligned motor flag. */
-void PWMC_SetAlignFlag(PWMC_Handle_t *pHandle, uint8_t flag);
 
 /* Sets the Callback that the PWMC component shall invoke to get phases current. */
 void PWMC_RegisterGetPhaseCurrentsCallBack(PWMC_GetPhaseCurr_Cb_t pCallBack, PWMC_Handle_t *pHandle);
@@ -351,6 +342,77 @@ void PWMC_CalcPhaseCurrentsEst(PWMC_Handle_t *pHandle, qd_t Iqd, int16_t hElAngl
 uint16_t PWMC_SetPhaseVoltage_OVM(PWMC_Handle_t *pHandle, alphabeta_t Valfa_beta);
 
 /**
+  * @brief Returns the phase current of the motor as read by the ADC (in s16A unit).
+  *
+  * Returns the current values of phases A & B. Phase C current
+  * can be deduced thanks to the formula:
+  *
+  * @f[
+  * I_{C} = -I_{A} - I_{B}
+  * @f]
+  *
+  * @param  pHandle: Handler of the current instance of the PWM component.
+  * @param  Iab: Pointer to the structure that will receive motor current
+  *         of phases A & B in ElectricalValue format.
+  */
+//cstat !MISRAC2012-Rule-8.13 !RED-func-no-effect
+static inline void PWMC_GetPhaseCurrents(PWMC_Handle_t *pHandle, ab_t *Iab)
+{
+#ifdef NULL_PTR_CHECK_PWR_CUR_FDB
+  if (MC_NULL == pHandle)
+  {
+    /* Nothing to do */
+  }
+  else
+  {
+#endif
+    pHandle->pFctGetPhaseCurrents(pHandle, Iab);
+#ifdef NULL_PTR_CHECK_PWR_CUR_FDB
+  }
+#endif
+}
+
+/**
+  * @brief  Retrieves the satus of TurnOnLowSides action.
+  *
+  * @param  pHandle: Handler of the current instance of the PWMC component.
+  * @retval bool State of TurnOnLowSides action:
+  *         **true** if TurnOnLowSides action is active, **false** otherwise.
+  */
+static inline bool PWMC_GetTurnOnLowSidesAction(const PWMC_Handle_t *pHandle)
+{
+#ifdef NULL_PTR_CHECK_PWR_CUR_FDB
+  return ((MC_NULL == pHandle) ? false : pHandle->TurnOnLowSidesAction);
+#else
+  return (pHandle->TurnOnLowSidesAction);
+#endif
+}
+
+/**
+  * @brief  Sets the aligned motor flag.
+  *
+  * @param  pHandle: Handler of the current instance of the PWMC component.
+  * @param  flag: Value to be applied as an 8 bit unsigned integer.
+  *				  1: motor is in aligned stage.
+  *               2: motor is not in aligned stage.
+  */
+static inline void PWMC_SetAlignFlag(PWMC_Handle_t *pHandle, uint8_t flag)
+{
+#ifdef NULL_PTR_CHECK_PWR_CUR_FDB
+  if (MC_NULL ==  pHandle)
+  {
+    /* Nothing to do */
+  }
+  else
+  {
+#endif
+    pHandle->AlignFlag = flag;
+#ifdef NULL_PTR_CHECK_PWR_CUR_FDB
+  }
+#endif
+}
+
+/**
   * @}
   */
 
@@ -364,4 +426,4 @@ uint16_t PWMC_SetPhaseVoltage_OVM(PWMC_Handle_t *pHandle, alphabeta_t Valfa_beta
 
 #endif /* PWMNCURRFDBK_H */
 
-/******************* (C) COPYRIGHT 2023 STMicroelectronics *****END OF FILE****/
+/******************* (C) COPYRIGHT 2024 STMicroelectronics *****END OF FILE****/

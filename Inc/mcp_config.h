@@ -9,7 +9,7 @@
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; Copyright (c) 2023 STMicroelectronics.
+  * <h2><center>&copy; Copyright (c) 2024 STMicroelectronics.
   * All rights reserved.</center></h2>
   *
   * This software component is licensed by ST under Ultimate Liberty license
@@ -42,6 +42,7 @@
 extern ASPEP_Handle_t aspepOverUartA;
 extern MCP_Handle_t MCP_Over_UartA;
 extern MCP_user_cb_t MCP_UserCallBack[MCP_USER_CALLBACK_MAX];
+
 #endif /* MCP_CONFIG_H */
 
-/************************ (C) COPYRIGHT 2023 STMicroelectronics *****END OF FILE****/
+/************************ (C) COPYRIGHT 2024 STMicroelectronics *****END OF FILE****/

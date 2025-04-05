@@ -1,7 +1,7 @@
-D:/UBC Tbots Local/FW_hall_sensors_Mar22/MDv6_wheel_hall_Mar22/MCSDK_v6.2.0-Full/MotorControl/MCSDK/MCLib/Any/Src/ramp_ext_mngr.c:44:6:REMNG_Init	1
-D:/UBC Tbots Local/FW_hall_sensors_Mar22/MDv6_wheel_hall_Mar22/MCSDK_v6.2.0-Full/MotorControl/MCSDK/MCLib/Any/Src/ramp_ext_mngr.c:78:16:REMNG_Calc	3
-D:/UBC Tbots Local/FW_hall_sensors_Mar22/MDv6_wheel_hall_Mar22/MCSDK_v6.2.0-Full/MotorControl/MCSDK/MCLib/Any/Src/ramp_ext_mngr.c:216:16:REMNG_GetValue	1
-D:/UBC Tbots Local/FW_hall_sensors_Mar22/MDv6_wheel_hall_Mar22/MCSDK_v6.2.0-Full/MotorControl/MCSDK/MCLib/Any/Src/ramp_ext_mngr.c:237:13:REMNG_RampCompleted	1
-D:/UBC Tbots Local/FW_hall_sensors_Mar22/MDv6_wheel_hall_Mar22/MCSDK_v6.2.0-Full/MotorControl/MCSDK/MCLib/Any/Src/ramp_ext_mngr.c:268:13:REMNG_StopRamp	1
-D:/UBC Tbots Local/FW_hall_sensors_Mar22/MDv6_wheel_hall_Mar22/MCSDK_v6.2.0-Full/MotorControl/MCSDK/MCLib/Any/Src/ramp_ext_mngr.c:292:17:getScalingFactor	3
-D:/UBC Tbots Local/FW_hall_sensors_Mar22/MDv6_wheel_hall_Mar22/MCSDK_v6.2.0-Full/MotorControl/MCSDK/MCLib/Any/Src/ramp_ext_mngr.c:131:13:REMNG_ExecRamp	5
+C:/Users/kenny/.st_workbench/projects/MDV6 HALL/MCSDK_v6.3.2-Full/MotorControl/MCSDK/MCLib/Any/Src/ramp_ext_mngr.c:44:6:REMNG_Init	1
+C:/Users/kenny/.st_workbench/projects/MDV6 HALL/MCSDK_v6.3.2-Full/MotorControl/MCSDK/MCLib/Any/Src/ramp_ext_mngr.c:78:16:REMNG_Calc	3
+C:/Users/kenny/.st_workbench/projects/MDV6 HALL/MCSDK_v6.3.2-Full/MotorControl/MCSDK/MCLib/Any/Src/ramp_ext_mngr.c:216:16:REMNG_GetValue	1
+C:/Users/kenny/.st_workbench/projects/MDV6 HALL/MCSDK_v6.3.2-Full/MotorControl/MCSDK/MCLib/Any/Src/ramp_ext_mngr.c:237:13:REMNG_RampCompleted	1
+C:/Users/kenny/.st_workbench/projects/MDV6 HALL/MCSDK_v6.3.2-Full/MotorControl/MCSDK/MCLib/Any/Src/ramp_ext_mngr.c:268:13:REMNG_StopRamp	1
+C:/Users/kenny/.st_workbench/projects/MDV6 HALL/MCSDK_v6.3.2-Full/MotorControl/MCSDK/MCLib/Any/Src/ramp_ext_mngr.c:292:17:getScalingFactor	4
+C:/Users/kenny/.st_workbench/projects/MDV6 HALL/MCSDK_v6.3.2-Full/MotorControl/MCSDK/MCLib/Any/Src/ramp_ext_mngr.c:131:13:REMNG_ExecRamp	5

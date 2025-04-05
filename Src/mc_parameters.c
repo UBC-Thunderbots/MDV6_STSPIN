@@ -9,7 +9,7 @@
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; Copyright (c) 2023 STMicroelectronics.
+  * <h2><center>&copy; Copyright (c) 2024 STMicroelectronics.
   * All rights reserved.</center></h2>
   *
   * This software component is licensed by ST under Ultimate Liberty license
@@ -25,7 +25,6 @@
 #include "main.h" //cstat !MISRAC2012-Rule-21.1
 //cstat +MISRAC2012-Rule-21.1
 #include "parameters_conversion.h"
-
 #include "r1_ps_pwm_curr_fdbk.h"
 
 /* USER CODE BEGIN Additional include */
@@ -51,7 +50,7 @@ const R1_Params_t R1_ParamsM1 =
   .ISamplingTime = LL_ADC_SAMPLINGTIME_7CYCLES_5,
 
 /* PWM generation parameters --------------------------------------------------*/
-  .RepetitionCounter     = 2,
+  .RepetitionCounter     = REP_COUNTER,
   .TMin                  = TMIN,
   .TSample               = (uint16_t)(TBEFORE),
   .TIMx                  = TIM1,
@@ -76,5 +75,5 @@ ScaleParams_t scaleParams_M1 =
 
 /* USER CODE END Additional parameters */
 
-/******************* (C) COPYRIGHT 2023 STMicroelectronics *****END OF FILE****/
+/******************* (C) COPYRIGHT 2024 STMicroelectronics *****END OF FILE****/
 

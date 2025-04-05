@@ -9,7 +9,7 @@
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; Copyright (c) 2023 STMicroelectronics.
+  * <h2><center>&copy; Copyright (c) 2024 STMicroelectronics.
   * All rights reserved.</center></h2>
   *
   * This software component is licensed by ST under Ultimate Liberty license
@@ -289,14 +289,20 @@ void MCP_ReceivedPacket(MCP_Handle_t *pHandle)
 
       case START_MOTOR:
       {
-        MCPResponse = (MCI_StartWithPolarizationMotor(pMCI) == false) ? MCP_CMD_OK : MCP_CMD_NOK;
-
+        MCPResponse = (MCI_StartMotor(pMCI) == true) ? MCP_CMD_OK : MCP_CMD_NOK;
         break;
       }
 
       case STOP_MOTOR: /* Todo: Check the pertinance of return value */
       {
         (void)MCI_StopMotor(pMCI);
+        MCPResponse = MCP_CMD_OK;
+        break;
+      }
+
+      case SW_RESET:
+      {
+        HAL_NVIC_SystemReset();
         MCPResponse = MCP_CMD_OK;
         break;
       }
@@ -320,9 +326,7 @@ void MCP_ReceivedPacket(MCP_Handle_t *pHandle)
         /* Queries the STM and a command start or stop depending on the state */
         if (IDLE == MCI_GetSTMState(pMCI))
         {
-
-          MCPResponse = (MCI_StartWithPolarizationMotor(pMCI) == true) ? MCP_CMD_OK : MCP_CMD_NOK;
-
+          MCPResponse = (MCI_StartMotor(pMCI) == true) ? MCP_CMD_OK : MCP_CMD_NOK;
         }
         else
         {
@@ -420,4 +424,4 @@ uint8_t MCP_RegisterCallBack (uint8_t callBackID, MCP_user_cb_t fctCB)
   * @}
   */
 
-/******************* (C) COPYRIGHT 2023 STMicroelectronics *****END OF FILE****/
+/******************* (C) COPYRIGHT 2024 STMicroelectronics *****END OF FILE****/

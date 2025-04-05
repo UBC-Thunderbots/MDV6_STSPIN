@@ -1,5 +1,5 @@
 Application/User/aspep.o: \
- D:/UBC\ Tbots\ Local/FW_hall_sensors_Mar22/MDv6_wheel_hall_Mar22/Src/aspep.c \
+ C:/Users/kenny/.st_workbench/projects/MDV6\ HALL/Src/aspep.c \
  ../../Inc/aspep.h ../../Inc/parameters_conversion.h ../../Inc/mc_math.h \
  ../../Inc/mc_type.h ../../Inc/mc_stm_types.h \
  ../../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_ll_bus.h \
@@ -22,18 +22,12 @@ Application/User/aspep.o: \
  ../../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_dma.h \
  ../../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_dma_ex.h \
  ../../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_cortex.h \
- ../../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_adc.h \
- ../../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_adc_ex.h \
  ../../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_flash.h \
  ../../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_flash_ex.h \
  ../../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_i2c.h \
  ../../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_i2c_ex.h \
  ../../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_pwr.h \
  ../../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_pwr_ex.h \
- ../../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_tim.h \
- ../../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_tim_ex.h \
- ../../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_uart.h \
- ../../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_uart_ex.h \
  ../../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_ll_rcc.h \
  ../../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_ll_system.h \
  ../../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_ll_adc.h \
@@ -45,7 +39,7 @@ Application/User/aspep.o: \
  ../../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_ll_comp.h \
  ../../Inc/parameters_conversion_f0xx.h ../../Inc/pmsm_motor_parameters.h \
  ../../Inc/drive_parameters.h ../../Inc/power_stage_parameters.h \
- ../../MCSDK_v6.2.0-Full/MotorControl/MCSDK/MCLib/Any/Inc/mcptl.h
+ ../../MCSDK_v6.3.2-Full/MotorControl/MCSDK/MCLib/Any/Inc/mcptl.h
 ../../Inc/aspep.h:
 ../../Inc/parameters_conversion.h:
 ../../Inc/mc_math.h:
@@ -71,18 +65,12 @@ Application/User/aspep.o: \
 ../../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_dma.h:
 ../../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_dma_ex.h:
 ../../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_cortex.h:
-../../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_adc.h:
-../../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_adc_ex.h:
 ../../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_flash.h:
 ../../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_flash_ex.h:
 ../../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_i2c.h:
 ../../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_i2c_ex.h:
 ../../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_pwr.h:
 ../../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_pwr_ex.h:
-../../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_tim.h:
-../../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_tim_ex.h:
-../../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_uart.h:
-../../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_uart_ex.h:
 ../../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_ll_rcc.h:
 ../../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_ll_system.h:
 ../../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_ll_adc.h:
@@ -96,4 +84,4 @@ Application/User/aspep.o: \
 ../../Inc/pmsm_motor_parameters.h:
 ../../Inc/drive_parameters.h:
 ../../Inc/power_stage_parameters.h:
-../../MCSDK_v6.2.0-Full/MotorControl/MCSDK/MCLib/Any/Inc/mcptl.h:
+../../MCSDK_v6.3.2-Full/MotorControl/MCSDK/MCLib/Any/Inc/mcptl.h:

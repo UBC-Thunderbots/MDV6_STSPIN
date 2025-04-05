@@ -9,7 +9,7 @@
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; Copyright (c) 2023 STMicroelectronics.
+  * <h2><center>&copy; Copyright (c) 2024 STMicroelectronics.
   * All rights reserved.</center></h2>
   *
   * This software component is licensed by ST under Ultimate Liberty license
@@ -167,12 +167,13 @@ uint8_t RI_SetRegisterMotor1(uint16_t regID, uint8_t typeID, uint8_t *data, uint
             retVal = MCP_ERROR_RO_REG;
             break;
           }
-
         case MC_REG_CONTROL_MODE:
         {
           uint8_t regdata8 = *data;
+
           if ((uint8_t)MCM_TORQUE_MODE == regdata8)
           {
+
             MCI_ExecTorqueRamp(pMCIN, MCI_GetTeref(pMCIN), 0);
           }
           else
@@ -182,13 +183,30 @@ uint8_t RI_SetRegisterMotor1(uint16_t regID, uint8_t typeID, uint8_t *data, uint
 
           if ((uint8_t)MCM_SPEED_MODE == regdata8)
           {
-            MCI_ExecSpeedRamp(pMCIN, MCI_GetMecSpeedRefUnit(pMCIN), 0);
+            MCI_SetSpeedMode(pMCIN);
           }
           else
           {
             /* Nothing to do */
           }
 
+          if ((uint8_t)regdata8 == MCM_OPEN_LOOP_CURRENT_MODE)
+          {
+            MCI_SetOpenLoopCurrentMode(pMCIN);
+          }
+          else
+          {
+            /* Nothing to do */
+          }
+
+          if ((uint8_t)regdata8 == MCM_OPEN_LOOP_VOLTAGE_MODE)
+          {
+            MCI_SetOpenLoopVoltageMode(pMCIN);
+          }
+          else
+          {
+            /* Nothing to do */
+          }
           break;
         }
 
@@ -593,6 +611,12 @@ uint8_t RI_GetRegisterGlobal(uint16_t regID,uint8_t typeID,uint8_t * data,uint16
             case MC_REG_DAC_USER2:
               break;
 
+            case MC_REG_FOC_VQREF:
+            {
+            *regdata16 = ((OL_GetVoltage(&OpenLoop_ParamsM1)*100)/32767);
+              break;
+            }
+
             default:
             {
               retVal = MCP_ERROR_UNKNOWN_REG;
@@ -868,4 +892,4 @@ __weak uint8_t RI_GetPtrReg(uint16_t dataID, void **dataPtr)
 #endif
   return (retVal);
 }
-/************************ (C) COPYRIGHT 2023 STMicroelectronics *****END OF FILE****/
+/************************ (C) COPYRIGHT 2024 STMicroelectronics *****END OF FILE****/

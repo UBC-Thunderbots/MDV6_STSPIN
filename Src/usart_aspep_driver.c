@@ -9,7 +9,7 @@
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; Copyright (c) 2023 STMicroelectronics.
+  * <h2><center>&copy; Copyright (c) 2024 STMicroelectronics.
   * All rights reserved.</center></h2>
   *
   * This software component is licensed by ST under Ultimate Liberty license
@@ -23,9 +23,10 @@
 #include <stdint.h>
 #include "mc_stm_types.h"
 #include "usart_aspep_driver.h"
+#include "aspep.h"
 
-void UASPEP_DAMCONFIG_TX(UASPEP_Handle_t *pHandle);
-void UASPEP_DAMCONFIG_RX(UASPEP_Handle_t *pHandle);
+void UASPEP_TX_INIT(UASPEP_Handle_t *pHandle);
+void UASPEP_RX_INIT(UASPEP_Handle_t *pHandle);
 
 /** @addtogroup MCSDK
   * @{
@@ -36,23 +37,23 @@ void UASPEP_DAMCONFIG_RX(UASPEP_Handle_t *pHandle);
   */
 
 /**
-  * @brief  Initialization of the DMAs used for data transmission and reception.
+  * @brief  Initialization of the Hardware used for data transmission and reception.
   *
   * @param  pHandle Handler of the current instance of the UASPEP component
   */
 void UASPEP_INIT(void *pHWHandle)
 {
   UASPEP_Handle_t *pHandle = (UASPEP_Handle_t *)pHWHandle; //cstat !MISRAC2012-Rule-11.5
-  UASPEP_DAMCONFIG_TX(pHandle);
-  UASPEP_DAMCONFIG_RX(pHandle);
+  UASPEP_RX_INIT(pHandle);
+  UASPEP_TX_INIT(pHandle);
 }
 
 /**
-  * @brief  Configures the DMA used for data transmission to controller.
+  * @brief  Configures the Hardware used for data transmission to controller.
   *
   * @param  pHandle Handler of the current instance of the UASPEP component
   */
-void UASPEP_DAMCONFIG_TX(UASPEP_Handle_t *pHandle)
+void UASPEP_TX_INIT(UASPEP_Handle_t *pHandle)
 {
 #ifdef NULL_PTR_CHECK_USA_ASP_DRV
   if (NULL == pHandle)
@@ -73,6 +74,7 @@ void UASPEP_DAMCONFIG_TX(UASPEP_Handle_t *pHandle)
      * the destination of the transfer */
     //cstat !MISRAC2012-Rule-11.4
     LL_DMA_SetPeriphAddress(pHandle->txDMA, pHandle->txChannel, (uint32_t)&pHandle->USARTx->TDR);
+
     /* Clear UART ISR */
     LL_USART_ClearFlag_TC(pHandle->USARTx);
 
@@ -84,11 +86,11 @@ void UASPEP_DAMCONFIG_TX(UASPEP_Handle_t *pHandle)
 }
 
 /**
-  * @brief  Configures the DMA used for data reception from controller.
+  * @brief  Configures the Hardware used for data reception from controller.
   *
   * @param  pHandle Handler of the current instance of the UASPEP component
   */
-void UASPEP_DAMCONFIG_RX(UASPEP_Handle_t *pHandle)
+void UASPEP_RX_INIT(UASPEP_Handle_t *pHandle)
 {
 #ifdef NULL_PTR_CHECK_USA_ASP_DRV
   if (NULL == pHandle)
@@ -98,7 +100,9 @@ void UASPEP_DAMCONFIG_RX(UASPEP_Handle_t *pHandle)
   else
   {
 #endif
-    /* DMA interrupt not used for F0 family */
+    /* DMA interrupt not used for all families */
+    /* Enable DMA end of transfer on UART RX channel completion */
+    /* LL_DMA_EnableIT_TC(pHandle->rxDMA, pHandle->rxChannel) */
     /* Enable Error interrupt (EIE) to unmask Overrun interrupt */
     LL_USART_EnableIT_ERROR(pHandle->USARTx);
 
@@ -117,39 +121,36 @@ void UASPEP_DAMCONFIG_RX(UASPEP_Handle_t *pHandle)
 }
 
 /**
-  * @brief  Enables the configured DMA to send packet.
+  * @brief  Configures data transmission.
   *
   * @param  pHWHandle Hardware components chosen for communication
   * @param  data Data to be transmitted to controller
   * @param  length Length of the data to be transmitted
   */
-bool UASPEP_SEND_PACKET(void *pHWHandle, void *data, uint16_t length)
+void UASPEP_CFG_TRANSMISSION(void *pHWHandle, void *data, uint16_t length)
 {
   UASPEP_Handle_t *pHandle = (UASPEP_Handle_t *)pHWHandle; //cstat !MISRAC2012-Rule-11.5
-  bool result;
   if (0U == LL_DMA_IsEnabledChannel(pHandle->txDMA, pHandle->txChannel))
   {
     //cstat !MISRAC2012-Rule-11.4 !MISRAC2012-Rule-11.6
     LL_DMA_SetMemoryAddress(pHandle->txDMA, pHandle->txChannel, (uint32_t)data);
     LL_DMA_SetDataLength(pHandle->txDMA, pHandle->txChannel, length);
     LL_DMA_EnableChannel(pHandle->txDMA, pHandle->txChannel);
-    result = true;
   }
   else
   {
-    result = false;
+    /* Nothing to do */
   }
-  return (result);
 }
 
 /**
-  * @brief  Enables the configured DMA to receive packet.
+  * @brief  Configures data reception.
   *
   * @param  pHWHandle Hardware components chosen for communication
   * @param  buffer Buffer which will receive the communicated data
   * @param  length Length of the received data
   */
-void UASPEP_RECEIVE_BUFFER(void *pHWHandle, void* buffer, uint16_t length)
+void UASPEP_CFG_RECEPTION(void *pHWHandle, void* buffer, uint16_t length)
 {
   UASPEP_Handle_t *pHandle = (UASPEP_Handle_t *)pHWHandle; //cstat !MISRAC2012-Rule-11.5
   LL_DMA_DisableChannel(pHandle->rxDMA, pHandle->rxChannel);
@@ -179,5 +180,5 @@ void UASPEP_IDLE_ENABLE(void *pHWHandle)
 /**
   * @}
   */
-/************************ (C) COPYRIGHT 2023 STMicroelectronics *****END OF FILE****/
+/************************ (C) COPYRIGHT 2024 STMicroelectronics *****END OF FILE****/
 

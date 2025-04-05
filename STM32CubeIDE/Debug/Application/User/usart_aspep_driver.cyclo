@@ -1,6 +1,6 @@
-D:/UBC Tbots Local/FW_hall_sensors_Mar22/MDv6_wheel_hall_Mar22/Src/usart_aspep_driver.c:55:6:UASPEP_DAMCONFIG_TX	1
-D:/UBC Tbots Local/FW_hall_sensors_Mar22/MDv6_wheel_hall_Mar22/Src/usart_aspep_driver.c:91:6:UASPEP_DAMCONFIG_RX	1
-D:/UBC Tbots Local/FW_hall_sensors_Mar22/MDv6_wheel_hall_Mar22/Src/usart_aspep_driver.c:43:6:UASPEP_INIT	1
-D:/UBC Tbots Local/FW_hall_sensors_Mar22/MDv6_wheel_hall_Mar22/Src/usart_aspep_driver.c:126:6:UASPEP_SEND_PACKET	2
-D:/UBC Tbots Local/FW_hall_sensors_Mar22/MDv6_wheel_hall_Mar22/Src/usart_aspep_driver.c:152:6:UASPEP_RECEIVE_BUFFER	1
-D:/UBC Tbots Local/FW_hall_sensors_Mar22/MDv6_wheel_hall_Mar22/Src/usart_aspep_driver.c:168:6:UASPEP_IDLE_ENABLE	1
+C:/Users/kenny/.st_workbench/projects/MDV6 HALL/Src/usart_aspep_driver.c:44:6:UASPEP_INIT	1
+C:/Users/kenny/.st_workbench/projects/MDV6 HALL/Src/usart_aspep_driver.c:56:6:UASPEP_TX_INIT	1
+C:/Users/kenny/.st_workbench/projects/MDV6 HALL/Src/usart_aspep_driver.c:93:6:UASPEP_RX_INIT	1
+C:/Users/kenny/.st_workbench/projects/MDV6 HALL/Src/usart_aspep_driver.c:130:6:UASPEP_CFG_TRANSMISSION	2
+C:/Users/kenny/.st_workbench/projects/MDV6 HALL/Src/usart_aspep_driver.c:153:6:UASPEP_CFG_RECEPTION	1
+C:/Users/kenny/.st_workbench/projects/MDV6 HALL/Src/usart_aspep_driver.c:169:6:UASPEP_IDLE_ENABLE	1

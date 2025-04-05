@@ -7,7 +7,7 @@
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; Copyright (c) 2023 STMicroelectronics.
+  * <h2><center>&copy; Copyright (c) 2024 STMicroelectronics.
   * All rights reserved.</center></h2>
   *
   * This software component is licensed by ST under Ultimate Liberty license
@@ -96,7 +96,11 @@ int16_t MC_GetLastRampFinalSpeedMotor1(void);
 
 /* Returns the final speed of the last ramp programmed for Motor 1, if this ramp was a speed ramp */
 float_t MC_GetLastRampFinalSpeedM1_F(void);
+/** Returns the final torque reference for Motor 1, expressed in Ampere. */
+float_t MC_GetFinalTorqueReferenceMotor1_F(void);
 
+/** Returns the final torque reference for Motor 1, expressed in digit. */
+int16_t MC_GetFinalTorqueReferenceMotor1(void);
 /* Returns the current Control Mode for Motor 1 (either Speed or Torque) */
 MC_ControlMode_t MC_GetControlModeMotor1(void);
 
@@ -195,4 +199,4 @@ uint8_t MC_ProfilerCommand (uint16_t rxLength, uint8_t *rxBuffer, int16_t txSync
 #endif /* __cpluplus */
 
 #endif /* MC_API_H */
-/******************* (C) COPYRIGHT 2023 STMicroelectronics *****END OF FILE****/
+/******************* (C) COPYRIGHT 2024 STMicroelectronics *****END OF FILE****/

@@ -13,7 +13,7 @@
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; Copyright (c) 2023 STMicroelectronics.
+  * <h2><center>&copy; Copyright (c) 2024 STMicroelectronics.
   * All rights reserved.</center></h2>
   *
   * This software component is licensed by ST under Ultimate Liberty license
@@ -57,12 +57,12 @@
                  LL_DMA_DIRECTION_MEMORY_TO_PERIPH|LL_DMA_MDATAALIGN_HALFWORD|LL_DMA_PRIORITY_VERYHIGH|\
                  LL_DMA_MODE_CIRCULAR)
 
-#define DMA_TRANSFER_LENGTH_CCR  6u
+#define DMA_TRANSFER_LENGTH_CCR             6u
 #define DMA_TRANSFER_LENGTH_SAMPLING_POINT  3u
-#define DMA_TRANSFER_LENGTH_ADC  2u
-#define IA_OK 0x01
-#define IB_OK 0x02
-#define IC_OK 0x04
+#define DMA_TRANSFER_LENGTH_ADC             2u
+#define IA_OK                               0x01
+#define IB_OK                               0x02
+#define IC_OK                               0x04
 
 static const int8_t ALFLAG[3] = {IA_OK,IB_OK,IC_OK};
 /* Private typedef -----------------------------------------------------------*/
@@ -157,7 +157,6 @@ void R1_Init(PWMC_R1_Handle_t * pHandle)
   LL_TIM_EnableCounter(TIM1);
 
   pHandle->ADCRegularLocked=false; /* We allow ADC usage for regular conversion on Systick */
-  pHandle->_Super.DTTest = 0u;
 
 }
 
@@ -200,7 +199,6 @@ void R1_TIMxInit(TIM_TypeDef * TIMx, PWMC_R1_Handle_t * pHandle)
 
   /* Enable drive of TIMx CHy and CHyN by TIMx CHyRef*/
   LL_TIM_CC_EnableChannel(TIMx, TIMxCCER_MASK_CH123);
-
 }
 
 /**
@@ -325,6 +323,16 @@ __weak void R1_CurrentReadingCalibration(PWMC_Handle_t * pHdl)
   {
     /* Nothing to do */
   }
+
+  /* It over write TIMx CCRy wrongly written by FOC during calibration so as to
+   force 50% duty cycle on the three inverer legs */
+  /* Disable TIMx preload */
+  LL_TIM_OC_SetCompareCH1 (TIMx, pHandle->Half_PWMPeriod >> 1u);
+  LL_TIM_OC_SetCompareCH2 (TIMx, pHandle->Half_PWMPeriod >> 1u);
+  LL_TIM_OC_SetCompareCH3 (TIMx, pHandle->Half_PWMPeriod >> 1u);
+  /* generate  COM event to apply new CC values */
+  LL_TIM_GenerateEvent_COM( TIMx );
+
   /* It re-enable drive of TIMx CHy and CHyN by TIMx CHyRef */
   LL_TIM_CC_EnableChannel(TIMx, TIMxCCER_MASK_CH123);
 
@@ -1324,7 +1332,7 @@ __weak void *R1_DMAx_TC_IRQHandler(PWMC_R1_Handle_t *pHandle)
 
   LL_DMA_ClearFlag_HT(DMAx, pHandle->pParams_str->DMAChannelX);
   pHandle->TCCnt++;
-  if (pHandle->TCCnt == pHandle->pParams_str->RepetitionCounter)
+  if (pHandle->TCCnt == (pHandle->pParams_str->RepetitionCounter + 1)>>1)
   {
     /* First half PWM period CCR value transfered by DMA */
     pHandle->DmaBuffCCR[0] = pHandle->DmaBuffCCR_latch[0];
@@ -1363,4 +1371,4 @@ __weak void *R1_DMAx_HT_IRQHandler(PWMC_R1_Handle_t *pHandle)
  * @}
  */
 
-/************************ (C) COPYRIGHT 2023 STMicroelectronics *****END OF FILE****/
+/************************ (C) COPYRIGHT 2024 STMicroelectronics *****END OF FILE****/

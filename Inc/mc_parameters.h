@@ -9,7 +9,7 @@
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; Copyright (c) 2023 STMicroelectronics.
+  * <h2><center>&copy; Copyright (c) 2024 STMicroelectronics.
   * All rights reserved.</center></h2>
   *
   * This software component is licensed by ST under Ultimate Liberty license
@@ -23,7 +23,6 @@
 #define MC_PARAMETERS_H
 
 #include "mc_interface.h"
-
 #include "r1_ps_pwm_curr_fdbk.h"
 
 /* USER CODE BEGIN Additional include */
@@ -39,4 +38,4 @@ extern ScaleParams_t scaleParams_M1;
 /* USER CODE END Additional extern */
 
 #endif /* MC_PARAMETERS_H */
-/******************* (C) COPYRIGHT 2023 STMicroelectronics *****END OF FILE****/
+/******************* (C) COPYRIGHT 2024 STMicroelectronics *****END OF FILE****/

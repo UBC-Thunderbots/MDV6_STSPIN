@@ -8,7 +8,7 @@
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; Copyright (c) 2023 STMicroelectronics.
+  * <h2><center>&copy; Copyright (c) 2024 STMicroelectronics.
   * All rights reserved.</center></h2>
   *
   * This software component is licensed by ST under Ultimate Liberty license
@@ -33,6 +33,7 @@ extern "C" {
 #include "pwm_curr_fdbk.h"
 #include "speed_torq_ctrl.h"
 
+#include "virtual_speed_sensor.h"
 /** @addtogroup MCSDK
   * @{
   */
@@ -134,6 +135,7 @@ typedef struct
   SpeednTorqCtrl_Handle_t *pSTC;         /*!< Speed and torque controller object used by MCI.*/
   pFOCVars_t pFOCVars;                   /*!< Pointer to FOC vars used by MCI.*/
   PWMC_Handle_t *pPWM;                   /*!< Pointer to PWM handle structure.*/
+  VirtualSpeedSensor_Handle_t *pVSS;
   MCI_UserCommands_t lastCommand;        /*!< Last command coming from the user.*/
   int16_t hFinalSpeed;                   /*!< Final speed of last ExecSpeedRamp command.*/
   int16_t hFinalTorque;                  /*!< Final torque of last ExecTorqueRamp command.*/
@@ -181,6 +183,7 @@ MC_ControlMode_t MCI_GetControlMode(MCI_Handle_t *pHandle);
 int16_t MCI_GetImposedMotorDirection(MCI_Handle_t *pHandle);
 int16_t MCI_GetLastRampFinalSpeed(MCI_Handle_t *pHandle);
 int16_t MCI_GetLastRampFinalTorque(MCI_Handle_t *pHandle);
+float_t MCI_GetLastRampFinalTorque_F(MCI_Handle_t *pHandle);
 uint16_t MCI_GetLastRampFinalDuration(MCI_Handle_t *pHandle);
 bool MCI_RampCompleted(MCI_Handle_t *pHandle);
 float_t MCI_GetLastRampFinalSpeed_F(MCI_Handle_t *pHandle);
@@ -206,6 +209,11 @@ int16_t MCI_GetPhaseCurrentAmplitude(MCI_Handle_t *pHandle);
 int16_t MCI_GetPhaseVoltageAmplitude(MCI_Handle_t *pHandle);
 void MCI_Clear_Iqdref(MCI_Handle_t *pHandle);
 
+void MCI_SetSpeedMode(MCI_Handle_t *pHandle);
+void MCI_SetOpenLoopCurrent(MCI_Handle_t *pHandle);
+void MCI_SetOpenLoopVoltage(MCI_Handle_t *pHandle);
+void MCI_SetOpenLoopCurrentMode(MCI_Handle_t *pHandle);
+void MCI_SetOpenLoopVoltageMode(MCI_Handle_t *pHandle);
 /**
   * @}
   */
@@ -224,5 +232,5 @@ void MCI_Clear_Iqdref(MCI_Handle_t *pHandle);
 
 #endif /* MC_INTERFACE_H */
 
-/******************* (C) COPYRIGHT 2023 STMicroelectronics *****END OF FILE****/
+/******************* (C) COPYRIGHT 2024 STMicroelectronics *****END OF FILE****/
 

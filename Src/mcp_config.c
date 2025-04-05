@@ -1,3 +1,4 @@
+
 /**
   ******************************************************************************
   * @file    mcp_config.c
@@ -8,7 +9,7 @@
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; Copyright (c) 2023 STMicroelectronics.
+  * <h2><center>&copy; Copyright (c) 2024 STMicroelectronics.
   * All rights reserved.</center></h2>
   *
   * This software component is licensed by ST under Ultimate Liberty license
@@ -55,7 +56,7 @@ ASPEP_Handle_t aspepOverUartA =
     .fSendPacket = &ASPEP_sendPacket,
     .fRXPacketProcess = &ASPEP_RXframeProcess,
     },
-  .HWIp = &UASPEP_A,
+  .ASPEPIp = &UASPEP_A,
   .Capabilities =
   {
     .DATA_CRC = 0U,
@@ -71,8 +72,8 @@ ASPEP_Handle_t aspepOverUartA =
   .rxBuffer = MCPSyncRXBuff,
   .fASPEP_HWInit = &UASPEP_INIT,
   .fASPEP_HWSync = &UASPEP_IDLE_ENABLE,
-  .fASPEP_receive = &UASPEP_RECEIVE_BUFFER,
-  .fASPEP_send = &UASPEP_SEND_PACKET,
+  .fASPEP_cfg_recept = &UASPEP_CFG_RECEPTION,
+  .fASPEP_cfg_trans = &UASPEP_CFG_TRANSMISSION,
   .liid = 0,
 };
 
@@ -89,4 +90,4 @@ MCP_Handle_t MCP_Over_UartA =
   * @}
   */
 
-/************************ (C) COPYRIGHT 2023 STMicroelectronics *****END OF FILE****/
+/************************ (C) COPYRIGHT 2024 STMicroelectronics *****END OF FILE****/

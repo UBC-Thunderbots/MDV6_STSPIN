@@ -1,3 +1,4 @@
+
 /**
   ******************************************************************************
   * @file  aspep.h
@@ -8,7 +9,7 @@
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; Copyright (c) 2023 STMicroelectronics.
+  * <h2><center>&copy; Copyright (c) 2024 STMicroelectronics.
   * All rights reserved.</center></h2>
   *
   * This software component is licensed by ST under Ultimate Liberty license
@@ -52,10 +53,10 @@
 #define ACK                      ((uint32_t)0xA)
 typedef uint32_t ASPEP_packetType;
 
-typedef bool (*ASPEP_send_cb_t)    (void *pHW_Handle, void *txbuffer, uint16_t length);
-typedef void (*ASPEP_receive_cb_t) (void *pHW_Handle, void *rxbuffer, uint16_t length);
-typedef void (*ASPEP_hwinit_cb_t)  (void *pHW_Handle);
-typedef void (*ASPEP_hwsync_cb_t)  (void *pHW_Handle);
+typedef void (*ASPEP_config_transmission_cb_t)    (void *pASPEP_Handle, void *txbuffer, uint16_t length);
+typedef void (*ASPEP_config_reception_cb_t)       (void *pASPEP_Handle, void *rxbuffer, uint16_t length);
+typedef void (*ASPEP_hwinit_cb_t)                 (void *pUASPEP_Handle);
+typedef void (*ASPEP_hwsync_cb_t)                 (void *pUASPEP_Handle);
 
 /** @addtogroup MCSDK
   * @{
@@ -112,27 +113,27 @@ typedef struct
   */
 typedef struct
 {
-  MCTL_Handle_t _Super;                    /** Transport Layer component handle */
-  void *HWIp;                              /** Hardware components chosen for communication */
-  uint8_t *rxBuffer;                       /** Contains the ASPEP Data payload */
-  uint8_t rxHeader[4];                     /** Contains the ASPEP 32 bits header */
-  ASPEP_ctrlBuff_t ctrlBuffer;             /** ASPEP protocol control buffer */
-  MCTL_Buff_t syncBuffer;                  /** Buffer used for synchronous communication */
-  void *lockBuffer;                        /** Buffer locked to avoid erasing data not yet transmitted */
-  ASPEP_hwinit_cb_t fASPEP_HWInit;         /** Pointer to the initialization function */
-  ASPEP_hwsync_cb_t fASPEP_HWSync;         /** Pointer to the starting function */
-  ASPEP_receive_cb_t fASPEP_receive;       /** Pointer to the receiving packet function */
-  ASPEP_send_cb_t fASPEP_send;             /** Pointer to the sending packet function */
-  uint16_t rxLength;                       /** Length of the received data packet : payload and header */
-  uint16_t maxRXPayload;                   /** Maximum payload size the performer can process */
-  uint8_t syncPacketCount;                 /** Reset at startup only, this counter is incremented at each valid data packet received from controller */
-  bool NewPacketAvailable;                 /** Boolean stating if performer is ready to receive a new packet or not */
-  uint8_t badPacketFlag;                   /** Contains the error code in case of ASPEP decoding issue */
+  MCTL_Handle_t _Super;                    /*!< Transport Layer component handle */
+  void *ASPEPIp;                           /*!< ASPEP components used for communication */
+  uint8_t *rxBuffer;                       /*!< Contains the ASPEP Data payload */
+  uint8_t rxHeader[4];                     /*!< Contains the ASPEP 32 bits header */
+  ASPEP_ctrlBuff_t ctrlBuffer;             /*!< ASPEP protocol control buffer */
+  MCTL_Buff_t syncBuffer;                  /*!< Buffer used for synchronous communication */
+  void *lockBuffer;                        /*!< Buffer locked to avoid erasing data not yet transmitted */
+  ASPEP_hwinit_cb_t fASPEP_HWInit;         /*!< Pointer to the initialization function */
+  ASPEP_hwsync_cb_t fASPEP_HWSync;         /*!< Pointer to the starting function */
+  ASPEP_config_reception_cb_t fASPEP_cfg_recept;          /*!< Pointer to the receiving packet function */
+  ASPEP_config_transmission_cb_t fASPEP_cfg_trans;        /*!< Pointer to the sending packet function */
+  uint16_t rxLengthASPEP;                  /*!< Length of the received data packet used by ASPEP : payload, header or both */
+  uint16_t maxRXPayload;                   /*!< Maximum payload size the performer can process */
+  uint8_t syncPacketCount;                 /*!< Reset at startup only, this counter is incremented at each valid data packet received from controller */
+  bool NewPacketAvailable;                 /*!< Boolean stating if performer is ready to receive a new packet or not */
+  uint8_t badPacketFlag;                   /*!< Contains the error code in case of ASPEP decoding issue */
   uint8_t liid;
-  ASPEP_sm_type ASPEP_State;               /** ASPEP State of the communication between performer and controller */
-  ASPEP_TL_sm_type ASPEP_TL_State;         /** Transport Layer state of the communication between performer and controller */
-  ASPEP_packetType rxPacketType;           /** Type of the received packet */
-  ASPEP_Capabilities_def Capabilities;     /** Minimum between Controller and Performer capabilities */
+  ASPEP_sm_type ASPEP_State;               /*!< ASPEP State of the communication between performer and controller */
+  ASPEP_TL_sm_type ASPEP_TL_State;         /*!< Transport Layer state of the communication between performer and controller */
+  ASPEP_packetType rxPacketType;           /*!< Type of the received packet */
+  ASPEP_Capabilities_def Capabilities;     /*!< Minimum between Controller and Performer capabilities */
 } ASPEP_Handle_t;
 
 void ASPEP_start(ASPEP_Handle_t *pHandle);
@@ -144,7 +145,7 @@ uint8_t *ASPEP_RXframeProcess(MCTL_Handle_t *pHandle, uint16_t *packetLength);
 void ASPEP_HWDataReceivedIT(ASPEP_Handle_t *pHandle);
 void ASPEP_HWDataTransmittedIT(ASPEP_Handle_t *pHandle);
 /* Debugger stuff */
-void ASPEP_HWDMAReset(ASPEP_Handle_t *pHandle);
+void ASPEP_HWReset(ASPEP_Handle_t *pHandle);
 
 #endif /* ASPEP_H */
 
@@ -156,4 +157,4 @@ void ASPEP_HWDMAReset(ASPEP_Handle_t *pHandle);
   * @}
   */
 
-/************************ (C) COPYRIGHT 2023 STMicroelectronics *****END OF FILE****/
+/************************ (C) COPYRIGHT 2024 STMicroelectronics *****END OF FILE****/
