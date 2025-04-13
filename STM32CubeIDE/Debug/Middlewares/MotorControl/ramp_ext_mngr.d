@@ -1,5 +1,5 @@
 Middlewares/MotorControl/ramp_ext_mngr.o: \
- C:/Users/kenny/.st_workbench/projects/MDV6\ HALL/MCSDK_v6.3.2-Full/MotorControl/MCSDK/MCLib/Any/Src/ramp_ext_mngr.c \
+ /Users/msvc/Documents/code/tbots/MDV6_STSPIN/MCSDK_v6.3.2-Full/MotorControl/MCSDK/MCLib/Any/Src/ramp_ext_mngr.c \
  ../../MCSDK_v6.3.2-Full/MotorControl/MCSDK/MCLib/Any/Inc/ramp_ext_mngr.h \
  ../../Inc/mc_type.h ../../Inc/mc_stm_types.h \
  ../../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_ll_bus.h \
@@ -28,6 +28,8 @@ Middlewares/MotorControl/ramp_ext_mngr.o: \
  ../../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_i2c_ex.h \
  ../../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_pwr.h \
  ../../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_pwr_ex.h \
+ ../../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_spi.h \
+ ../../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_spi_ex.h \
  ../../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_ll_rcc.h \
  ../../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_ll_system.h \
  ../../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_ll_adc.h \
@@ -66,6 +68,8 @@ Middlewares/MotorControl/ramp_ext_mngr.o: \
 ../../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_i2c_ex.h:
 ../../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_pwr.h:
 ../../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_pwr_ex.h:
+../../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_spi.h:
+../../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_spi_ex.h:
 ../../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_ll_rcc.h:
 ../../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_ll_system.h:
 ../../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_ll_adc.h:

@@ -1,5 +1,5 @@
 Application/User/usart_aspep_driver.o: \
- C:/Users/kenny/.st_workbench/projects/MDV6\ HALL/Src/usart_aspep_driver.c \
+ /Users/msvc/Documents/code/tbots/MDV6_STSPIN/Src/usart_aspep_driver.c \
  ../../Inc/mc_stm_types.h \
  ../../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_ll_bus.h \
  ../../Drivers/CMSIS/Device/ST/STM32F0xx/Include/stm32f0xx.h \
@@ -27,6 +27,8 @@ Application/User/usart_aspep_driver.o: \
  ../../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_i2c_ex.h \
  ../../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_pwr.h \
  ../../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_pwr_ex.h \
+ ../../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_spi.h \
+ ../../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_spi_ex.h \
  ../../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_ll_rcc.h \
  ../../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_ll_system.h \
  ../../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_ll_adc.h \
@@ -69,6 +71,8 @@ Application/User/usart_aspep_driver.o: \
 ../../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_i2c_ex.h:
 ../../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_pwr.h:
 ../../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_pwr_ex.h:
+../../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_spi.h:
+../../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_spi_ex.h:
 ../../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_ll_rcc.h:
 ../../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_ll_system.h:
 ../../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_ll_adc.h:
