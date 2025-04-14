@@ -1,5 +1,5 @@
 #ifndef COMMON_TYPES
-#define COMON_TYPES
+#define COMMON_TYPES
 
 enum OPCODES {
     MOV_AX = 0b10000000,

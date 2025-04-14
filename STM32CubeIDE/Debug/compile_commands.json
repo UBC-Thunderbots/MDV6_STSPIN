@@ -2491,5 +2491,43 @@
    "../Application/Startup/startup_stm32f031c6tx.s"
   ],
   "file": "../Application/Startup/startup_stm32f031c6tx.s"
+ },
+ {
+  "directory": "/Users/msvc/Documents/code/tbots/MDV6_STSPIN/STM32CubeIDE/Debug",
+  "arguments": [
+   "arm-none-eabi-gcc",
+   "/Users/msvc/Documents/code/tbots/MDV6_STSPIN/Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_spi.c",
+   "-mcpu=cortex-m0",
+   "-std=gnu11",
+   "-g",
+   "-DDEBUG",
+   "-DARM_MATH_CM0",
+   "-DUSE_FULL_LL_DRIVER",
+   "-DUSE_HAL_DRIVER",
+   "-DSTM32F031x6",
+   "-c",
+   "-I../../Inc",
+   "-I../../Drivers/STM32F0xx_HAL_Driver/Inc",
+   "-I../../Drivers/STM32F0xx_HAL_Driver/Inc/Legacy",
+   "-I../../MCSDK_v6.3.2-Full/MotorControl/MCSDK/MCLib/Any/Inc",
+   "-I../../Drivers/CMSIS/Device/ST/STM32F0xx/Include",
+   "-I../../Drivers/CMSIS/Include",
+   "-I../../Drivers/CMSIS/DSP/Include",
+   "-Ofast",
+   "-ffunction-sections",
+   "-fdata-sections",
+   "-Wall",
+   "-fstack-usage",
+   "-MMD",
+   "-MP",
+   "-MFDrivers/STM32F0xx_HAL_Driver/stm32f0xx_hal_spi.d",
+   "-MTDrivers/STM32F0xx_HAL_Driver/stm32f0xx_hal_spi.o",
+   "--specs=nano.specs",
+   "-mfloat-abi=soft",
+   "-mthumb",
+   "-o",
+   "Drivers/STM32F0xx_HAL_Driver/stm32f0xx_hal_spi.o"
+  ],
+  "file": "/Users/msvc/Documents/code/tbots/MDV6_STSPIN/Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_spi.c"
  }
 ]
