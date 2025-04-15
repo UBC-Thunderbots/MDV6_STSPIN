@@ -1,2 +1,2 @@
-/Users/msvc/Documents/code/tbots/MDV6_STSPIN/MCSDK_v6.3.2-Full/MotorControl/MCSDK/MCLib/Any/Src/digital_output.c:45:13:DOUT_SetOutputState	8	static
-/Users/msvc/Documents/code/tbots/MDV6_STSPIN/MCSDK_v6.3.2-Full/MotorControl/MCSDK/MCLib/Any/Src/digital_output.c:85:23:DOUT_GetOutputState	0	static
+/home/msvc/Documents/tbots/MDV6_STSPIN/MCSDK_v6.3.2-Full/MotorControl/MCSDK/MCLib/Any/Src/digital_output.c:45:13:DOUT_SetOutputState	8	static
+/home/msvc/Documents/tbots/MDV6_STSPIN/MCSDK_v6.3.2-Full/MotorControl/MCSDK/MCLib/Any/Src/digital_output.c:85:23:DOUT_GetOutputState	0	static

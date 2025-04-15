@@ -43,7 +43,7 @@
 		<link>
 			<name>Application/User/firmware.c</name>
 			<type>1</type>
-			<location>/Users/msvc/Documents/code/tbots/MDV6_STSPIN/Src/firmware.c</location>
+			<locationURI>PARENT-1-PROJECT_LOC/Src/firmware.c</locationURI>
 		</link>
 		<link>
 			<name>Application/User/hall_speed_pos_fdbk.c</name>

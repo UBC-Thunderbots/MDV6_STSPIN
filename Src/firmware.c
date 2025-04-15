@@ -1,20 +1,26 @@
 #include "firmware.h"
-#include "../common/types.h"
-#include "stm32f0xx_hal.h"
-#include "stm32f0xx_hal_spi.h"
+
 #include <stdint.h>
 
-struct RawMessage {
-    enum OPCODES data[8];
-    uint8_t counter;
-};
+#include "../common/types.h"
+#include "stm32f0xx_hal.h"
 
 enum OPCODES mc_SPI_poll(SPI_HandleTypeDef *hspi) {
+    uint8_t sof = __mc_SPI_readByte(hspi);
+    if (sof == SPI_ERROR) {
+        return SPI_ERROR;
+    }
 }
 
-enum OPCODES __mc_SPI_readMessage(SPI_HandleTypeDef *hspi) {
+uint8_t __mc_SPI_readByte(SPI_HandleTypeDef *hspi) {
+    uint8_t rxByte;
+    HAL_StatusTypeDef status = HAL_SPI_Receive(hspi, &rxByte, 1, SPI_TIMEOUT);
 
+    if (status != HAL_OK) {
+        return SPI_ERROR;
+    }
+
+    return rxByte;
 }
 
-uint8_t SPITransmit(uint8_t tx) {
-}
+uint8_t SPITransmit(uint8_t tx) {}

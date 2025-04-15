@@ -1,3 +1,5 @@
+SHELL=/bin/bash
+
 build:
 	cd STM32CubeIDE/Debug/ && make -j10 all | compiledb
 

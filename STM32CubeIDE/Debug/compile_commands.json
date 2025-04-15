@@ -1,9 +1,9 @@
 [
  {
-  "directory": "/Users/msvc/Documents/code/tbots/MDV6_STSPIN/STM32CubeIDE/Debug",
+  "directory": "/home/msvc/Documents/tbots/MDV6_STSPIN/STM32CubeIDE/Debug",
   "arguments": [
    "arm-none-eabi-gcc",
-   "/Users/msvc/Documents/code/tbots/MDV6_STSPIN/MCSDK_v6.3.2-Full/MotorControl/MCSDK/MCLib/Any/Src/bus_voltage_sensor.c",
+   "/home/msvc/Documents/tbots/MDV6_STSPIN/MCSDK_v6.3.2-Full/MotorControl/MCSDK/MCLib/Any/Src/bus_voltage_sensor.c",
    "-mcpu=cortex-m0",
    "-std=gnu11",
    "-g",
@@ -35,13 +35,13 @@
    "-o",
    "Middlewares/MotorControl/bus_voltage_sensor.o"
   ],
-  "file": "/Users/msvc/Documents/code/tbots/MDV6_STSPIN/MCSDK_v6.3.2-Full/MotorControl/MCSDK/MCLib/Any/Src/bus_voltage_sensor.c"
+  "file": "/home/msvc/Documents/tbots/MDV6_STSPIN/MCSDK_v6.3.2-Full/MotorControl/MCSDK/MCLib/Any/Src/bus_voltage_sensor.c"
  },
  {
-  "directory": "/Users/msvc/Documents/code/tbots/MDV6_STSPIN/STM32CubeIDE/Debug",
+  "directory": "/home/msvc/Documents/tbots/MDV6_STSPIN/STM32CubeIDE/Debug",
   "arguments": [
    "arm-none-eabi-gcc",
-   "/Users/msvc/Documents/code/tbots/MDV6_STSPIN/MCSDK_v6.3.2-Full/MotorControl/MCSDK/MCLib/Any/Src/circle_limitation.c",
+   "/home/msvc/Documents/tbots/MDV6_STSPIN/MCSDK_v6.3.2-Full/MotorControl/MCSDK/MCLib/Any/Src/circle_limitation.c",
    "-mcpu=cortex-m0",
    "-std=gnu11",
    "-g",
@@ -73,13 +73,13 @@
    "-o",
    "Middlewares/MotorControl/circle_limitation.o"
   ],
-  "file": "/Users/msvc/Documents/code/tbots/MDV6_STSPIN/MCSDK_v6.3.2-Full/MotorControl/MCSDK/MCLib/Any/Src/circle_limitation.c"
+  "file": "/home/msvc/Documents/tbots/MDV6_STSPIN/MCSDK_v6.3.2-Full/MotorControl/MCSDK/MCLib/Any/Src/circle_limitation.c"
  },
  {
-  "directory": "/Users/msvc/Documents/code/tbots/MDV6_STSPIN/STM32CubeIDE/Debug",
+  "directory": "/home/msvc/Documents/tbots/MDV6_STSPIN/STM32CubeIDE/Debug",
   "arguments": [
    "arm-none-eabi-gcc",
-   "/Users/msvc/Documents/code/tbots/MDV6_STSPIN/MCSDK_v6.3.2-Full/MotorControl/MCSDK/MCLib/Any/Src/digital_output.c",
+   "/home/msvc/Documents/tbots/MDV6_STSPIN/MCSDK_v6.3.2-Full/MotorControl/MCSDK/MCLib/Any/Src/digital_output.c",
    "-mcpu=cortex-m0",
    "-std=gnu11",
    "-g",
@@ -111,13 +111,13 @@
    "-o",
    "Middlewares/MotorControl/digital_output.o"
   ],
-  "file": "/Users/msvc/Documents/code/tbots/MDV6_STSPIN/MCSDK_v6.3.2-Full/MotorControl/MCSDK/MCLib/Any/Src/digital_output.c"
+  "file": "/home/msvc/Documents/tbots/MDV6_STSPIN/MCSDK_v6.3.2-Full/MotorControl/MCSDK/MCLib/Any/Src/digital_output.c"
  },
  {
-  "directory": "/Users/msvc/Documents/code/tbots/MDV6_STSPIN/STM32CubeIDE/Debug",
+  "directory": "/home/msvc/Documents/tbots/MDV6_STSPIN/STM32CubeIDE/Debug",
   "arguments": [
    "arm-none-eabi-gcc",
-   "/Users/msvc/Documents/code/tbots/MDV6_STSPIN/MCSDK_v6.3.2-Full/MotorControl/MCSDK/MCLib/Any/Src/ntc_temperature_sensor.c",
+   "/home/msvc/Documents/tbots/MDV6_STSPIN/MCSDK_v6.3.2-Full/MotorControl/MCSDK/MCLib/Any/Src/ntc_temperature_sensor.c",
    "-mcpu=cortex-m0",
    "-std=gnu11",
    "-g",
@@ -149,13 +149,13 @@
    "-o",
    "Middlewares/MotorControl/ntc_temperature_sensor.o"
   ],
-  "file": "/Users/msvc/Documents/code/tbots/MDV6_STSPIN/MCSDK_v6.3.2-Full/MotorControl/MCSDK/MCLib/Any/Src/ntc_temperature_sensor.c"
+  "file": "/home/msvc/Documents/tbots/MDV6_STSPIN/MCSDK_v6.3.2-Full/MotorControl/MCSDK/MCLib/Any/Src/ntc_temperature_sensor.c"
  },
  {
-  "directory": "/Users/msvc/Documents/code/tbots/MDV6_STSPIN/STM32CubeIDE/Debug",
+  "directory": "/home/msvc/Documents/tbots/MDV6_STSPIN/STM32CubeIDE/Debug",
   "arguments": [
    "arm-none-eabi-gcc",
-   "/Users/msvc/Documents/code/tbots/MDV6_STSPIN/MCSDK_v6.3.2-Full/MotorControl/MCSDK/MCLib/Any/Src/open_loop.c",
+   "/home/msvc/Documents/tbots/MDV6_STSPIN/MCSDK_v6.3.2-Full/MotorControl/MCSDK/MCLib/Any/Src/open_loop.c",
    "-mcpu=cortex-m0",
    "-std=gnu11",
    "-g",
@@ -187,13 +187,13 @@
    "-o",
    "Middlewares/MotorControl/open_loop.o"
   ],
-  "file": "/Users/msvc/Documents/code/tbots/MDV6_STSPIN/MCSDK_v6.3.2-Full/MotorControl/MCSDK/MCLib/Any/Src/open_loop.c"
+  "file": "/home/msvc/Documents/tbots/MDV6_STSPIN/MCSDK_v6.3.2-Full/MotorControl/MCSDK/MCLib/Any/Src/open_loop.c"
  },
  {
-  "directory": "/Users/msvc/Documents/code/tbots/MDV6_STSPIN/STM32CubeIDE/Debug",
+  "directory": "/home/msvc/Documents/tbots/MDV6_STSPIN/STM32CubeIDE/Debug",
   "arguments": [
    "arm-none-eabi-gcc",
-   "/Users/msvc/Documents/code/tbots/MDV6_STSPIN/MCSDK_v6.3.2-Full/MotorControl/MCSDK/MCLib/Any/Src/pid_regulator.c",
+   "/home/msvc/Documents/tbots/MDV6_STSPIN/MCSDK_v6.3.2-Full/MotorControl/MCSDK/MCLib/Any/Src/pid_regulator.c",
    "-mcpu=cortex-m0",
    "-std=gnu11",
    "-g",
@@ -225,13 +225,13 @@
    "-o",
    "Middlewares/MotorControl/pid_regulator.o"
   ],
-  "file": "/Users/msvc/Documents/code/tbots/MDV6_STSPIN/MCSDK_v6.3.2-Full/MotorControl/MCSDK/MCLib/Any/Src/pid_regulator.c"
+  "file": "/home/msvc/Documents/tbots/MDV6_STSPIN/MCSDK_v6.3.2-Full/MotorControl/MCSDK/MCLib/Any/Src/pid_regulator.c"
  },
  {
-  "directory": "/Users/msvc/Documents/code/tbots/MDV6_STSPIN/STM32CubeIDE/Debug",
+  "directory": "/home/msvc/Documents/tbots/MDV6_STSPIN/STM32CubeIDE/Debug",
   "arguments": [
    "arm-none-eabi-gcc",
-   "/Users/msvc/Documents/code/tbots/MDV6_STSPIN/MCSDK_v6.3.2-Full/MotorControl/MCSDK/MCLib/Any/Src/pqd_motor_power_measurement.c",
+   "/home/msvc/Documents/tbots/MDV6_STSPIN/MCSDK_v6.3.2-Full/MotorControl/MCSDK/MCLib/Any/Src/pqd_motor_power_measurement.c",
    "-mcpu=cortex-m0",
    "-std=gnu11",
    "-g",
@@ -263,13 +263,13 @@
    "-o",
    "Middlewares/MotorControl/pqd_motor_power_measurement.o"
   ],
-  "file": "/Users/msvc/Documents/code/tbots/MDV6_STSPIN/MCSDK_v6.3.2-Full/MotorControl/MCSDK/MCLib/Any/Src/pqd_motor_power_measurement.c"
+  "file": "/home/msvc/Documents/tbots/MDV6_STSPIN/MCSDK_v6.3.2-Full/MotorControl/MCSDK/MCLib/Any/Src/pqd_motor_power_measurement.c"
  },
  {
-  "directory": "/Users/msvc/Documents/code/tbots/MDV6_STSPIN/STM32CubeIDE/Debug",
+  "directory": "/home/msvc/Documents/tbots/MDV6_STSPIN/STM32CubeIDE/Debug",
   "arguments": [
    "arm-none-eabi-gcc",
-   "/Users/msvc/Documents/code/tbots/MDV6_STSPIN/MCSDK_v6.3.2-Full/MotorControl/MCSDK/MCLib/Any/Src/ramp_ext_mngr.c",
+   "/home/msvc/Documents/tbots/MDV6_STSPIN/MCSDK_v6.3.2-Full/MotorControl/MCSDK/MCLib/Any/Src/ramp_ext_mngr.c",
    "-mcpu=cortex-m0",
    "-std=gnu11",
    "-g",
@@ -301,13 +301,13 @@
    "-o",
    "Middlewares/MotorControl/ramp_ext_mngr.o"
   ],
-  "file": "/Users/msvc/Documents/code/tbots/MDV6_STSPIN/MCSDK_v6.3.2-Full/MotorControl/MCSDK/MCLib/Any/Src/ramp_ext_mngr.c"
+  "file": "/home/msvc/Documents/tbots/MDV6_STSPIN/MCSDK_v6.3.2-Full/MotorControl/MCSDK/MCLib/Any/Src/ramp_ext_mngr.c"
  },
  {
-  "directory": "/Users/msvc/Documents/code/tbots/MDV6_STSPIN/STM32CubeIDE/Debug",
+  "directory": "/home/msvc/Documents/tbots/MDV6_STSPIN/STM32CubeIDE/Debug",
   "arguments": [
    "arm-none-eabi-gcc",
-   "/Users/msvc/Documents/code/tbots/MDV6_STSPIN/MCSDK_v6.3.2-Full/MotorControl/MCSDK/MCLib/Any/Src/revup_ctrl.c",
+   "/home/msvc/Documents/tbots/MDV6_STSPIN/MCSDK_v6.3.2-Full/MotorControl/MCSDK/MCLib/Any/Src/revup_ctrl.c",
    "-mcpu=cortex-m0",
    "-std=gnu11",
    "-g",
@@ -339,13 +339,13 @@
    "-o",
    "Middlewares/MotorControl/revup_ctrl.o"
   ],
-  "file": "/Users/msvc/Documents/code/tbots/MDV6_STSPIN/MCSDK_v6.3.2-Full/MotorControl/MCSDK/MCLib/Any/Src/revup_ctrl.c"
+  "file": "/home/msvc/Documents/tbots/MDV6_STSPIN/MCSDK_v6.3.2-Full/MotorControl/MCSDK/MCLib/Any/Src/revup_ctrl.c"
  },
  {
-  "directory": "/Users/msvc/Documents/code/tbots/MDV6_STSPIN/STM32CubeIDE/Debug",
+  "directory": "/home/msvc/Documents/tbots/MDV6_STSPIN/STM32CubeIDE/Debug",
   "arguments": [
    "arm-none-eabi-gcc",
-   "/Users/msvc/Documents/code/tbots/MDV6_STSPIN/MCSDK_v6.3.2-Full/MotorControl/MCSDK/MCLib/Any/Src/speed_pos_fdbk.c",
+   "/home/msvc/Documents/tbots/MDV6_STSPIN/MCSDK_v6.3.2-Full/MotorControl/MCSDK/MCLib/Any/Src/speed_pos_fdbk.c",
    "-mcpu=cortex-m0",
    "-std=gnu11",
    "-g",
@@ -377,13 +377,13 @@
    "-o",
    "Middlewares/MotorControl/speed_pos_fdbk.o"
   ],
-  "file": "/Users/msvc/Documents/code/tbots/MDV6_STSPIN/MCSDK_v6.3.2-Full/MotorControl/MCSDK/MCLib/Any/Src/speed_pos_fdbk.c"
+  "file": "/home/msvc/Documents/tbots/MDV6_STSPIN/MCSDK_v6.3.2-Full/MotorControl/MCSDK/MCLib/Any/Src/speed_pos_fdbk.c"
  },
  {
-  "directory": "/Users/msvc/Documents/code/tbots/MDV6_STSPIN/STM32CubeIDE/Debug",
+  "directory": "/home/msvc/Documents/tbots/MDV6_STSPIN/STM32CubeIDE/Debug",
   "arguments": [
    "arm-none-eabi-gcc",
-   "/Users/msvc/Documents/code/tbots/MDV6_STSPIN/MCSDK_v6.3.2-Full/MotorControl/MCSDK/MCLib/Any/Src/speed_torq_ctrl.c",
+   "/home/msvc/Documents/tbots/MDV6_STSPIN/MCSDK_v6.3.2-Full/MotorControl/MCSDK/MCLib/Any/Src/speed_torq_ctrl.c",
    "-mcpu=cortex-m0",
    "-std=gnu11",
    "-g",
@@ -415,13 +415,13 @@
    "-o",
    "Middlewares/MotorControl/speed_torq_ctrl.o"
   ],
-  "file": "/Users/msvc/Documents/code/tbots/MDV6_STSPIN/MCSDK_v6.3.2-Full/MotorControl/MCSDK/MCLib/Any/Src/speed_torq_ctrl.c"
+  "file": "/home/msvc/Documents/tbots/MDV6_STSPIN/MCSDK_v6.3.2-Full/MotorControl/MCSDK/MCLib/Any/Src/speed_torq_ctrl.c"
  },
  {
-  "directory": "/Users/msvc/Documents/code/tbots/MDV6_STSPIN/STM32CubeIDE/Debug",
+  "directory": "/home/msvc/Documents/tbots/MDV6_STSPIN/STM32CubeIDE/Debug",
   "arguments": [
    "arm-none-eabi-gcc",
-   "/Users/msvc/Documents/code/tbots/MDV6_STSPIN/MCSDK_v6.3.2-Full/MotorControl/MCSDK/MCLib/Any/Src/virtual_bus_voltage_sensor.c",
+   "/home/msvc/Documents/tbots/MDV6_STSPIN/MCSDK_v6.3.2-Full/MotorControl/MCSDK/MCLib/Any/Src/virtual_bus_voltage_sensor.c",
    "-mcpu=cortex-m0",
    "-std=gnu11",
    "-g",
@@ -453,13 +453,13 @@
    "-o",
    "Middlewares/MotorControl/virtual_bus_voltage_sensor.o"
   ],
-  "file": "/Users/msvc/Documents/code/tbots/MDV6_STSPIN/MCSDK_v6.3.2-Full/MotorControl/MCSDK/MCLib/Any/Src/virtual_bus_voltage_sensor.c"
+  "file": "/home/msvc/Documents/tbots/MDV6_STSPIN/MCSDK_v6.3.2-Full/MotorControl/MCSDK/MCLib/Any/Src/virtual_bus_voltage_sensor.c"
  },
  {
-  "directory": "/Users/msvc/Documents/code/tbots/MDV6_STSPIN/STM32CubeIDE/Debug",
+  "directory": "/home/msvc/Documents/tbots/MDV6_STSPIN/STM32CubeIDE/Debug",
   "arguments": [
    "arm-none-eabi-gcc",
-   "/Users/msvc/Documents/code/tbots/MDV6_STSPIN/MCSDK_v6.3.2-Full/MotorControl/MCSDK/MCLib/Any/Src/virtual_speed_sensor.c",
+   "/home/msvc/Documents/tbots/MDV6_STSPIN/MCSDK_v6.3.2-Full/MotorControl/MCSDK/MCLib/Any/Src/virtual_speed_sensor.c",
    "-mcpu=cortex-m0",
    "-std=gnu11",
    "-g",
@@ -491,13 +491,13 @@
    "-o",
    "Middlewares/MotorControl/virtual_speed_sensor.o"
   ],
-  "file": "/Users/msvc/Documents/code/tbots/MDV6_STSPIN/MCSDK_v6.3.2-Full/MotorControl/MCSDK/MCLib/Any/Src/virtual_speed_sensor.c"
+  "file": "/home/msvc/Documents/tbots/MDV6_STSPIN/MCSDK_v6.3.2-Full/MotorControl/MCSDK/MCLib/Any/Src/virtual_speed_sensor.c"
  },
  {
-  "directory": "/Users/msvc/Documents/code/tbots/MDV6_STSPIN/STM32CubeIDE/Debug",
+  "directory": "/home/msvc/Documents/tbots/MDV6_STSPIN/STM32CubeIDE/Debug",
   "arguments": [
    "arm-none-eabi-gcc",
-   "/Users/msvc/Documents/code/tbots/MDV6_STSPIN/Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal.c",
+   "/home/msvc/Documents/tbots/MDV6_STSPIN/Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal.c",
    "-mcpu=cortex-m0",
    "-std=gnu11",
    "-g",
@@ -529,13 +529,13 @@
    "-o",
    "Drivers/STM32F0xx_HAL_Driver/stm32f0xx_hal.o"
   ],
-  "file": "/Users/msvc/Documents/code/tbots/MDV6_STSPIN/Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal.c"
+  "file": "/home/msvc/Documents/tbots/MDV6_STSPIN/Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal.c"
  },
  {
-  "directory": "/Users/msvc/Documents/code/tbots/MDV6_STSPIN/STM32CubeIDE/Debug",
+  "directory": "/home/msvc/Documents/tbots/MDV6_STSPIN/STM32CubeIDE/Debug",
   "arguments": [
    "arm-none-eabi-gcc",
-   "/Users/msvc/Documents/code/tbots/MDV6_STSPIN/Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_cortex.c",
+   "/home/msvc/Documents/tbots/MDV6_STSPIN/Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_cortex.c",
    "-mcpu=cortex-m0",
    "-std=gnu11",
    "-g",
@@ -567,13 +567,13 @@
    "-o",
    "Drivers/STM32F0xx_HAL_Driver/stm32f0xx_hal_cortex.o"
   ],
-  "file": "/Users/msvc/Documents/code/tbots/MDV6_STSPIN/Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_cortex.c"
+  "file": "/home/msvc/Documents/tbots/MDV6_STSPIN/Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_cortex.c"
  },
  {
-  "directory": "/Users/msvc/Documents/code/tbots/MDV6_STSPIN/STM32CubeIDE/Debug",
+  "directory": "/home/msvc/Documents/tbots/MDV6_STSPIN/STM32CubeIDE/Debug",
   "arguments": [
    "arm-none-eabi-gcc",
-   "/Users/msvc/Documents/code/tbots/MDV6_STSPIN/Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_dma.c",
+   "/home/msvc/Documents/tbots/MDV6_STSPIN/Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_dma.c",
    "-mcpu=cortex-m0",
    "-std=gnu11",
    "-g",
@@ -605,13 +605,13 @@
    "-o",
    "Drivers/STM32F0xx_HAL_Driver/stm32f0xx_hal_dma.o"
   ],
-  "file": "/Users/msvc/Documents/code/tbots/MDV6_STSPIN/Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_dma.c"
+  "file": "/home/msvc/Documents/tbots/MDV6_STSPIN/Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_dma.c"
  },
  {
-  "directory": "/Users/msvc/Documents/code/tbots/MDV6_STSPIN/STM32CubeIDE/Debug",
+  "directory": "/home/msvc/Documents/tbots/MDV6_STSPIN/STM32CubeIDE/Debug",
   "arguments": [
    "arm-none-eabi-gcc",
-   "/Users/msvc/Documents/code/tbots/MDV6_STSPIN/Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c",
+   "/home/msvc/Documents/tbots/MDV6_STSPIN/Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c",
    "-mcpu=cortex-m0",
    "-std=gnu11",
    "-g",
@@ -643,13 +643,13 @@
    "-o",
    "Drivers/STM32F0xx_HAL_Driver/stm32f0xx_hal_exti.o"
   ],
-  "file": "/Users/msvc/Documents/code/tbots/MDV6_STSPIN/Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c"
+  "file": "/home/msvc/Documents/tbots/MDV6_STSPIN/Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c"
  },
  {
-  "directory": "/Users/msvc/Documents/code/tbots/MDV6_STSPIN/STM32CubeIDE/Debug",
+  "directory": "/home/msvc/Documents/tbots/MDV6_STSPIN/STM32CubeIDE/Debug",
   "arguments": [
    "arm-none-eabi-gcc",
-   "/Users/msvc/Documents/code/tbots/MDV6_STSPIN/Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_flash.c",
+   "/home/msvc/Documents/tbots/MDV6_STSPIN/Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_flash.c",
    "-mcpu=cortex-m0",
    "-std=gnu11",
    "-g",
@@ -681,13 +681,13 @@
    "-o",
    "Drivers/STM32F0xx_HAL_Driver/stm32f0xx_hal_flash.o"
   ],
-  "file": "/Users/msvc/Documents/code/tbots/MDV6_STSPIN/Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_flash.c"
+  "file": "/home/msvc/Documents/tbots/MDV6_STSPIN/Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_flash.c"
  },
  {
-  "directory": "/Users/msvc/Documents/code/tbots/MDV6_STSPIN/STM32CubeIDE/Debug",
+  "directory": "/home/msvc/Documents/tbots/MDV6_STSPIN/STM32CubeIDE/Debug",
   "arguments": [
    "arm-none-eabi-gcc",
-   "/Users/msvc/Documents/code/tbots/MDV6_STSPIN/Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_flash_ex.c",
+   "/home/msvc/Documents/tbots/MDV6_STSPIN/Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_flash_ex.c",
    "-mcpu=cortex-m0",
    "-std=gnu11",
    "-g",
@@ -719,13 +719,13 @@
    "-o",
    "Drivers/STM32F0xx_HAL_Driver/stm32f0xx_hal_flash_ex.o"
   ],
-  "file": "/Users/msvc/Documents/code/tbots/MDV6_STSPIN/Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_flash_ex.c"
+  "file": "/home/msvc/Documents/tbots/MDV6_STSPIN/Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_flash_ex.c"
  },
  {
-  "directory": "/Users/msvc/Documents/code/tbots/MDV6_STSPIN/STM32CubeIDE/Debug",
+  "directory": "/home/msvc/Documents/tbots/MDV6_STSPIN/STM32CubeIDE/Debug",
   "arguments": [
    "arm-none-eabi-gcc",
-   "/Users/msvc/Documents/code/tbots/MDV6_STSPIN/Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_gpio.c",
+   "/home/msvc/Documents/tbots/MDV6_STSPIN/Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_gpio.c",
    "-mcpu=cortex-m0",
    "-std=gnu11",
    "-g",
@@ -757,13 +757,13 @@
    "-o",
    "Drivers/STM32F0xx_HAL_Driver/stm32f0xx_hal_gpio.o"
   ],
-  "file": "/Users/msvc/Documents/code/tbots/MDV6_STSPIN/Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_gpio.c"
+  "file": "/home/msvc/Documents/tbots/MDV6_STSPIN/Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_gpio.c"
  },
  {
-  "directory": "/Users/msvc/Documents/code/tbots/MDV6_STSPIN/STM32CubeIDE/Debug",
+  "directory": "/home/msvc/Documents/tbots/MDV6_STSPIN/STM32CubeIDE/Debug",
   "arguments": [
    "arm-none-eabi-gcc",
-   "/Users/msvc/Documents/code/tbots/MDV6_STSPIN/Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_i2c.c",
+   "/home/msvc/Documents/tbots/MDV6_STSPIN/Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_i2c.c",
    "-mcpu=cortex-m0",
    "-std=gnu11",
    "-g",
@@ -795,13 +795,13 @@
    "-o",
    "Drivers/STM32F0xx_HAL_Driver/stm32f0xx_hal_i2c.o"
   ],
-  "file": "/Users/msvc/Documents/code/tbots/MDV6_STSPIN/Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_i2c.c"
+  "file": "/home/msvc/Documents/tbots/MDV6_STSPIN/Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_i2c.c"
  },
  {
-  "directory": "/Users/msvc/Documents/code/tbots/MDV6_STSPIN/STM32CubeIDE/Debug",
+  "directory": "/home/msvc/Documents/tbots/MDV6_STSPIN/STM32CubeIDE/Debug",
   "arguments": [
    "arm-none-eabi-gcc",
-   "/Users/msvc/Documents/code/tbots/MDV6_STSPIN/Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_i2c_ex.c",
+   "/home/msvc/Documents/tbots/MDV6_STSPIN/Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_i2c_ex.c",
    "-mcpu=cortex-m0",
    "-std=gnu11",
    "-g",
@@ -833,13 +833,13 @@
    "-o",
    "Drivers/STM32F0xx_HAL_Driver/stm32f0xx_hal_i2c_ex.o"
   ],
-  "file": "/Users/msvc/Documents/code/tbots/MDV6_STSPIN/Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_i2c_ex.c"
+  "file": "/home/msvc/Documents/tbots/MDV6_STSPIN/Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_i2c_ex.c"
  },
  {
-  "directory": "/Users/msvc/Documents/code/tbots/MDV6_STSPIN/STM32CubeIDE/Debug",
+  "directory": "/home/msvc/Documents/tbots/MDV6_STSPIN/STM32CubeIDE/Debug",
   "arguments": [
    "arm-none-eabi-gcc",
-   "/Users/msvc/Documents/code/tbots/MDV6_STSPIN/Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_pwr.c",
+   "/home/msvc/Documents/tbots/MDV6_STSPIN/Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_pwr.c",
    "-mcpu=cortex-m0",
    "-std=gnu11",
    "-g",
@@ -871,13 +871,13 @@
    "-o",
    "Drivers/STM32F0xx_HAL_Driver/stm32f0xx_hal_pwr.o"
   ],
-  "file": "/Users/msvc/Documents/code/tbots/MDV6_STSPIN/Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_pwr.c"
+  "file": "/home/msvc/Documents/tbots/MDV6_STSPIN/Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_pwr.c"
  },
  {
-  "directory": "/Users/msvc/Documents/code/tbots/MDV6_STSPIN/STM32CubeIDE/Debug",
+  "directory": "/home/msvc/Documents/tbots/MDV6_STSPIN/STM32CubeIDE/Debug",
   "arguments": [
    "arm-none-eabi-gcc",
-   "/Users/msvc/Documents/code/tbots/MDV6_STSPIN/Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_pwr_ex.c",
+   "/home/msvc/Documents/tbots/MDV6_STSPIN/Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_pwr_ex.c",
    "-mcpu=cortex-m0",
    "-std=gnu11",
    "-g",
@@ -909,13 +909,13 @@
    "-o",
    "Drivers/STM32F0xx_HAL_Driver/stm32f0xx_hal_pwr_ex.o"
   ],
-  "file": "/Users/msvc/Documents/code/tbots/MDV6_STSPIN/Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_pwr_ex.c"
+  "file": "/home/msvc/Documents/tbots/MDV6_STSPIN/Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_pwr_ex.c"
  },
  {
-  "directory": "/Users/msvc/Documents/code/tbots/MDV6_STSPIN/STM32CubeIDE/Debug",
+  "directory": "/home/msvc/Documents/tbots/MDV6_STSPIN/STM32CubeIDE/Debug",
   "arguments": [
    "arm-none-eabi-gcc",
-   "/Users/msvc/Documents/code/tbots/MDV6_STSPIN/Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_rcc.c",
+   "/home/msvc/Documents/tbots/MDV6_STSPIN/Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_rcc.c",
    "-mcpu=cortex-m0",
    "-std=gnu11",
    "-g",
@@ -947,13 +947,13 @@
    "-o",
    "Drivers/STM32F0xx_HAL_Driver/stm32f0xx_hal_rcc.o"
   ],
-  "file": "/Users/msvc/Documents/code/tbots/MDV6_STSPIN/Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_rcc.c"
+  "file": "/home/msvc/Documents/tbots/MDV6_STSPIN/Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_rcc.c"
  },
  {
-  "directory": "/Users/msvc/Documents/code/tbots/MDV6_STSPIN/STM32CubeIDE/Debug",
+  "directory": "/home/msvc/Documents/tbots/MDV6_STSPIN/STM32CubeIDE/Debug",
   "arguments": [
    "arm-none-eabi-gcc",
-   "/Users/msvc/Documents/code/tbots/MDV6_STSPIN/Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_rcc_ex.c",
+   "/home/msvc/Documents/tbots/MDV6_STSPIN/Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_rcc_ex.c",
    "-mcpu=cortex-m0",
    "-std=gnu11",
    "-g",
@@ -985,13 +985,51 @@
    "-o",
    "Drivers/STM32F0xx_HAL_Driver/stm32f0xx_hal_rcc_ex.o"
   ],
-  "file": "/Users/msvc/Documents/code/tbots/MDV6_STSPIN/Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_rcc_ex.c"
+  "file": "/home/msvc/Documents/tbots/MDV6_STSPIN/Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_rcc_ex.c"
  },
  {
-  "directory": "/Users/msvc/Documents/code/tbots/MDV6_STSPIN/STM32CubeIDE/Debug",
+  "directory": "/home/msvc/Documents/tbots/MDV6_STSPIN/STM32CubeIDE/Debug",
   "arguments": [
    "arm-none-eabi-gcc",
-   "/Users/msvc/Documents/code/tbots/MDV6_STSPIN/Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_tim.c",
+   "/home/msvc/Documents/tbots/MDV6_STSPIN/Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_spi.c",
+   "-mcpu=cortex-m0",
+   "-std=gnu11",
+   "-g",
+   "-DDEBUG",
+   "-DARM_MATH_CM0",
+   "-DUSE_FULL_LL_DRIVER",
+   "-DUSE_HAL_DRIVER",
+   "-DSTM32F031x6",
+   "-c",
+   "-I../../Inc",
+   "-I../../Drivers/STM32F0xx_HAL_Driver/Inc",
+   "-I../../Drivers/STM32F0xx_HAL_Driver/Inc/Legacy",
+   "-I../../MCSDK_v6.3.2-Full/MotorControl/MCSDK/MCLib/Any/Inc",
+   "-I../../Drivers/CMSIS/Device/ST/STM32F0xx/Include",
+   "-I../../Drivers/CMSIS/Include",
+   "-I../../Drivers/CMSIS/DSP/Include",
+   "-Ofast",
+   "-ffunction-sections",
+   "-fdata-sections",
+   "-Wall",
+   "-fstack-usage",
+   "-MMD",
+   "-MP",
+   "-MFDrivers/STM32F0xx_HAL_Driver/stm32f0xx_hal_spi.d",
+   "-MTDrivers/STM32F0xx_HAL_Driver/stm32f0xx_hal_spi.o",
+   "--specs=nano.specs",
+   "-mfloat-abi=soft",
+   "-mthumb",
+   "-o",
+   "Drivers/STM32F0xx_HAL_Driver/stm32f0xx_hal_spi.o"
+  ],
+  "file": "/home/msvc/Documents/tbots/MDV6_STSPIN/Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_spi.c"
+ },
+ {
+  "directory": "/home/msvc/Documents/tbots/MDV6_STSPIN/STM32CubeIDE/Debug",
+  "arguments": [
+   "arm-none-eabi-gcc",
+   "/home/msvc/Documents/tbots/MDV6_STSPIN/Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_tim.c",
    "-mcpu=cortex-m0",
    "-std=gnu11",
    "-g",
@@ -1023,13 +1061,13 @@
    "-o",
    "Drivers/STM32F0xx_HAL_Driver/stm32f0xx_hal_tim.o"
   ],
-  "file": "/Users/msvc/Documents/code/tbots/MDV6_STSPIN/Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_tim.c"
+  "file": "/home/msvc/Documents/tbots/MDV6_STSPIN/Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_tim.c"
  },
  {
-  "directory": "/Users/msvc/Documents/code/tbots/MDV6_STSPIN/STM32CubeIDE/Debug",
+  "directory": "/home/msvc/Documents/tbots/MDV6_STSPIN/STM32CubeIDE/Debug",
   "arguments": [
    "arm-none-eabi-gcc",
-   "/Users/msvc/Documents/code/tbots/MDV6_STSPIN/Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_tim_ex.c",
+   "/home/msvc/Documents/tbots/MDV6_STSPIN/Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_tim_ex.c",
    "-mcpu=cortex-m0",
    "-std=gnu11",
    "-g",
@@ -1061,13 +1099,13 @@
    "-o",
    "Drivers/STM32F0xx_HAL_Driver/stm32f0xx_hal_tim_ex.o"
   ],
-  "file": "/Users/msvc/Documents/code/tbots/MDV6_STSPIN/Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_tim_ex.c"
+  "file": "/home/msvc/Documents/tbots/MDV6_STSPIN/Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_tim_ex.c"
  },
  {
-  "directory": "/Users/msvc/Documents/code/tbots/MDV6_STSPIN/STM32CubeIDE/Debug",
+  "directory": "/home/msvc/Documents/tbots/MDV6_STSPIN/STM32CubeIDE/Debug",
   "arguments": [
    "arm-none-eabi-gcc",
-   "/Users/msvc/Documents/code/tbots/MDV6_STSPIN/Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_ll_adc.c",
+   "/home/msvc/Documents/tbots/MDV6_STSPIN/Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_ll_adc.c",
    "-mcpu=cortex-m0",
    "-std=gnu11",
    "-g",
@@ -1099,13 +1137,13 @@
    "-o",
    "Drivers/STM32F0xx_HAL_Driver/stm32f0xx_ll_adc.o"
   ],
-  "file": "/Users/msvc/Documents/code/tbots/MDV6_STSPIN/Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_ll_adc.c"
+  "file": "/home/msvc/Documents/tbots/MDV6_STSPIN/Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_ll_adc.c"
  },
  {
-  "directory": "/Users/msvc/Documents/code/tbots/MDV6_STSPIN/STM32CubeIDE/Debug",
+  "directory": "/home/msvc/Documents/tbots/MDV6_STSPIN/STM32CubeIDE/Debug",
   "arguments": [
    "arm-none-eabi-gcc",
-   "/Users/msvc/Documents/code/tbots/MDV6_STSPIN/Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_ll_dma.c",
+   "/home/msvc/Documents/tbots/MDV6_STSPIN/Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_ll_dma.c",
    "-mcpu=cortex-m0",
    "-std=gnu11",
    "-g",
@@ -1137,13 +1175,13 @@
    "-o",
    "Drivers/STM32F0xx_HAL_Driver/stm32f0xx_ll_dma.o"
   ],
-  "file": "/Users/msvc/Documents/code/tbots/MDV6_STSPIN/Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_ll_dma.c"
+  "file": "/home/msvc/Documents/tbots/MDV6_STSPIN/Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_ll_dma.c"
  },
  {
-  "directory": "/Users/msvc/Documents/code/tbots/MDV6_STSPIN/STM32CubeIDE/Debug",
+  "directory": "/home/msvc/Documents/tbots/MDV6_STSPIN/STM32CubeIDE/Debug",
   "arguments": [
    "arm-none-eabi-gcc",
-   "/Users/msvc/Documents/code/tbots/MDV6_STSPIN/Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_ll_exti.c",
+   "/home/msvc/Documents/tbots/MDV6_STSPIN/Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_ll_exti.c",
    "-mcpu=cortex-m0",
    "-std=gnu11",
    "-g",
@@ -1175,13 +1213,13 @@
    "-o",
    "Drivers/STM32F0xx_HAL_Driver/stm32f0xx_ll_exti.o"
   ],
-  "file": "/Users/msvc/Documents/code/tbots/MDV6_STSPIN/Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_ll_exti.c"
+  "file": "/home/msvc/Documents/tbots/MDV6_STSPIN/Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_ll_exti.c"
  },
  {
-  "directory": "/Users/msvc/Documents/code/tbots/MDV6_STSPIN/STM32CubeIDE/Debug",
+  "directory": "/home/msvc/Documents/tbots/MDV6_STSPIN/STM32CubeIDE/Debug",
   "arguments": [
    "arm-none-eabi-gcc",
-   "/Users/msvc/Documents/code/tbots/MDV6_STSPIN/Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_ll_gpio.c",
+   "/home/msvc/Documents/tbots/MDV6_STSPIN/Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_ll_gpio.c",
    "-mcpu=cortex-m0",
    "-std=gnu11",
    "-g",
@@ -1213,13 +1251,13 @@
    "-o",
    "Drivers/STM32F0xx_HAL_Driver/stm32f0xx_ll_gpio.o"
   ],
-  "file": "/Users/msvc/Documents/code/tbots/MDV6_STSPIN/Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_ll_gpio.c"
+  "file": "/home/msvc/Documents/tbots/MDV6_STSPIN/Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_ll_gpio.c"
  },
  {
-  "directory": "/Users/msvc/Documents/code/tbots/MDV6_STSPIN/STM32CubeIDE/Debug",
+  "directory": "/home/msvc/Documents/tbots/MDV6_STSPIN/STM32CubeIDE/Debug",
   "arguments": [
    "arm-none-eabi-gcc",
-   "/Users/msvc/Documents/code/tbots/MDV6_STSPIN/Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_ll_rcc.c",
+   "/home/msvc/Documents/tbots/MDV6_STSPIN/Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_ll_rcc.c",
    "-mcpu=cortex-m0",
    "-std=gnu11",
    "-g",
@@ -1251,13 +1289,13 @@
    "-o",
    "Drivers/STM32F0xx_HAL_Driver/stm32f0xx_ll_rcc.o"
   ],
-  "file": "/Users/msvc/Documents/code/tbots/MDV6_STSPIN/Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_ll_rcc.c"
+  "file": "/home/msvc/Documents/tbots/MDV6_STSPIN/Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_ll_rcc.c"
  },
  {
-  "directory": "/Users/msvc/Documents/code/tbots/MDV6_STSPIN/STM32CubeIDE/Debug",
+  "directory": "/home/msvc/Documents/tbots/MDV6_STSPIN/STM32CubeIDE/Debug",
   "arguments": [
    "arm-none-eabi-gcc",
-   "/Users/msvc/Documents/code/tbots/MDV6_STSPIN/Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_ll_tim.c",
+   "/home/msvc/Documents/tbots/MDV6_STSPIN/Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_ll_tim.c",
    "-mcpu=cortex-m0",
    "-std=gnu11",
    "-g",
@@ -1289,13 +1327,13 @@
    "-o",
    "Drivers/STM32F0xx_HAL_Driver/stm32f0xx_ll_tim.o"
   ],
-  "file": "/Users/msvc/Documents/code/tbots/MDV6_STSPIN/Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_ll_tim.c"
+  "file": "/home/msvc/Documents/tbots/MDV6_STSPIN/Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_ll_tim.c"
  },
  {
-  "directory": "/Users/msvc/Documents/code/tbots/MDV6_STSPIN/STM32CubeIDE/Debug",
+  "directory": "/home/msvc/Documents/tbots/MDV6_STSPIN/STM32CubeIDE/Debug",
   "arguments": [
    "arm-none-eabi-gcc",
-   "/Users/msvc/Documents/code/tbots/MDV6_STSPIN/Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_ll_usart.c",
+   "/home/msvc/Documents/tbots/MDV6_STSPIN/Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_ll_usart.c",
    "-mcpu=cortex-m0",
    "-std=gnu11",
    "-g",
@@ -1327,13 +1365,13 @@
    "-o",
    "Drivers/STM32F0xx_HAL_Driver/stm32f0xx_ll_usart.o"
   ],
-  "file": "/Users/msvc/Documents/code/tbots/MDV6_STSPIN/Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_ll_usart.c"
+  "file": "/home/msvc/Documents/tbots/MDV6_STSPIN/Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_ll_usart.c"
  },
  {
-  "directory": "/Users/msvc/Documents/code/tbots/MDV6_STSPIN/STM32CubeIDE/Debug",
+  "directory": "/home/msvc/Documents/tbots/MDV6_STSPIN/STM32CubeIDE/Debug",
   "arguments": [
    "arm-none-eabi-gcc",
-   "/Users/msvc/Documents/code/tbots/MDV6_STSPIN/Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_ll_utils.c",
+   "/home/msvc/Documents/tbots/MDV6_STSPIN/Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_ll_utils.c",
    "-mcpu=cortex-m0",
    "-std=gnu11",
    "-g",
@@ -1365,13 +1403,13 @@
    "-o",
    "Drivers/STM32F0xx_HAL_Driver/stm32f0xx_ll_utils.o"
   ],
-  "file": "/Users/msvc/Documents/code/tbots/MDV6_STSPIN/Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_ll_utils.c"
+  "file": "/home/msvc/Documents/tbots/MDV6_STSPIN/Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_ll_utils.c"
  },
  {
-  "directory": "/Users/msvc/Documents/code/tbots/MDV6_STSPIN/STM32CubeIDE/Debug",
+  "directory": "/home/msvc/Documents/tbots/MDV6_STSPIN/STM32CubeIDE/Debug",
   "arguments": [
    "arm-none-eabi-gcc",
-   "/Users/msvc/Documents/code/tbots/MDV6_STSPIN/Src/system_stm32f0xx.c",
+   "/home/msvc/Documents/tbots/MDV6_STSPIN/Src/system_stm32f0xx.c",
    "-mcpu=cortex-m0",
    "-std=gnu11",
    "-g",
@@ -1403,13 +1441,13 @@
    "-o",
    "Drivers/CMSIS/system_stm32f0xx.o"
   ],
-  "file": "/Users/msvc/Documents/code/tbots/MDV6_STSPIN/Src/system_stm32f0xx.c"
+  "file": "/home/msvc/Documents/tbots/MDV6_STSPIN/Src/system_stm32f0xx.c"
  },
  {
-  "directory": "/Users/msvc/Documents/code/tbots/MDV6_STSPIN/STM32CubeIDE/Debug",
+  "directory": "/home/msvc/Documents/tbots/MDV6_STSPIN/STM32CubeIDE/Debug",
   "arguments": [
    "arm-none-eabi-gcc",
-   "/Users/msvc/Documents/code/tbots/MDV6_STSPIN/Src/aspep.c",
+   "/home/msvc/Documents/tbots/MDV6_STSPIN/Src/aspep.c",
    "-mcpu=cortex-m0",
    "-std=gnu11",
    "-g",
@@ -1441,13 +1479,51 @@
    "-o",
    "Application/User/aspep.o"
   ],
-  "file": "/Users/msvc/Documents/code/tbots/MDV6_STSPIN/Src/aspep.c"
+  "file": "/home/msvc/Documents/tbots/MDV6_STSPIN/Src/aspep.c"
  },
  {
-  "directory": "/Users/msvc/Documents/code/tbots/MDV6_STSPIN/STM32CubeIDE/Debug",
+  "directory": "/home/msvc/Documents/tbots/MDV6_STSPIN/STM32CubeIDE/Debug",
   "arguments": [
    "arm-none-eabi-gcc",
-   "/Users/msvc/Documents/code/tbots/MDV6_STSPIN/Src/hall_speed_pos_fdbk.c",
+   "/home/msvc/Documents/tbots/MDV6_STSPIN/Src/firmware.c",
+   "-mcpu=cortex-m0",
+   "-std=gnu11",
+   "-g",
+   "-DDEBUG",
+   "-DARM_MATH_CM0",
+   "-DUSE_FULL_LL_DRIVER",
+   "-DUSE_HAL_DRIVER",
+   "-DSTM32F031x6",
+   "-c",
+   "-I../../Inc",
+   "-I../../Drivers/STM32F0xx_HAL_Driver/Inc",
+   "-I../../Drivers/STM32F0xx_HAL_Driver/Inc/Legacy",
+   "-I../../MCSDK_v6.3.2-Full/MotorControl/MCSDK/MCLib/Any/Inc",
+   "-I../../Drivers/CMSIS/Device/ST/STM32F0xx/Include",
+   "-I../../Drivers/CMSIS/Include",
+   "-I../../Drivers/CMSIS/DSP/Include",
+   "-Ofast",
+   "-ffunction-sections",
+   "-fdata-sections",
+   "-Wall",
+   "-fstack-usage",
+   "-MMD",
+   "-MP",
+   "-MFApplication/User/firmware.d",
+   "-MTApplication/User/firmware.o",
+   "--specs=nano.specs",
+   "-mfloat-abi=soft",
+   "-mthumb",
+   "-o",
+   "Application/User/firmware.o"
+  ],
+  "file": "/home/msvc/Documents/tbots/MDV6_STSPIN/Src/firmware.c"
+ },
+ {
+  "directory": "/home/msvc/Documents/tbots/MDV6_STSPIN/STM32CubeIDE/Debug",
+  "arguments": [
+   "arm-none-eabi-gcc",
+   "/home/msvc/Documents/tbots/MDV6_STSPIN/Src/hall_speed_pos_fdbk.c",
    "-mcpu=cortex-m0",
    "-std=gnu11",
    "-g",
@@ -1479,13 +1555,13 @@
    "-o",
    "Application/User/hall_speed_pos_fdbk.o"
   ],
-  "file": "/Users/msvc/Documents/code/tbots/MDV6_STSPIN/Src/hall_speed_pos_fdbk.c"
+  "file": "/home/msvc/Documents/tbots/MDV6_STSPIN/Src/hall_speed_pos_fdbk.c"
  },
  {
-  "directory": "/Users/msvc/Documents/code/tbots/MDV6_STSPIN/STM32CubeIDE/Debug",
+  "directory": "/home/msvc/Documents/tbots/MDV6_STSPIN/STM32CubeIDE/Debug",
   "arguments": [
    "arm-none-eabi-gcc",
-   "/Users/msvc/Documents/code/tbots/MDV6_STSPIN/Src/main.c",
+   "/home/msvc/Documents/tbots/MDV6_STSPIN/Src/main.c",
    "-mcpu=cortex-m0",
    "-std=gnu11",
    "-g",
@@ -1517,13 +1593,13 @@
    "-o",
    "Application/User/main.o"
   ],
-  "file": "/Users/msvc/Documents/code/tbots/MDV6_STSPIN/Src/main.c"
+  "file": "/home/msvc/Documents/tbots/MDV6_STSPIN/Src/main.c"
  },
  {
-  "directory": "/Users/msvc/Documents/code/tbots/MDV6_STSPIN/STM32CubeIDE/Debug",
+  "directory": "/home/msvc/Documents/tbots/MDV6_STSPIN/STM32CubeIDE/Debug",
   "arguments": [
    "arm-none-eabi-gcc",
-   "/Users/msvc/Documents/code/tbots/MDV6_STSPIN/Src/mc_api.c",
+   "/home/msvc/Documents/tbots/MDV6_STSPIN/Src/mc_api.c",
    "-mcpu=cortex-m0",
    "-std=gnu11",
    "-g",
@@ -1555,13 +1631,13 @@
    "-o",
    "Application/User/mc_api.o"
   ],
-  "file": "/Users/msvc/Documents/code/tbots/MDV6_STSPIN/Src/mc_api.c"
+  "file": "/home/msvc/Documents/tbots/MDV6_STSPIN/Src/mc_api.c"
  },
  {
-  "directory": "/Users/msvc/Documents/code/tbots/MDV6_STSPIN/STM32CubeIDE/Debug",
+  "directory": "/home/msvc/Documents/tbots/MDV6_STSPIN/STM32CubeIDE/Debug",
   "arguments": [
    "arm-none-eabi-gcc",
-   "/Users/msvc/Documents/code/tbots/MDV6_STSPIN/Src/mc_app_hooks.c",
+   "/home/msvc/Documents/tbots/MDV6_STSPIN/Src/mc_app_hooks.c",
    "-mcpu=cortex-m0",
    "-std=gnu11",
    "-g",
@@ -1593,13 +1669,13 @@
    "-o",
    "Application/User/mc_app_hooks.o"
   ],
-  "file": "/Users/msvc/Documents/code/tbots/MDV6_STSPIN/Src/mc_app_hooks.c"
+  "file": "/home/msvc/Documents/tbots/MDV6_STSPIN/Src/mc_app_hooks.c"
  },
  {
-  "directory": "/Users/msvc/Documents/code/tbots/MDV6_STSPIN/STM32CubeIDE/Debug",
+  "directory": "/home/msvc/Documents/tbots/MDV6_STSPIN/STM32CubeIDE/Debug",
   "arguments": [
    "arm-none-eabi-gcc",
-   "/Users/msvc/Documents/code/tbots/MDV6_STSPIN/Src/mc_config.c",
+   "/home/msvc/Documents/tbots/MDV6_STSPIN/Src/mc_config.c",
    "-mcpu=cortex-m0",
    "-std=gnu11",
    "-g",
@@ -1631,13 +1707,13 @@
    "-o",
    "Application/User/mc_config.o"
   ],
-  "file": "/Users/msvc/Documents/code/tbots/MDV6_STSPIN/Src/mc_config.c"
+  "file": "/home/msvc/Documents/tbots/MDV6_STSPIN/Src/mc_config.c"
  },
  {
-  "directory": "/Users/msvc/Documents/code/tbots/MDV6_STSPIN/STM32CubeIDE/Debug",
+  "directory": "/home/msvc/Documents/tbots/MDV6_STSPIN/STM32CubeIDE/Debug",
   "arguments": [
    "arm-none-eabi-gcc",
-   "/Users/msvc/Documents/code/tbots/MDV6_STSPIN/Src/mc_config_common.c",
+   "/home/msvc/Documents/tbots/MDV6_STSPIN/Src/mc_config_common.c",
    "-mcpu=cortex-m0",
    "-std=gnu11",
    "-g",
@@ -1669,13 +1745,13 @@
    "-o",
    "Application/User/mc_config_common.o"
   ],
-  "file": "/Users/msvc/Documents/code/tbots/MDV6_STSPIN/Src/mc_config_common.c"
+  "file": "/home/msvc/Documents/tbots/MDV6_STSPIN/Src/mc_config_common.c"
  },
  {
-  "directory": "/Users/msvc/Documents/code/tbots/MDV6_STSPIN/STM32CubeIDE/Debug",
+  "directory": "/home/msvc/Documents/tbots/MDV6_STSPIN/STM32CubeIDE/Debug",
   "arguments": [
    "arm-none-eabi-gcc",
-   "/Users/msvc/Documents/code/tbots/MDV6_STSPIN/Src/mc_configuration_registers.c",
+   "/home/msvc/Documents/tbots/MDV6_STSPIN/Src/mc_configuration_registers.c",
    "-mcpu=cortex-m0",
    "-std=gnu11",
    "-g",
@@ -1707,13 +1783,13 @@
    "-o",
    "Application/User/mc_configuration_registers.o"
   ],
-  "file": "/Users/msvc/Documents/code/tbots/MDV6_STSPIN/Src/mc_configuration_registers.c"
+  "file": "/home/msvc/Documents/tbots/MDV6_STSPIN/Src/mc_configuration_registers.c"
  },
  {
-  "directory": "/Users/msvc/Documents/code/tbots/MDV6_STSPIN/STM32CubeIDE/Debug",
+  "directory": "/home/msvc/Documents/tbots/MDV6_STSPIN/STM32CubeIDE/Debug",
   "arguments": [
    "arm-none-eabi-gcc",
-   "/Users/msvc/Documents/code/tbots/MDV6_STSPIN/Src/mc_interface.c",
+   "/home/msvc/Documents/tbots/MDV6_STSPIN/Src/mc_interface.c",
    "-mcpu=cortex-m0",
    "-std=gnu11",
    "-g",
@@ -1745,13 +1821,13 @@
    "-o",
    "Application/User/mc_interface.o"
   ],
-  "file": "/Users/msvc/Documents/code/tbots/MDV6_STSPIN/Src/mc_interface.c"
+  "file": "/home/msvc/Documents/tbots/MDV6_STSPIN/Src/mc_interface.c"
  },
  {
-  "directory": "/Users/msvc/Documents/code/tbots/MDV6_STSPIN/STM32CubeIDE/Debug",
+  "directory": "/home/msvc/Documents/tbots/MDV6_STSPIN/STM32CubeIDE/Debug",
   "arguments": [
    "arm-none-eabi-gcc",
-   "/Users/msvc/Documents/code/tbots/MDV6_STSPIN/Src/mc_math.c",
+   "/home/msvc/Documents/tbots/MDV6_STSPIN/Src/mc_math.c",
    "-mcpu=cortex-m0",
    "-std=gnu11",
    "-g",
@@ -1783,13 +1859,13 @@
    "-o",
    "Application/User/mc_math.o"
   ],
-  "file": "/Users/msvc/Documents/code/tbots/MDV6_STSPIN/Src/mc_math.c"
+  "file": "/home/msvc/Documents/tbots/MDV6_STSPIN/Src/mc_math.c"
  },
  {
-  "directory": "/Users/msvc/Documents/code/tbots/MDV6_STSPIN/STM32CubeIDE/Debug",
+  "directory": "/home/msvc/Documents/tbots/MDV6_STSPIN/STM32CubeIDE/Debug",
   "arguments": [
    "arm-none-eabi-gcc",
-   "/Users/msvc/Documents/code/tbots/MDV6_STSPIN/Src/mc_parameters.c",
+   "/home/msvc/Documents/tbots/MDV6_STSPIN/Src/mc_parameters.c",
    "-mcpu=cortex-m0",
    "-std=gnu11",
    "-g",
@@ -1821,13 +1897,13 @@
    "-o",
    "Application/User/mc_parameters.o"
   ],
-  "file": "/Users/msvc/Documents/code/tbots/MDV6_STSPIN/Src/mc_parameters.c"
+  "file": "/home/msvc/Documents/tbots/MDV6_STSPIN/Src/mc_parameters.c"
  },
  {
-  "directory": "/Users/msvc/Documents/code/tbots/MDV6_STSPIN/STM32CubeIDE/Debug",
+  "directory": "/home/msvc/Documents/tbots/MDV6_STSPIN/STM32CubeIDE/Debug",
   "arguments": [
    "arm-none-eabi-gcc",
-   "/Users/msvc/Documents/code/tbots/MDV6_STSPIN/Src/mc_tasks.c",
+   "/home/msvc/Documents/tbots/MDV6_STSPIN/Src/mc_tasks.c",
    "-mcpu=cortex-m0",
    "-std=gnu11",
    "-g",
@@ -1859,13 +1935,13 @@
    "-o",
    "Application/User/mc_tasks.o"
   ],
-  "file": "/Users/msvc/Documents/code/tbots/MDV6_STSPIN/Src/mc_tasks.c"
+  "file": "/home/msvc/Documents/tbots/MDV6_STSPIN/Src/mc_tasks.c"
  },
  {
-  "directory": "/Users/msvc/Documents/code/tbots/MDV6_STSPIN/STM32CubeIDE/Debug",
+  "directory": "/home/msvc/Documents/tbots/MDV6_STSPIN/STM32CubeIDE/Debug",
   "arguments": [
    "arm-none-eabi-gcc",
-   "/Users/msvc/Documents/code/tbots/MDV6_STSPIN/Src/mc_tasks_foc.c",
+   "/home/msvc/Documents/tbots/MDV6_STSPIN/Src/mc_tasks_foc.c",
    "-mcpu=cortex-m0",
    "-std=gnu11",
    "-g",
@@ -1897,13 +1973,13 @@
    "-o",
    "Application/User/mc_tasks_foc.o"
   ],
-  "file": "/Users/msvc/Documents/code/tbots/MDV6_STSPIN/Src/mc_tasks_foc.c"
+  "file": "/home/msvc/Documents/tbots/MDV6_STSPIN/Src/mc_tasks_foc.c"
  },
  {
-  "directory": "/Users/msvc/Documents/code/tbots/MDV6_STSPIN/STM32CubeIDE/Debug",
+  "directory": "/home/msvc/Documents/tbots/MDV6_STSPIN/STM32CubeIDE/Debug",
   "arguments": [
    "arm-none-eabi-gcc",
-   "/Users/msvc/Documents/code/tbots/MDV6_STSPIN/Src/mcp.c",
+   "/home/msvc/Documents/tbots/MDV6_STSPIN/Src/mcp.c",
    "-mcpu=cortex-m0",
    "-std=gnu11",
    "-g",
@@ -1935,13 +2011,13 @@
    "-o",
    "Application/User/mcp.o"
   ],
-  "file": "/Users/msvc/Documents/code/tbots/MDV6_STSPIN/Src/mcp.c"
+  "file": "/home/msvc/Documents/tbots/MDV6_STSPIN/Src/mcp.c"
  },
  {
-  "directory": "/Users/msvc/Documents/code/tbots/MDV6_STSPIN/STM32CubeIDE/Debug",
+  "directory": "/home/msvc/Documents/tbots/MDV6_STSPIN/STM32CubeIDE/Debug",
   "arguments": [
    "arm-none-eabi-gcc",
-   "/Users/msvc/Documents/code/tbots/MDV6_STSPIN/Src/mcp_config.c",
+   "/home/msvc/Documents/tbots/MDV6_STSPIN/Src/mcp_config.c",
    "-mcpu=cortex-m0",
    "-std=gnu11",
    "-g",
@@ -1973,13 +2049,13 @@
    "-o",
    "Application/User/mcp_config.o"
   ],
-  "file": "/Users/msvc/Documents/code/tbots/MDV6_STSPIN/Src/mcp_config.c"
+  "file": "/home/msvc/Documents/tbots/MDV6_STSPIN/Src/mcp_config.c"
  },
  {
-  "directory": "/Users/msvc/Documents/code/tbots/MDV6_STSPIN/STM32CubeIDE/Debug",
+  "directory": "/home/msvc/Documents/tbots/MDV6_STSPIN/STM32CubeIDE/Debug",
   "arguments": [
    "arm-none-eabi-gcc",
-   "/Users/msvc/Documents/code/tbots/MDV6_STSPIN/Src/motorcontrol.c",
+   "/home/msvc/Documents/tbots/MDV6_STSPIN/Src/motorcontrol.c",
    "-mcpu=cortex-m0",
    "-std=gnu11",
    "-g",
@@ -2011,13 +2087,13 @@
    "-o",
    "Application/User/motorcontrol.o"
   ],
-  "file": "/Users/msvc/Documents/code/tbots/MDV6_STSPIN/Src/motorcontrol.c"
+  "file": "/home/msvc/Documents/tbots/MDV6_STSPIN/Src/motorcontrol.c"
  },
  {
-  "directory": "/Users/msvc/Documents/code/tbots/MDV6_STSPIN/STM32CubeIDE/Debug",
+  "directory": "/home/msvc/Documents/tbots/MDV6_STSPIN/STM32CubeIDE/Debug",
   "arguments": [
    "arm-none-eabi-gcc",
-   "/Users/msvc/Documents/code/tbots/MDV6_STSPIN/Src/pwm_common.c",
+   "/home/msvc/Documents/tbots/MDV6_STSPIN/Src/pwm_common.c",
    "-mcpu=cortex-m0",
    "-std=gnu11",
    "-g",
@@ -2049,13 +2125,13 @@
    "-o",
    "Application/User/pwm_common.o"
   ],
-  "file": "/Users/msvc/Documents/code/tbots/MDV6_STSPIN/Src/pwm_common.c"
+  "file": "/home/msvc/Documents/tbots/MDV6_STSPIN/Src/pwm_common.c"
  },
  {
-  "directory": "/Users/msvc/Documents/code/tbots/MDV6_STSPIN/STM32CubeIDE/Debug",
+  "directory": "/home/msvc/Documents/tbots/MDV6_STSPIN/STM32CubeIDE/Debug",
   "arguments": [
    "arm-none-eabi-gcc",
-   "/Users/msvc/Documents/code/tbots/MDV6_STSPIN/Src/pwm_curr_fdbk.c",
+   "/home/msvc/Documents/tbots/MDV6_STSPIN/Src/pwm_curr_fdbk.c",
    "-mcpu=cortex-m0",
    "-std=gnu11",
    "-g",
@@ -2087,13 +2163,13 @@
    "-o",
    "Application/User/pwm_curr_fdbk.o"
   ],
-  "file": "/Users/msvc/Documents/code/tbots/MDV6_STSPIN/Src/pwm_curr_fdbk.c"
+  "file": "/home/msvc/Documents/tbots/MDV6_STSPIN/Src/pwm_curr_fdbk.c"
  },
  {
-  "directory": "/Users/msvc/Documents/code/tbots/MDV6_STSPIN/STM32CubeIDE/Debug",
+  "directory": "/home/msvc/Documents/tbots/MDV6_STSPIN/STM32CubeIDE/Debug",
   "arguments": [
    "arm-none-eabi-gcc",
-   "/Users/msvc/Documents/code/tbots/MDV6_STSPIN/Src/r1_ps_pwm_curr_fdbk.c",
+   "/home/msvc/Documents/tbots/MDV6_STSPIN/Src/r1_ps_pwm_curr_fdbk.c",
    "-mcpu=cortex-m0",
    "-std=gnu11",
    "-g",
@@ -2125,13 +2201,13 @@
    "-o",
    "Application/User/r1_ps_pwm_curr_fdbk.o"
   ],
-  "file": "/Users/msvc/Documents/code/tbots/MDV6_STSPIN/Src/r1_ps_pwm_curr_fdbk.c"
+  "file": "/home/msvc/Documents/tbots/MDV6_STSPIN/Src/r1_ps_pwm_curr_fdbk.c"
  },
  {
-  "directory": "/Users/msvc/Documents/code/tbots/MDV6_STSPIN/STM32CubeIDE/Debug",
+  "directory": "/home/msvc/Documents/tbots/MDV6_STSPIN/STM32CubeIDE/Debug",
   "arguments": [
    "arm-none-eabi-gcc",
-   "/Users/msvc/Documents/code/tbots/MDV6_STSPIN/Src/register_interface.c",
+   "/home/msvc/Documents/tbots/MDV6_STSPIN/Src/register_interface.c",
    "-mcpu=cortex-m0",
    "-std=gnu11",
    "-g",
@@ -2163,13 +2239,13 @@
    "-o",
    "Application/User/register_interface.o"
   ],
-  "file": "/Users/msvc/Documents/code/tbots/MDV6_STSPIN/Src/register_interface.c"
+  "file": "/home/msvc/Documents/tbots/MDV6_STSPIN/Src/register_interface.c"
  },
  {
-  "directory": "/Users/msvc/Documents/code/tbots/MDV6_STSPIN/STM32CubeIDE/Debug",
+  "directory": "/home/msvc/Documents/tbots/MDV6_STSPIN/STM32CubeIDE/Debug",
   "arguments": [
    "arm-none-eabi-gcc",
-   "/Users/msvc/Documents/code/tbots/MDV6_STSPIN/Src/regular_conversion_manager.c",
+   "/home/msvc/Documents/tbots/MDV6_STSPIN/Src/regular_conversion_manager.c",
    "-mcpu=cortex-m0",
    "-std=gnu11",
    "-g",
@@ -2201,13 +2277,13 @@
    "-o",
    "Application/User/regular_conversion_manager.o"
   ],
-  "file": "/Users/msvc/Documents/code/tbots/MDV6_STSPIN/Src/regular_conversion_manager.c"
+  "file": "/home/msvc/Documents/tbots/MDV6_STSPIN/Src/regular_conversion_manager.c"
  },
  {
-  "directory": "/Users/msvc/Documents/code/tbots/MDV6_STSPIN/STM32CubeIDE/Debug",
+  "directory": "/home/msvc/Documents/tbots/MDV6_STSPIN/STM32CubeIDE/Debug",
   "arguments": [
    "arm-none-eabi-gcc",
-   "/Users/msvc/Documents/code/tbots/MDV6_STSPIN/Src/stm32_mc_common_it.c",
+   "/home/msvc/Documents/tbots/MDV6_STSPIN/Src/stm32_mc_common_it.c",
    "-mcpu=cortex-m0",
    "-std=gnu11",
    "-g",
@@ -2239,13 +2315,13 @@
    "-o",
    "Application/User/stm32_mc_common_it.o"
   ],
-  "file": "/Users/msvc/Documents/code/tbots/MDV6_STSPIN/Src/stm32_mc_common_it.c"
+  "file": "/home/msvc/Documents/tbots/MDV6_STSPIN/Src/stm32_mc_common_it.c"
  },
  {
-  "directory": "/Users/msvc/Documents/code/tbots/MDV6_STSPIN/STM32CubeIDE/Debug",
+  "directory": "/home/msvc/Documents/tbots/MDV6_STSPIN/STM32CubeIDE/Debug",
   "arguments": [
    "arm-none-eabi-gcc",
-   "/Users/msvc/Documents/code/tbots/MDV6_STSPIN/Src/stm32f0xx_hal_msp.c",
+   "/home/msvc/Documents/tbots/MDV6_STSPIN/Src/stm32f0xx_hal_msp.c",
    "-mcpu=cortex-m0",
    "-std=gnu11",
    "-g",
@@ -2277,13 +2353,13 @@
    "-o",
    "Application/User/stm32f0xx_hal_msp.o"
   ],
-  "file": "/Users/msvc/Documents/code/tbots/MDV6_STSPIN/Src/stm32f0xx_hal_msp.c"
+  "file": "/home/msvc/Documents/tbots/MDV6_STSPIN/Src/stm32f0xx_hal_msp.c"
  },
  {
-  "directory": "/Users/msvc/Documents/code/tbots/MDV6_STSPIN/STM32CubeIDE/Debug",
+  "directory": "/home/msvc/Documents/tbots/MDV6_STSPIN/STM32CubeIDE/Debug",
   "arguments": [
    "arm-none-eabi-gcc",
-   "/Users/msvc/Documents/code/tbots/MDV6_STSPIN/Src/stm32f0xx_it.c",
+   "/home/msvc/Documents/tbots/MDV6_STSPIN/Src/stm32f0xx_it.c",
    "-mcpu=cortex-m0",
    "-std=gnu11",
    "-g",
@@ -2315,13 +2391,13 @@
    "-o",
    "Application/User/stm32f0xx_it.o"
   ],
-  "file": "/Users/msvc/Documents/code/tbots/MDV6_STSPIN/Src/stm32f0xx_it.c"
+  "file": "/home/msvc/Documents/tbots/MDV6_STSPIN/Src/stm32f0xx_it.c"
  },
  {
-  "directory": "/Users/msvc/Documents/code/tbots/MDV6_STSPIN/STM32CubeIDE/Debug",
+  "directory": "/home/msvc/Documents/tbots/MDV6_STSPIN/STM32CubeIDE/Debug",
   "arguments": [
    "arm-none-eabi-gcc",
-   "/Users/msvc/Documents/code/tbots/MDV6_STSPIN/Src/stm32f0xx_mc_it.c",
+   "/home/msvc/Documents/tbots/MDV6_STSPIN/Src/stm32f0xx_mc_it.c",
    "-mcpu=cortex-m0",
    "-std=gnu11",
    "-g",
@@ -2353,10 +2429,10 @@
    "-o",
    "Application/User/stm32f0xx_mc_it.o"
   ],
-  "file": "/Users/msvc/Documents/code/tbots/MDV6_STSPIN/Src/stm32f0xx_mc_it.c"
+  "file": "/home/msvc/Documents/tbots/MDV6_STSPIN/Src/stm32f0xx_mc_it.c"
  },
  {
-  "directory": "/Users/msvc/Documents/code/tbots/MDV6_STSPIN/STM32CubeIDE/Debug",
+  "directory": "/home/msvc/Documents/tbots/MDV6_STSPIN/STM32CubeIDE/Debug",
   "arguments": [
    "arm-none-eabi-gcc",
    "../Application/User/syscalls.c",
@@ -2394,7 +2470,7 @@
   "file": "../Application/User/syscalls.c"
  },
  {
-  "directory": "/Users/msvc/Documents/code/tbots/MDV6_STSPIN/STM32CubeIDE/Debug",
+  "directory": "/home/msvc/Documents/tbots/MDV6_STSPIN/STM32CubeIDE/Debug",
   "arguments": [
    "arm-none-eabi-gcc",
    "../Application/User/sysmem.c",
@@ -2432,10 +2508,10 @@
   "file": "../Application/User/sysmem.c"
  },
  {
-  "directory": "/Users/msvc/Documents/code/tbots/MDV6_STSPIN/STM32CubeIDE/Debug",
+  "directory": "/home/msvc/Documents/tbots/MDV6_STSPIN/STM32CubeIDE/Debug",
   "arguments": [
    "arm-none-eabi-gcc",
-   "/Users/msvc/Documents/code/tbots/MDV6_STSPIN/Src/usart_aspep_driver.c",
+   "/home/msvc/Documents/tbots/MDV6_STSPIN/Src/usart_aspep_driver.c",
    "-mcpu=cortex-m0",
    "-std=gnu11",
    "-g",
@@ -2467,10 +2543,10 @@
    "-o",
    "Application/User/usart_aspep_driver.o"
   ],
-  "file": "/Users/msvc/Documents/code/tbots/MDV6_STSPIN/Src/usart_aspep_driver.c"
+  "file": "/home/msvc/Documents/tbots/MDV6_STSPIN/Src/usart_aspep_driver.c"
  },
  {
-  "directory": "/Users/msvc/Documents/code/tbots/MDV6_STSPIN/STM32CubeIDE/Debug",
+  "directory": "/home/msvc/Documents/tbots/MDV6_STSPIN/STM32CubeIDE/Debug",
   "arguments": [
    "arm-none-eabi-gcc",
    "-mcpu=cortex-m0",
@@ -2491,81 +2567,5 @@
    "../Application/Startup/startup_stm32f031c6tx.s"
   ],
   "file": "../Application/Startup/startup_stm32f031c6tx.s"
- },
- {
-  "directory": "/Users/msvc/Documents/code/tbots/MDV6_STSPIN/STM32CubeIDE/Debug",
-  "arguments": [
-   "arm-none-eabi-gcc",
-   "/Users/msvc/Documents/code/tbots/MDV6_STSPIN/Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_spi.c",
-   "-mcpu=cortex-m0",
-   "-std=gnu11",
-   "-g",
-   "-DDEBUG",
-   "-DARM_MATH_CM0",
-   "-DUSE_FULL_LL_DRIVER",
-   "-DUSE_HAL_DRIVER",
-   "-DSTM32F031x6",
-   "-c",
-   "-I../../Inc",
-   "-I../../Drivers/STM32F0xx_HAL_Driver/Inc",
-   "-I../../Drivers/STM32F0xx_HAL_Driver/Inc/Legacy",
-   "-I../../MCSDK_v6.3.2-Full/MotorControl/MCSDK/MCLib/Any/Inc",
-   "-I../../Drivers/CMSIS/Device/ST/STM32F0xx/Include",
-   "-I../../Drivers/CMSIS/Include",
-   "-I../../Drivers/CMSIS/DSP/Include",
-   "-Ofast",
-   "-ffunction-sections",
-   "-fdata-sections",
-   "-Wall",
-   "-fstack-usage",
-   "-MMD",
-   "-MP",
-   "-MFDrivers/STM32F0xx_HAL_Driver/stm32f0xx_hal_spi.d",
-   "-MTDrivers/STM32F0xx_HAL_Driver/stm32f0xx_hal_spi.o",
-   "--specs=nano.specs",
-   "-mfloat-abi=soft",
-   "-mthumb",
-   "-o",
-   "Drivers/STM32F0xx_HAL_Driver/stm32f0xx_hal_spi.o"
-  ],
-  "file": "/Users/msvc/Documents/code/tbots/MDV6_STSPIN/Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_spi.c"
- },
- {
-  "directory": "/Users/msvc/Documents/code/tbots/MDV6_STSPIN/STM32CubeIDE/Debug",
-  "arguments": [
-   "arm-none-eabi-gcc",
-   "/Users/msvc/Documents/code/tbots/MDV6_STSPIN/Src/firmware.c",
-   "-mcpu=cortex-m0",
-   "-std=gnu11",
-   "-g",
-   "-DDEBUG",
-   "-DARM_MATH_CM0",
-   "-DUSE_FULL_LL_DRIVER",
-   "-DUSE_HAL_DRIVER",
-   "-DSTM32F031x6",
-   "-c",
-   "-I../../Inc",
-   "-I../../Drivers/STM32F0xx_HAL_Driver/Inc",
-   "-I../../Drivers/STM32F0xx_HAL_Driver/Inc/Legacy",
-   "-I../../MCSDK_v6.3.2-Full/MotorControl/MCSDK/MCLib/Any/Inc",
-   "-I../../Drivers/CMSIS/Device/ST/STM32F0xx/Include",
-   "-I../../Drivers/CMSIS/Include",
-   "-I../../Drivers/CMSIS/DSP/Include",
-   "-Ofast",
-   "-ffunction-sections",
-   "-fdata-sections",
-   "-Wall",
-   "-fstack-usage",
-   "-MMD",
-   "-MP",
-   "-MFApplication/User/firmware.d",
-   "-MTApplication/User/firmware.o",
-   "--specs=nano.specs",
-   "-mfloat-abi=soft",
-   "-mthumb",
-   "-o",
-   "Application/User/firmware.o"
-  ],
-  "file": "/Users/msvc/Documents/code/tbots/MDV6_STSPIN/Src/firmware.c"
  }
 ]

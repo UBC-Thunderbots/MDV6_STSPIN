@@ -1,6 +1,6 @@
 #include "lib.hpp"
 
-#include <cstdint>
+#include <stdint.h>
 #include <unordered_map>
 
 STSpinCommunicator::STSpinCommunicator(uint8_t (*STSpinReadWriteSPI)(uint8_t data,
