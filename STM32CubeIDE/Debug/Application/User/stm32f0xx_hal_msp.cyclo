@@ -1,1 +1,3 @@
-C:/Users/kenny/.st_workbench/projects/MDV6 HALL/Src/stm32f0xx_hal_msp.c:64:6:HAL_MspInit	1
+C:/Users/tarak/OneDrive/Documents/ThunderBots/MDV6_STSPIN/Src/stm32f0xx_hal_msp.c:64:6:HAL_MspInit	1
+C:/Users/tarak/OneDrive/Documents/ThunderBots/MDV6_STSPIN/Src/stm32f0xx_hal_msp.c:86:6:HAL_SPI_MspInit	2
+C:/Users/tarak/OneDrive/Documents/ThunderBots/MDV6_STSPIN/Src/stm32f0xx_hal_msp.c:132:6:HAL_SPI_MspDeInit	2

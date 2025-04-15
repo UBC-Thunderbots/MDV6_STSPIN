@@ -1,5 +1,5 @@
 Drivers/STM32F0xx_HAL_Driver/stm32f0xx_ll_adc.o: \
- C:/Users/kenny/.st_workbench/projects/MDV6\ HALL/Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_ll_adc.c \
+ C:/Users/tarak/OneDrive/Documents/ThunderBots/MDV6_STSPIN/Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_ll_adc.c \
  ../../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_ll_adc.h \
  ../../Drivers/CMSIS/Device/ST/STM32F0xx/Include/stm32f0xx.h \
  ../../Drivers/CMSIS/Device/ST/STM32F0xx/Include/stm32f031x6.h \
@@ -26,6 +26,8 @@ Drivers/STM32F0xx_HAL_Driver/stm32f0xx_ll_adc.o: \
  ../../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_i2c_ex.h \
  ../../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_pwr.h \
  ../../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_pwr_ex.h \
+ ../../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_spi.h \
+ ../../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_spi_ex.h \
  ../../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_ll_bus.h
 ../../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_ll_adc.h:
 ../../Drivers/CMSIS/Device/ST/STM32F0xx/Include/stm32f0xx.h:
@@ -53,4 +55,6 @@ Drivers/STM32F0xx_HAL_Driver/stm32f0xx_ll_adc.o: \
 ../../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_i2c_ex.h:
 ../../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_pwr.h:
 ../../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_pwr_ex.h:
+../../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_spi.h:
+../../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_spi_ex.h:
 ../../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_ll_bus.h:

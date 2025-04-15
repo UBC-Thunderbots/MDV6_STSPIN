@@ -1,11 +1,11 @@
-C:/Users/kenny/.st_workbench/projects/MDV6 HALL/Src/mc_tasks.c:89:13:MCboot	2
-C:/Users/kenny/.st_workbench/projects/MDV6 HALL/Src/mc_tasks.c:243:13:TSK_SetChargeBootCapDelayM1	1
-C:/Users/kenny/.st_workbench/projects/MDV6 HALL/Src/mc_tasks.c:254:13:TSK_ChargeBootCapDelayHasElapsedM1	1
-C:/Users/kenny/.st_workbench/projects/MDV6 HALL/Src/mc_tasks.c:270:13:TSK_SetStopPermanencyTimeM1	1
-C:/Users/kenny/.st_workbench/projects/MDV6 HALL/Src/mc_tasks.c:281:13:TSK_StopPermanencyTimeHasElapsedM1	1
-C:/Users/kenny/.st_workbench/projects/MDV6 HALL/Src/mc_tasks.c:307:16:TSK_HighFrequencyTask	1
-C:/Users/kenny/.st_workbench/projects/MDV6 HALL/Src/mc_tasks.c:355:13:TSK_SafetyTask_PWMOFF	2
-C:/Users/kenny/.st_workbench/projects/MDV6 HALL/Src/mc_tasks.c:330:13:TSK_SafetyTask	2
-C:/Users/kenny/.st_workbench/projects/MDV6 HALL/Src/mc_tasks.c:155:13:MC_RunMotorControlTasks	7
-C:/Users/kenny/.st_workbench/projects/MDV6 HALL/Src/mc_tasks.c:393:13:TSK_HardwareFaultTask	1
-C:/Users/kenny/.st_workbench/projects/MDV6 HALL/Src/mc_tasks.c:409:13:mc_lock_pins	1
+C:/Users/tarak/OneDrive/Documents/ThunderBots/MDV6_STSPIN/Src/mc_tasks.c:89:13:MCboot	2
+C:/Users/tarak/OneDrive/Documents/ThunderBots/MDV6_STSPIN/Src/mc_tasks.c:243:13:TSK_SetChargeBootCapDelayM1	1
+C:/Users/tarak/OneDrive/Documents/ThunderBots/MDV6_STSPIN/Src/mc_tasks.c:254:13:TSK_ChargeBootCapDelayHasElapsedM1	1
+C:/Users/tarak/OneDrive/Documents/ThunderBots/MDV6_STSPIN/Src/mc_tasks.c:270:13:TSK_SetStopPermanencyTimeM1	1
+C:/Users/tarak/OneDrive/Documents/ThunderBots/MDV6_STSPIN/Src/mc_tasks.c:281:13:TSK_StopPermanencyTimeHasElapsedM1	1
+C:/Users/tarak/OneDrive/Documents/ThunderBots/MDV6_STSPIN/Src/mc_tasks.c:307:16:TSK_HighFrequencyTask	1
+C:/Users/tarak/OneDrive/Documents/ThunderBots/MDV6_STSPIN/Src/mc_tasks.c:355:13:TSK_SafetyTask_PWMOFF	2
+C:/Users/tarak/OneDrive/Documents/ThunderBots/MDV6_STSPIN/Src/mc_tasks.c:330:13:TSK_SafetyTask	2
+C:/Users/tarak/OneDrive/Documents/ThunderBots/MDV6_STSPIN/Src/mc_tasks.c:155:13:MC_RunMotorControlTasks	7
+C:/Users/tarak/OneDrive/Documents/ThunderBots/MDV6_STSPIN/Src/mc_tasks.c:393:13:TSK_HardwareFaultTask	1
+C:/Users/tarak/OneDrive/Documents/ThunderBots/MDV6_STSPIN/Src/mc_tasks.c:409:13:mc_lock_pins	1
