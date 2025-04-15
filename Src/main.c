@@ -18,6 +18,8 @@
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
+#include "firmware.h"
+#include <stdint.h>
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
@@ -62,7 +64,7 @@ static void MX_SPI1_Init(void);
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
 
-bool DRIVE = false;
+bool DRIVE     = false;
 bool DIRECTION = false;
 
 /* USER CODE END 0 */
@@ -76,9 +78,11 @@ int main(void) {
 
     /* USER CODE END 1 */
 
-    /* MCU Configuration--------------------------------------------------------*/
+    /* MCU
+     * Configuration--------------------------------------------------------*/
 
-    /* Reset of all peripherals, Initializes the Flash interface and the Systick. */
+    /* Reset of all peripherals, Initializes the Flash interface and the
+     * Systick. */
     HAL_Init();
 
     /* USER CODE BEGIN Init */
@@ -107,57 +111,34 @@ int main(void) {
     MX_SPI1_Init();
 
     // call it once for live expression
-    MC_GetSTMStateMotor1(); // set a breakpoint on the line if reading the state via Debugger
+    MC_GetSTMStateMotor1();  // set a breakpoint on the line if reading the
+                             // state via Debugger
     MC_GetOccurredFaultsMotor1();
 
-    MC_ProgramSpeedRampMotor1(120, 1000);
-
+    int16_t ax;
+    int16_t bx;
+    uint8_t TX_Buffer;
     /* USER CODE END 2 */
 
     /* Infinite loop */
     /* USER CODE BEGIN WHILE */
     while (1) {
         /* USER CODE END WHILE */
-
-        /* Motor ON/OFF */
-        if (!HAL_GPIO_ReadPin(GPIOB, GPIO_PIN_0) && DRIVE == false) {
-            DRIVE = !DRIVE;
-            HAL_Delay(300); // delay to avoid re-reading unintentionally
-        }
-
-        else if (!HAL_GPIO_ReadPin(GPIOB, GPIO_PIN_0) && DRIVE == true) {
-            DRIVE = !DRIVE;
-            HAL_Delay(300);
-        }
-
-        /* Motor Direction Control */
-        if (!HAL_GPIO_ReadPin(GPIOA, GPIO_PIN_7) && DIRECTION == false) {
-            DIRECTION = !DIRECTION;
-            HAL_Delay(300);
-        }
-
-        else if (!HAL_GPIO_ReadPin(GPIOA, GPIO_PIN_7) && DIRECTION == true) {
-            DIRECTION = !DIRECTION;
-            HAL_Delay(300);
-        }
-
-        if (DRIVE) {
-            MC_StartMotor1();
-        }
-
-        else if (!DRIVE) {
-            MC_StopMotor1();
-        }
-
-        if (DIRECTION) {
-            MC_ProgramSpeedRampMotor1(-120, 100);
-        }
-
-        else if (!DIRECTION) {
-            MC_ProgramSpeedRampMotor1(120, 100);
-        }
-
         /* USER CODE BEGIN 3 */
+        enum OPCODES opcode = mc_SPI_beginFrame(&hspi1);
+
+        switch (opcode) {
+            case MOV_AX:
+                uint8_t axFirst, axSecond;
+                TX_Buffer = SPI_NOOP;
+
+                HAL_SPI_Receive(&hspi1, &axFirst, 1, SPI_TIMEOUT);
+                HAL_SPI_Receive(&hspi1, &axSecond, 1, SPI_TIMEOUT);
+
+                break;
+            default:
+                break;
+        }
     }
     /* USER CODE END 3 */
 }
@@ -236,12 +217,11 @@ static void MX_NVIC_Init(void) {
  * @retval None
  */
 static void MX_ADC_Init(void) {
-
     /* USER CODE BEGIN ADC_Init 0 */
 
     /* USER CODE END ADC_Init 0 */
 
-    LL_ADC_InitTypeDef ADC_InitStruct = {0};
+    LL_ADC_InitTypeDef ADC_InitStruct         = {0};
     LL_ADC_REG_InitTypeDef ADC_REG_InitStruct = {0};
 
     LL_GPIO_InitTypeDef GPIO_InitStruct = {0};
@@ -253,7 +233,7 @@ static void MX_ADC_Init(void) {
     /**ADC GPIO Configuration
     PA5   ------> ADC_IN5
     */
-    GPIO_InitStruct.Pin = M1_CURR_AMPL_Pin;
+    GPIO_InitStruct.Pin  = M1_CURR_AMPL_Pin;
     GPIO_InitStruct.Mode = LL_GPIO_MODE_ANALOG;
     GPIO_InitStruct.Pull = LL_GPIO_PULL_NO;
     LL_GPIO_Init(M1_CURR_AMPL_GPIO_Port, &GPIO_InitStruct);
@@ -261,7 +241,8 @@ static void MX_ADC_Init(void) {
     /* ADC DMA Init */
 
     /* ADC Init */
-    LL_DMA_SetDataTransferDirection(DMA1, LL_DMA_CHANNEL_1, LL_DMA_DIRECTION_PERIPH_TO_MEMORY);
+    LL_DMA_SetDataTransferDirection(DMA1, LL_DMA_CHANNEL_1,
+                                    LL_DMA_DIRECTION_PERIPH_TO_MEMORY);
 
     LL_DMA_SetChannelPriorityLevel(DMA1, LL_DMA_CHANNEL_1, LL_DMA_PRIORITY_LOW);
 
@@ -283,18 +264,19 @@ static void MX_ADC_Init(void) {
      */
     LL_ADC_REG_SetSequencerChAdd(ADC1, LL_ADC_CHANNEL_5);
 
-    /** Configure the global features of the ADC (Clock, Resolution, Data Alignment and number of conversion)
+    /** Configure the global features of the ADC (Clock, Resolution, Data
+     * Alignment and number of conversion)
      */
-    ADC_InitStruct.Clock = LL_ADC_CLOCK_ASYNC;
-    ADC_InitStruct.Resolution = LL_ADC_RESOLUTION_12B;
+    ADC_InitStruct.Clock         = LL_ADC_CLOCK_ASYNC;
+    ADC_InitStruct.Resolution    = LL_ADC_RESOLUTION_12B;
     ADC_InitStruct.DataAlignment = LL_ADC_DATA_ALIGN_LEFT;
-    ADC_InitStruct.LowPowerMode = LL_ADC_LP_MODE_NONE;
+    ADC_InitStruct.LowPowerMode  = LL_ADC_LP_MODE_NONE;
     LL_ADC_Init(ADC1, &ADC_InitStruct);
-    ADC_REG_InitStruct.TriggerSource = LL_ADC_REG_TRIG_EXT_TIM1_TRGO;
+    ADC_REG_InitStruct.TriggerSource    = LL_ADC_REG_TRIG_EXT_TIM1_TRGO;
     ADC_REG_InitStruct.SequencerDiscont = LL_ADC_REG_SEQ_DISCONT_DISABLE;
-    ADC_REG_InitStruct.ContinuousMode = LL_ADC_REG_CONV_SINGLE;
-    ADC_REG_InitStruct.DMATransfer = LL_ADC_REG_DMA_TRANSFER_UNLIMITED;
-    ADC_REG_InitStruct.Overrun = LL_ADC_REG_OVR_DATA_PRESERVED;
+    ADC_REG_InitStruct.ContinuousMode   = LL_ADC_REG_CONV_SINGLE;
+    ADC_REG_InitStruct.DMATransfer      = LL_ADC_REG_DMA_TRANSFER_UNLIMITED;
+    ADC_REG_InitStruct.Overrun          = LL_ADC_REG_OVR_DATA_PRESERVED;
     LL_ADC_REG_Init(ADC1, &ADC_REG_InitStruct);
     LL_ADC_REG_SetSequencerScanDirection(ADC1, LL_ADC_REG_SEQ_SCAN_DIR_FORWARD);
     LL_ADC_SetSamplingTimeCommonChannels(ADC1, LL_ADC_SAMPLINGTIME_7CYCLES_5);
@@ -310,13 +292,12 @@ static void MX_ADC_Init(void) {
  * @retval None
  */
 static void MX_TIM1_Init(void) {
-
     /* USER CODE BEGIN TIM1_Init 0 */
 
     /* USER CODE END TIM1_Init 0 */
 
-    LL_TIM_InitTypeDef TIM_InitStruct = {0};
-    LL_TIM_OC_InitTypeDef TIM_OC_InitStruct = {0};
+    LL_TIM_InitTypeDef TIM_InitStruct          = {0};
+    LL_TIM_OC_InitTypeDef TIM_OC_InitStruct    = {0};
     LL_TIM_BDTR_InitTypeDef TIM_BDTRInitStruct = {0};
 
     LL_GPIO_InitTypeDef GPIO_InitStruct = {0};
@@ -328,20 +309,22 @@ static void MX_TIM1_Init(void) {
     /**TIM1 GPIO Configuration
     PB12   ------> TIM1_BKIN
     */
-    GPIO_InitStruct.Pin = M1_OCP_Pin;
-    GPIO_InitStruct.Mode = LL_GPIO_MODE_ALTERNATE;
-    GPIO_InitStruct.Speed = LL_GPIO_SPEED_FREQ_LOW;
+    GPIO_InitStruct.Pin        = M1_OCP_Pin;
+    GPIO_InitStruct.Mode       = LL_GPIO_MODE_ALTERNATE;
+    GPIO_InitStruct.Speed      = LL_GPIO_SPEED_FREQ_LOW;
     GPIO_InitStruct.OutputType = LL_GPIO_OUTPUT_PUSHPULL;
-    GPIO_InitStruct.Pull = LL_GPIO_PULL_UP;
-    GPIO_InitStruct.Alternate = LL_GPIO_AF_2;
+    GPIO_InitStruct.Pull       = LL_GPIO_PULL_UP;
+    GPIO_InitStruct.Alternate  = LL_GPIO_AF_2;
     LL_GPIO_Init(M1_OCP_GPIO_Port, &GPIO_InitStruct);
 
     /* TIM1 DMA Init */
 
     /* TIM1_CH4_TRIG_COM Init */
-    LL_DMA_SetDataTransferDirection(DMA1, LL_DMA_CHANNEL_4, LL_DMA_DIRECTION_MEMORY_TO_PERIPH);
+    LL_DMA_SetDataTransferDirection(DMA1, LL_DMA_CHANNEL_4,
+                                    LL_DMA_DIRECTION_MEMORY_TO_PERIPH);
 
-    LL_DMA_SetChannelPriorityLevel(DMA1, LL_DMA_CHANNEL_4, LL_DMA_PRIORITY_HIGH);
+    LL_DMA_SetChannelPriorityLevel(DMA1, LL_DMA_CHANNEL_4,
+                                   LL_DMA_PRIORITY_HIGH);
 
     LL_DMA_SetMode(DMA1, LL_DMA_CHANNEL_4, LL_DMA_MODE_CIRCULAR);
 
@@ -354,9 +337,11 @@ static void MX_TIM1_Init(void) {
     LL_DMA_SetMemorySize(DMA1, LL_DMA_CHANNEL_4, LL_DMA_MDATAALIGN_HALFWORD);
 
     /* TIM1_CH3_UP Init */
-    LL_DMA_SetDataTransferDirection(DMA1, LL_DMA_CHANNEL_5, LL_DMA_DIRECTION_MEMORY_TO_PERIPH);
+    LL_DMA_SetDataTransferDirection(DMA1, LL_DMA_CHANNEL_5,
+                                    LL_DMA_DIRECTION_MEMORY_TO_PERIPH);
 
-    LL_DMA_SetChannelPriorityLevel(DMA1, LL_DMA_CHANNEL_5, LL_DMA_PRIORITY_HIGH);
+    LL_DMA_SetChannelPriorityLevel(DMA1, LL_DMA_CHANNEL_5,
+                                   LL_DMA_PRIORITY_HIGH);
 
     LL_DMA_SetMode(DMA1, LL_DMA_CHANNEL_5, LL_DMA_MODE_CIRCULAR);
 
@@ -371,21 +356,21 @@ static void MX_TIM1_Init(void) {
     /* USER CODE BEGIN TIM1_Init 1 */
 
     /* USER CODE END TIM1_Init 1 */
-    TIM_InitStruct.Prescaler = ((TIM_CLOCK_DIVIDER)-1);
-    TIM_InitStruct.CounterMode = LL_TIM_COUNTERMODE_CENTER_UP;
-    TIM_InitStruct.Autoreload = ((PWM_PERIOD_CYCLES) / 2);
-    TIM_InitStruct.ClockDivision = LL_TIM_CLOCKDIVISION_DIV2;
+    TIM_InitStruct.Prescaler         = ((TIM_CLOCK_DIVIDER)-1);
+    TIM_InitStruct.CounterMode       = LL_TIM_COUNTERMODE_CENTER_UP;
+    TIM_InitStruct.Autoreload        = ((PWM_PERIOD_CYCLES) / 2);
+    TIM_InitStruct.ClockDivision     = LL_TIM_CLOCKDIVISION_DIV2;
     TIM_InitStruct.RepetitionCounter = (REP_COUNTER);
     LL_TIM_Init(TIM1, &TIM_InitStruct);
     LL_TIM_DisableARRPreload(TIM1);
     LL_TIM_OC_EnablePreload(TIM1, LL_TIM_CHANNEL_CH1);
-    TIM_OC_InitStruct.OCMode = LL_TIM_OCMODE_PWM1;
-    TIM_OC_InitStruct.OCState = LL_TIM_OCSTATE_DISABLE;
-    TIM_OC_InitStruct.OCNState = LL_TIM_OCSTATE_DISABLE;
+    TIM_OC_InitStruct.OCMode       = LL_TIM_OCMODE_PWM1;
+    TIM_OC_InitStruct.OCState      = LL_TIM_OCSTATE_DISABLE;
+    TIM_OC_InitStruct.OCNState     = LL_TIM_OCSTATE_DISABLE;
     TIM_OC_InitStruct.CompareValue = ((PWM_PERIOD_CYCLES) / 4);
-    TIM_OC_InitStruct.OCPolarity = LL_TIM_OCPOLARITY_LOW;
-    TIM_OC_InitStruct.OCNPolarity = LL_TIM_OCPOLARITY_LOW;
-    TIM_OC_InitStruct.OCIdleState = LL_TIM_OCIDLESTATE_HIGH;
+    TIM_OC_InitStruct.OCPolarity   = LL_TIM_OCPOLARITY_LOW;
+    TIM_OC_InitStruct.OCNPolarity  = LL_TIM_OCPOLARITY_LOW;
+    TIM_OC_InitStruct.OCIdleState  = LL_TIM_OCIDLESTATE_HIGH;
     TIM_OC_InitStruct.OCNIdleState = LL_TIM_OCIDLESTATE_HIGH;
     LL_TIM_OC_Init(TIM1, LL_TIM_CHANNEL_CH1, &TIM_OC_InitStruct);
     LL_TIM_OC_DisableFast(TIM1, LL_TIM_CHANNEL_CH1);
@@ -396,21 +381,21 @@ static void MX_TIM1_Init(void) {
     LL_TIM_OC_Init(TIM1, LL_TIM_CHANNEL_CH3, &TIM_OC_InitStruct);
     LL_TIM_OC_DisableFast(TIM1, LL_TIM_CHANNEL_CH3);
     LL_TIM_OC_EnablePreload(TIM1, LL_TIM_CHANNEL_CH4);
-    TIM_OC_InitStruct.OCMode = LL_TIM_OCMODE_PWM2;
+    TIM_OC_InitStruct.OCMode       = LL_TIM_OCMODE_PWM2;
     TIM_OC_InitStruct.CompareValue = (((PWM_PERIOD_CYCLES) / 2) - (HTMIN));
-    TIM_OC_InitStruct.OCPolarity = LL_TIM_OCPOLARITY_HIGH;
-    TIM_OC_InitStruct.OCIdleState = LL_TIM_OCIDLESTATE_LOW;
+    TIM_OC_InitStruct.OCPolarity   = LL_TIM_OCPOLARITY_HIGH;
+    TIM_OC_InitStruct.OCIdleState  = LL_TIM_OCIDLESTATE_LOW;
     TIM_OC_InitStruct.OCNIdleState = LL_TIM_OCIDLESTATE_LOW;
     LL_TIM_OC_Init(TIM1, LL_TIM_CHANNEL_CH4, &TIM_OC_InitStruct);
     LL_TIM_OC_DisableFast(TIM1, LL_TIM_CHANNEL_CH4);
     LL_TIM_SetTriggerOutput(TIM1, LL_TIM_TRGO_UPDATE);
     LL_TIM_DisableMasterSlaveMode(TIM1);
-    TIM_BDTRInitStruct.OSSRState = LL_TIM_OSSR_ENABLE;
-    TIM_BDTRInitStruct.OSSIState = LL_TIM_OSSI_ENABLE;
-    TIM_BDTRInitStruct.LockLevel = LL_TIM_LOCKLEVEL_OFF;
-    TIM_BDTRInitStruct.DeadTime = ((DEAD_TIME_COUNTS) / 2);
-    TIM_BDTRInitStruct.BreakState = LL_TIM_BREAK_ENABLE;
-    TIM_BDTRInitStruct.BreakPolarity = LL_TIM_BREAK_POLARITY_LOW;
+    TIM_BDTRInitStruct.OSSRState       = LL_TIM_OSSR_ENABLE;
+    TIM_BDTRInitStruct.OSSIState       = LL_TIM_OSSI_ENABLE;
+    TIM_BDTRInitStruct.LockLevel       = LL_TIM_LOCKLEVEL_OFF;
+    TIM_BDTRInitStruct.DeadTime        = ((DEAD_TIME_COUNTS) / 2);
+    TIM_BDTRInitStruct.BreakState      = LL_TIM_BREAK_ENABLE;
+    TIM_BDTRInitStruct.BreakPolarity   = LL_TIM_BREAK_POLARITY_LOW;
     TIM_BDTRInitStruct.AutomaticOutput = LL_TIM_AUTOMATICOUTPUT_DISABLE;
     LL_TIM_BDTR_Init(TIM1, &TIM_BDTRInitStruct);
     /* USER CODE BEGIN TIM1_Init 2 */
@@ -426,52 +411,52 @@ static void MX_TIM1_Init(void) {
     PA9   ------> TIM1_CH2
     PA10   ------> TIM1_CH3
     */
-    GPIO_InitStruct.Pin = M1_PWM_UL_Pin;
-    GPIO_InitStruct.Mode = LL_GPIO_MODE_ALTERNATE;
-    GPIO_InitStruct.Speed = LL_GPIO_SPEED_FREQ_HIGH;
+    GPIO_InitStruct.Pin        = M1_PWM_UL_Pin;
+    GPIO_InitStruct.Mode       = LL_GPIO_MODE_ALTERNATE;
+    GPIO_InitStruct.Speed      = LL_GPIO_SPEED_FREQ_HIGH;
     GPIO_InitStruct.OutputType = LL_GPIO_OUTPUT_PUSHPULL;
-    GPIO_InitStruct.Pull = LL_GPIO_PULL_UP;
-    GPIO_InitStruct.Alternate = LL_GPIO_AF_2;
+    GPIO_InitStruct.Pull       = LL_GPIO_PULL_UP;
+    GPIO_InitStruct.Alternate  = LL_GPIO_AF_2;
     LL_GPIO_Init(M1_PWM_UL_GPIO_Port, &GPIO_InitStruct);
 
-    GPIO_InitStruct.Pin = M1_PWM_VL_Pin;
-    GPIO_InitStruct.Mode = LL_GPIO_MODE_ALTERNATE;
-    GPIO_InitStruct.Speed = LL_GPIO_SPEED_FREQ_HIGH;
+    GPIO_InitStruct.Pin        = M1_PWM_VL_Pin;
+    GPIO_InitStruct.Mode       = LL_GPIO_MODE_ALTERNATE;
+    GPIO_InitStruct.Speed      = LL_GPIO_SPEED_FREQ_HIGH;
     GPIO_InitStruct.OutputType = LL_GPIO_OUTPUT_PUSHPULL;
-    GPIO_InitStruct.Pull = LL_GPIO_PULL_UP;
-    GPIO_InitStruct.Alternate = LL_GPIO_AF_2;
+    GPIO_InitStruct.Pull       = LL_GPIO_PULL_UP;
+    GPIO_InitStruct.Alternate  = LL_GPIO_AF_2;
     LL_GPIO_Init(M1_PWM_VL_GPIO_Port, &GPIO_InitStruct);
 
-    GPIO_InitStruct.Pin = M1_PWM_WL_Pin;
-    GPIO_InitStruct.Mode = LL_GPIO_MODE_ALTERNATE;
-    GPIO_InitStruct.Speed = LL_GPIO_SPEED_FREQ_HIGH;
+    GPIO_InitStruct.Pin        = M1_PWM_WL_Pin;
+    GPIO_InitStruct.Mode       = LL_GPIO_MODE_ALTERNATE;
+    GPIO_InitStruct.Speed      = LL_GPIO_SPEED_FREQ_HIGH;
     GPIO_InitStruct.OutputType = LL_GPIO_OUTPUT_PUSHPULL;
-    GPIO_InitStruct.Pull = LL_GPIO_PULL_UP;
-    GPIO_InitStruct.Alternate = LL_GPIO_AF_2;
+    GPIO_InitStruct.Pull       = LL_GPIO_PULL_UP;
+    GPIO_InitStruct.Alternate  = LL_GPIO_AF_2;
     LL_GPIO_Init(M1_PWM_WL_GPIO_Port, &GPIO_InitStruct);
 
-    GPIO_InitStruct.Pin = M1_PWM_UH_Pin;
-    GPIO_InitStruct.Mode = LL_GPIO_MODE_ALTERNATE;
-    GPIO_InitStruct.Speed = LL_GPIO_SPEED_FREQ_HIGH;
+    GPIO_InitStruct.Pin        = M1_PWM_UH_Pin;
+    GPIO_InitStruct.Mode       = LL_GPIO_MODE_ALTERNATE;
+    GPIO_InitStruct.Speed      = LL_GPIO_SPEED_FREQ_HIGH;
     GPIO_InitStruct.OutputType = LL_GPIO_OUTPUT_PUSHPULL;
-    GPIO_InitStruct.Pull = LL_GPIO_PULL_UP;
-    GPIO_InitStruct.Alternate = LL_GPIO_AF_2;
+    GPIO_InitStruct.Pull       = LL_GPIO_PULL_UP;
+    GPIO_InitStruct.Alternate  = LL_GPIO_AF_2;
     LL_GPIO_Init(M1_PWM_UH_GPIO_Port, &GPIO_InitStruct);
 
-    GPIO_InitStruct.Pin = M1_PWM_VH_Pin;
-    GPIO_InitStruct.Mode = LL_GPIO_MODE_ALTERNATE;
-    GPIO_InitStruct.Speed = LL_GPIO_SPEED_FREQ_HIGH;
+    GPIO_InitStruct.Pin        = M1_PWM_VH_Pin;
+    GPIO_InitStruct.Mode       = LL_GPIO_MODE_ALTERNATE;
+    GPIO_InitStruct.Speed      = LL_GPIO_SPEED_FREQ_HIGH;
     GPIO_InitStruct.OutputType = LL_GPIO_OUTPUT_PUSHPULL;
-    GPIO_InitStruct.Pull = LL_GPIO_PULL_UP;
-    GPIO_InitStruct.Alternate = LL_GPIO_AF_2;
+    GPIO_InitStruct.Pull       = LL_GPIO_PULL_UP;
+    GPIO_InitStruct.Alternate  = LL_GPIO_AF_2;
     LL_GPIO_Init(M1_PWM_VH_GPIO_Port, &GPIO_InitStruct);
 
-    GPIO_InitStruct.Pin = M1_PWM_WH_Pin;
-    GPIO_InitStruct.Mode = LL_GPIO_MODE_ALTERNATE;
-    GPIO_InitStruct.Speed = LL_GPIO_SPEED_FREQ_HIGH;
+    GPIO_InitStruct.Pin        = M1_PWM_WH_Pin;
+    GPIO_InitStruct.Mode       = LL_GPIO_MODE_ALTERNATE;
+    GPIO_InitStruct.Speed      = LL_GPIO_SPEED_FREQ_HIGH;
     GPIO_InitStruct.OutputType = LL_GPIO_OUTPUT_PUSHPULL;
-    GPIO_InitStruct.Pull = LL_GPIO_PULL_UP;
-    GPIO_InitStruct.Alternate = LL_GPIO_AF_2;
+    GPIO_InitStruct.Pull       = LL_GPIO_PULL_UP;
+    GPIO_InitStruct.Alternate  = LL_GPIO_AF_2;
     LL_GPIO_Init(M1_PWM_WH_GPIO_Port, &GPIO_InitStruct);
 }
 
@@ -481,12 +466,11 @@ static void MX_TIM1_Init(void) {
  * @retval None
  */
 static void MX_TIM2_Init(void) {
-
     /* USER CODE BEGIN TIM2_Init 0 */
 
     /* USER CODE END TIM2_Init 0 */
 
-    LL_TIM_InitTypeDef TIM_InitStruct = {0};
+    LL_TIM_InitTypeDef TIM_InitStruct       = {0};
     LL_TIM_OC_InitTypeDef TIM_OC_InitStruct = {0};
 
     LL_GPIO_InitTypeDef GPIO_InitStruct = {0};
@@ -500,36 +484,36 @@ static void MX_TIM2_Init(void) {
     PA1   ------> TIM2_CH2
     PA2   ------> TIM2_CH3
     */
-    GPIO_InitStruct.Pin = M1_HALL_H1_Pin;
-    GPIO_InitStruct.Mode = LL_GPIO_MODE_ALTERNATE;
-    GPIO_InitStruct.Speed = LL_GPIO_SPEED_FREQ_HIGH;
+    GPIO_InitStruct.Pin        = M1_HALL_H1_Pin;
+    GPIO_InitStruct.Mode       = LL_GPIO_MODE_ALTERNATE;
+    GPIO_InitStruct.Speed      = LL_GPIO_SPEED_FREQ_HIGH;
     GPIO_InitStruct.OutputType = LL_GPIO_OUTPUT_PUSHPULL;
-    GPIO_InitStruct.Pull = LL_GPIO_PULL_NO;
-    GPIO_InitStruct.Alternate = LL_GPIO_AF_2;
+    GPIO_InitStruct.Pull       = LL_GPIO_PULL_NO;
+    GPIO_InitStruct.Alternate  = LL_GPIO_AF_2;
     LL_GPIO_Init(M1_HALL_H1_GPIO_Port, &GPIO_InitStruct);
 
-    GPIO_InitStruct.Pin = M1_HALL_H2_Pin;
-    GPIO_InitStruct.Mode = LL_GPIO_MODE_ALTERNATE;
-    GPIO_InitStruct.Speed = LL_GPIO_SPEED_FREQ_HIGH;
+    GPIO_InitStruct.Pin        = M1_HALL_H2_Pin;
+    GPIO_InitStruct.Mode       = LL_GPIO_MODE_ALTERNATE;
+    GPIO_InitStruct.Speed      = LL_GPIO_SPEED_FREQ_HIGH;
     GPIO_InitStruct.OutputType = LL_GPIO_OUTPUT_PUSHPULL;
-    GPIO_InitStruct.Pull = LL_GPIO_PULL_NO;
-    GPIO_InitStruct.Alternate = LL_GPIO_AF_2;
+    GPIO_InitStruct.Pull       = LL_GPIO_PULL_NO;
+    GPIO_InitStruct.Alternate  = LL_GPIO_AF_2;
     LL_GPIO_Init(M1_HALL_H2_GPIO_Port, &GPIO_InitStruct);
 
-    GPIO_InitStruct.Pin = M1_HALL_H3_Pin;
-    GPIO_InitStruct.Mode = LL_GPIO_MODE_ALTERNATE;
-    GPIO_InitStruct.Speed = LL_GPIO_SPEED_FREQ_HIGH;
+    GPIO_InitStruct.Pin        = M1_HALL_H3_Pin;
+    GPIO_InitStruct.Mode       = LL_GPIO_MODE_ALTERNATE;
+    GPIO_InitStruct.Speed      = LL_GPIO_SPEED_FREQ_HIGH;
     GPIO_InitStruct.OutputType = LL_GPIO_OUTPUT_PUSHPULL;
-    GPIO_InitStruct.Pull = LL_GPIO_PULL_NO;
-    GPIO_InitStruct.Alternate = LL_GPIO_AF_2;
+    GPIO_InitStruct.Pull       = LL_GPIO_PULL_NO;
+    GPIO_InitStruct.Alternate  = LL_GPIO_AF_2;
     LL_GPIO_Init(M1_HALL_H3_GPIO_Port, &GPIO_InitStruct);
 
     /* USER CODE BEGIN TIM2_Init 1 */
 
     /* USER CODE END TIM2_Init 1 */
-    TIM_InitStruct.Prescaler = 0;
-    TIM_InitStruct.CounterMode = LL_TIM_COUNTERMODE_UP;
-    TIM_InitStruct.Autoreload = M1_HALL_TIM_PERIOD;
+    TIM_InitStruct.Prescaler     = 0;
+    TIM_InitStruct.CounterMode   = LL_TIM_COUNTERMODE_UP;
+    TIM_InitStruct.Autoreload    = M1_HALL_TIM_PERIOD;
     TIM_InitStruct.ClockDivision = LL_TIM_CLOCKDIVISION_DIV1;
     LL_TIM_Init(TIM2, &TIM_InitStruct);
     LL_TIM_DisableARRPreload(TIM2);
@@ -542,13 +526,13 @@ static void MX_TIM2_Init(void) {
     LL_TIM_IC_EnableXORCombination(TIM2);
     LL_TIM_SetTriggerInput(TIM2, LL_TIM_TS_TI1F_ED);
     LL_TIM_SetSlaveMode(TIM2, LL_TIM_SLAVEMODE_RESET);
-    TIM_OC_InitStruct.OCMode = LL_TIM_OCMODE_PWM2;
-    TIM_OC_InitStruct.OCState = LL_TIM_OCSTATE_DISABLE;
-    TIM_OC_InitStruct.OCNState = LL_TIM_OCSTATE_DISABLE;
+    TIM_OC_InitStruct.OCMode       = LL_TIM_OCMODE_PWM2;
+    TIM_OC_InitStruct.OCState      = LL_TIM_OCSTATE_DISABLE;
+    TIM_OC_InitStruct.OCNState     = LL_TIM_OCSTATE_DISABLE;
     TIM_OC_InitStruct.CompareValue = 0;
-    TIM_OC_InitStruct.OCPolarity = LL_TIM_OCPOLARITY_HIGH;
-    TIM_OC_InitStruct.OCNPolarity = LL_TIM_OCPOLARITY_HIGH;
-    TIM_OC_InitStruct.OCIdleState = LL_TIM_OCIDLESTATE_LOW;
+    TIM_OC_InitStruct.OCPolarity   = LL_TIM_OCPOLARITY_HIGH;
+    TIM_OC_InitStruct.OCNPolarity  = LL_TIM_OCPOLARITY_HIGH;
+    TIM_OC_InitStruct.OCIdleState  = LL_TIM_OCIDLESTATE_LOW;
     TIM_OC_InitStruct.OCNIdleState = LL_TIM_OCIDLESTATE_LOW;
 
     LL_TIM_OC_Init(TIM2, LL_TIM_CHANNEL_CH2, &TIM_OC_InitStruct);
@@ -566,7 +550,6 @@ static void MX_TIM2_Init(void) {
  * @retval None
  */
 static void MX_USART1_UART_Init(void) {
-
     /* USER CODE BEGIN USART1_Init 0 */
 
     /* USER CODE END USART1_Init 0 */
@@ -583,26 +566,27 @@ static void MX_USART1_UART_Init(void) {
     PB6   ------> USART1_TX
     PB7   ------> USART1_RX
     */
-    GPIO_InitStruct.Pin = UART_TX_Pin;
-    GPIO_InitStruct.Mode = LL_GPIO_MODE_ALTERNATE;
-    GPIO_InitStruct.Speed = LL_GPIO_SPEED_FREQ_LOW;
+    GPIO_InitStruct.Pin        = UART_TX_Pin;
+    GPIO_InitStruct.Mode       = LL_GPIO_MODE_ALTERNATE;
+    GPIO_InitStruct.Speed      = LL_GPIO_SPEED_FREQ_LOW;
     GPIO_InitStruct.OutputType = LL_GPIO_OUTPUT_PUSHPULL;
-    GPIO_InitStruct.Pull = LL_GPIO_PULL_NO;
-    GPIO_InitStruct.Alternate = LL_GPIO_AF_0;
+    GPIO_InitStruct.Pull       = LL_GPIO_PULL_NO;
+    GPIO_InitStruct.Alternate  = LL_GPIO_AF_0;
     LL_GPIO_Init(UART_TX_GPIO_Port, &GPIO_InitStruct);
 
-    GPIO_InitStruct.Pin = UART_RX_Pin;
-    GPIO_InitStruct.Mode = LL_GPIO_MODE_ALTERNATE;
-    GPIO_InitStruct.Speed = LL_GPIO_SPEED_FREQ_LOW;
+    GPIO_InitStruct.Pin        = UART_RX_Pin;
+    GPIO_InitStruct.Mode       = LL_GPIO_MODE_ALTERNATE;
+    GPIO_InitStruct.Speed      = LL_GPIO_SPEED_FREQ_LOW;
     GPIO_InitStruct.OutputType = LL_GPIO_OUTPUT_PUSHPULL;
-    GPIO_InitStruct.Pull = LL_GPIO_PULL_NO;
-    GPIO_InitStruct.Alternate = LL_GPIO_AF_0;
+    GPIO_InitStruct.Pull       = LL_GPIO_PULL_NO;
+    GPIO_InitStruct.Alternate  = LL_GPIO_AF_0;
     LL_GPIO_Init(UART_RX_GPIO_Port, &GPIO_InitStruct);
 
     /* USART1 DMA Init */
 
     /* USART1_RX Init */
-    LL_DMA_SetDataTransferDirection(DMA1, LL_DMA_CHANNEL_3, LL_DMA_DIRECTION_PERIPH_TO_MEMORY);
+    LL_DMA_SetDataTransferDirection(DMA1, LL_DMA_CHANNEL_3,
+                                    LL_DMA_DIRECTION_PERIPH_TO_MEMORY);
 
     LL_DMA_SetChannelPriorityLevel(DMA1, LL_DMA_CHANNEL_3, LL_DMA_PRIORITY_LOW);
 
@@ -617,7 +601,8 @@ static void MX_USART1_UART_Init(void) {
     LL_DMA_SetMemorySize(DMA1, LL_DMA_CHANNEL_3, LL_DMA_MDATAALIGN_BYTE);
 
     /* USART1_TX Init */
-    LL_DMA_SetDataTransferDirection(DMA1, LL_DMA_CHANNEL_2, LL_DMA_DIRECTION_MEMORY_TO_PERIPH);
+    LL_DMA_SetDataTransferDirection(DMA1, LL_DMA_CHANNEL_2,
+                                    LL_DMA_DIRECTION_MEMORY_TO_PERIPH);
 
     LL_DMA_SetChannelPriorityLevel(DMA1, LL_DMA_CHANNEL_2, LL_DMA_PRIORITY_LOW);
 
@@ -634,13 +619,13 @@ static void MX_USART1_UART_Init(void) {
     /* USER CODE BEGIN USART1_Init 1 */
 
     /* USER CODE END USART1_Init 1 */
-    USART_InitStruct.BaudRate = 1843200;
-    USART_InitStruct.DataWidth = LL_USART_DATAWIDTH_8B;
-    USART_InitStruct.StopBits = LL_USART_STOPBITS_1;
-    USART_InitStruct.Parity = LL_USART_PARITY_NONE;
-    USART_InitStruct.TransferDirection = LL_USART_DIRECTION_TX_RX;
+    USART_InitStruct.BaudRate            = 1843200;
+    USART_InitStruct.DataWidth           = LL_USART_DATAWIDTH_8B;
+    USART_InitStruct.StopBits            = LL_USART_STOPBITS_1;
+    USART_InitStruct.Parity              = LL_USART_PARITY_NONE;
+    USART_InitStruct.TransferDirection   = LL_USART_DIRECTION_TX_RX;
     USART_InitStruct.HardwareFlowControl = LL_USART_HWCONTROL_NONE;
-    USART_InitStruct.OverSampling = LL_USART_OVERSAMPLING_16;
+    USART_InitStruct.OverSampling        = LL_USART_OVERSAMPLING_16;
     LL_USART_Init(USART1, &USART_InitStruct);
     LL_USART_DisableIT_CTS(USART1);
     LL_USART_ConfigAsyncMode(USART1);
@@ -654,7 +639,6 @@ static void MX_USART1_UART_Init(void) {
  * Enable DMA controller clock
  */
 static void MX_DMA_Init(void) {
-
     /* Init with LL driver */
     /* DMA controller clock enable */
     LL_AHB1_GRP1_EnableClock(LL_AHB1_GRP1_PERIPH_DMA1);
@@ -679,23 +663,23 @@ static void MX_GPIO_Init(void) {
     LL_GPIO_SetOutputPin(M1_EN_DRIVER_GPIO_Port, M1_EN_DRIVER_Pin);
 
     /**/
-    GPIO_InitStruct.Pin = LL_GPIO_PIN_7;
+    GPIO_InitStruct.Pin  = LL_GPIO_PIN_7;
     GPIO_InitStruct.Mode = LL_GPIO_MODE_INPUT;
     GPIO_InitStruct.Pull = LL_GPIO_PULL_NO;
     LL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
     /**/
-    GPIO_InitStruct.Pin = LL_GPIO_PIN_0;
+    GPIO_InitStruct.Pin  = LL_GPIO_PIN_0;
     GPIO_InitStruct.Mode = LL_GPIO_MODE_INPUT;
     GPIO_InitStruct.Pull = LL_GPIO_PULL_NO;
     LL_GPIO_Init(GPIOB, &GPIO_InitStruct);
 
     /**/
-    GPIO_InitStruct.Pin = M1_EN_DRIVER_Pin;
-    GPIO_InitStruct.Mode = LL_GPIO_MODE_OUTPUT;
-    GPIO_InitStruct.Speed = LL_GPIO_SPEED_FREQ_LOW;
+    GPIO_InitStruct.Pin        = M1_EN_DRIVER_Pin;
+    GPIO_InitStruct.Mode       = LL_GPIO_MODE_OUTPUT;
+    GPIO_InitStruct.Speed      = LL_GPIO_SPEED_FREQ_LOW;
     GPIO_InitStruct.OutputType = LL_GPIO_OUTPUT_PUSHPULL;
-    GPIO_InitStruct.Pull = LL_GPIO_PULL_UP;
+    GPIO_InitStruct.Pull       = LL_GPIO_PULL_UP;
     LL_GPIO_Init(M1_EN_DRIVER_GPIO_Port, &GPIO_InitStruct);
 
     /* USER CODE BEGIN MX_GPIO_Init_2 */
@@ -705,19 +689,19 @@ static void MX_GPIO_Init(void) {
 /* USER CODE BEGIN 4 */
 
 static void MX_SPI1_Init(void) {
-    hspi1.Instance = SPI1;
-    hspi1.Init.Mode = SPI_MODE_SLAVE;
-    hspi1.Init.Direction = SPI_DIRECTION_2LINES;
-    hspi1.Init.DataSize = SPI_DATASIZE_8BIT;
-    hspi1.Init.CLKPolarity = SPI_POLARITY_LOW;
-    hspi1.Init.CLKPhase = SPI_PHASE_1EDGE;
-    hspi1.Init.NSS = SPI_NSS_HARD_INPUT;
-    hspi1.Init.FirstBit = SPI_FIRSTBIT_MSB;
-    hspi1.Init.TIMode = SPI_TIMODE_DISABLE;
+    hspi1.Instance            = SPI1;
+    hspi1.Init.Mode           = SPI_MODE_SLAVE;
+    hspi1.Init.Direction      = SPI_DIRECTION_2LINES;
+    hspi1.Init.DataSize       = SPI_DATASIZE_8BIT;
+    hspi1.Init.CLKPolarity    = SPI_POLARITY_LOW;
+    hspi1.Init.CLKPhase       = SPI_PHASE_1EDGE;
+    hspi1.Init.NSS            = SPI_NSS_HARD_INPUT;
+    hspi1.Init.FirstBit       = SPI_FIRSTBIT_MSB;
+    hspi1.Init.TIMode         = SPI_TIMODE_DISABLE;
     hspi1.Init.CRCCalculation = SPI_CRCCALCULATION_DISABLE;
-    hspi1.Init.CRCPolynomial = 7;
-    hspi1.Init.CRCLength = SPI_CRC_LENGTH_DATASIZE;
-    hspi1.Init.NSSPMode = SPI_NSS_PULSE_DISABLE;
+    hspi1.Init.CRCPolynomial  = 7;
+    hspi1.Init.CRCLength      = SPI_CRC_LENGTH_DATASIZE;
+    hspi1.Init.NSSPMode       = SPI_NSS_PULSE_DISABLE;
     if (HAL_SPI_Init(&hspi1) != HAL_OK) {
         Error_Handler();
     }
@@ -731,7 +715,8 @@ static void MX_SPI1_Init(void) {
  */
 void Error_Handler(void) {
     /* USER CODE BEGIN Error_Handler_Debug */
-    /* User can add his own implementation to report the HAL error return state */
+    /* User can add his own implementation to report the HAL error return state
+     */
     __disable_irq();
     while (1) {
     }
@@ -748,8 +733,9 @@ void Error_Handler(void) {
  */
 void assert_failed(uint8_t* file, uint32_t line) {
     /* USER CODE BEGIN 6 */
-    /* User can add his own implementation to report the file name and line number,
-       ex printf("Wrong parameters value: file %s on line %d\r\n", file, line) */
+    /* User can add his own implementation to report the file name and line
+       number, ex printf("Wrong parameters value: file %s on line %d\r\n", file,
+       line) */
     /* USER CODE END 6 */
 }
 #endif /* USE_FULL_ASSERT */

@@ -1,26 +1,36 @@
 #ifndef COMMON_TYPES
 #define COMMON_TYPES
 
-enum OPCODES {
-    NOP           = 0b00000000,
-    MOV_AX        = 0b10000010,
-    GET_AX        = 0b10000011,
-    MOV_BX        = 0b10000100,
-    GET_BX        = 0b10000101,
-    SET_SPEEDRAMP = 0b00000010,
-    GET_SPEED     = 0b00000011,
-    SET_ENCODER   = 0b00000100,
-    GET_ENCODER   = 0b00000101,
-    START_MOTOR   = 0b00001000,
-    STOP_MOTOR    = 0b11111111,
-    ACK_FAULTS    = 0b00010000,
-    GET_FAULT     = 0b00010001,
-    SET_CURRENT   = 0b00100000,
-    GET_CURRENT   = 0b00100001,
-    ACK           = 0b11000000,
-    NACK          = 0b11000001,
-    SPI_ERROR     = 0b11100000,
-};
+#define OPCODE_VALUES                    \
+    DEF_VALUE(SPI_NOOP, 0b00000000)           \
+    DEF_VALUE(MOV_AX, 0b10000010)        \
+    DEF_VALUE(GET_AX, 0b10000011)        \
+    DEF_VALUE(MOV_BX, 0b10000100)        \
+    DEF_VALUE(GET_BX, 0b10000101)        \
+    DEF_VALUE(SET_SPEEDRAMP, 0b00000010) \
+    DEF_VALUE(GET_SPEED, 0b00000011)     \
+    DEF_VALUE(SET_ENCODER, 0b00000100)   \
+    DEF_VALUE(GET_ENCODER, 0b00000101)   \
+    DEF_VALUE(START_MOTOR, 0b00001000)   \
+    DEF_VALUE(STOP_MOTOR, 0b11111111)    \
+    DEF_VALUE(ACK_FAULTS, 0b00010000)    \
+    DEF_VALUE(GET_FAULT, 0b00010001)     \
+    DEF_VALUE(SET_CURRENT, 0b00100000)   \
+    DEF_VALUE(GET_CURRENT, 0b00100001)   \
+    DEF_VALUE(ACK, 0b11000000)           \
+    DEF_VALUE(NACK, 0b11000001)          \
+    DEF_VALUE(SPI_ERROR, 0b11100000)
+
+#define DEF_VALUE(a, b) a = b,
+enum OPCODES { OPCODE_VALUES };
+#undef DEF_VALUE
+
+#define DEF_VALUE(a, b) a,
+const int OpcodesList[] = { OPCODE_VALUES };
+#undef DEF_VALUE
+
+#undef OPCODE_VALUES
+
 
 /**
  * For documentation on fault codes, visit ST MC SDK v6.2.0 documentation page
@@ -39,6 +49,11 @@ enum FAULT_CODES {
     SAMPLE_FAULT = 0x0100,
     OVERCURR_SW  = 0x0200,
     DP_FAULT     = 0x0400,
+};
+
+enum FRAME_PARTS {
+    FRAME_SOF = 0x73,
+    FRAME_EOF = 0x45,
 };
 
 #endif

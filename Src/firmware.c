@@ -4,23 +4,42 @@
 
 #include "../common/types.h"
 #include "stm32f0xx_hal.h"
+#include "stm32f0xx_hal_spi.h"
 
-enum OPCODES mc_SPI_poll(SPI_HandleTypeDef *hspi) {
-    uint8_t sof = __mc_SPI_readByte(hspi);
-    if (sof == SPI_ERROR) {
-        return SPI_ERROR;
-    }
-}
+enum OPCODES mc_SPI_beginFrame(SPI_HandleTypeDef *hspi) {
+    uint8_t ackStatus = NACK;
 
-uint8_t __mc_SPI_readByte(SPI_HandleTypeDef *hspi) {
-    uint8_t rxByte;
-    HAL_StatusTypeDef status = HAL_SPI_Receive(hspi, &rxByte, 1, SPI_TIMEOUT);
+    uint8_t sof;
+    while (ackStatus == NACK) {
+        HAL_SPI_TransmitReceive(hspi, &ackStatus, &sof, 1, SPI_TIMEOUT);
 
-    if (status != HAL_OK) {
-        return SPI_ERROR;
+        if (sof == FRAME_SOF) {
+            ackStatus = ACK;
+        }
     }
 
-    return rxByte;
+    uint8_t rawOpcodes;
+    enum OPCODES opcode;
+    do {
+        HAL_SPI_TransmitReceive(hspi, &ackStatus, &rawOpcodes, 1, SPI_TIMEOUT);
+
+        if (isEnum(rawOpcodes) == 1) {
+            ackStatus = ACK;
+            opcode    = (enum OPCODES)rawOpcodes;
+        } else {
+            ackStatus = NACK;
+        }
+    } while (ackStatus == NACK);
+
+    return opcode;
 }
 
-uint8_t SPITransmit(uint8_t tx) {}
+int isEnum(uint8_t x) {
+    for (int i = 0; i < sizeof(OpcodesList) / sizeof(*OpcodesList); i++) {
+        if (OpcodesList[i] == x) {
+            return 1;
+        }
+    }
+
+    return 0;
+}

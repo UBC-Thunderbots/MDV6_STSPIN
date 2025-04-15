@@ -1,3 +1,1 @@
-/home/msvc/Documents/tbots/MDV6_STSPIN/Src/firmware.c:11:14:mc_SPI_poll	0	static
-/home/msvc/Documents/tbots/MDV6_STSPIN/Src/firmware.c:14:14:__mc_SPI_readMessage	0	static
-/home/msvc/Documents/tbots/MDV6_STSPIN/Src/firmware.c:18:9:SPITransmit	0	static
+/home/msvc/Documents/tbots/MDV6_STSPIN/Src/firmware.c:9:14:mc_SPI_poll	40	static

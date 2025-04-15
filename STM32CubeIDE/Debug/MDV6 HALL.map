@@ -96,23 +96,21 @@ Discarded input sections
  .data          0x00000000        0x0 ./Application/User/firmware.o
  .bss           0x00000000        0x0 ./Application/User/firmware.o
  .text.mc_SPI_poll
-                0x00000000        0x4 ./Application/User/firmware.o
- .text.__mc_SPI_readMessage
-                0x00000000        0x4 ./Application/User/firmware.o
- .text.SPITransmit
-                0x00000000        0x4 ./Application/User/firmware.o
- .debug_info    0x00000000      0x679 ./Application/User/firmware.o
- .debug_abbrev  0x00000000      0x1ae ./Application/User/firmware.o
+                0x00000000       0x54 ./Application/User/firmware.o
+ .rodata.Opcodes
+                0x00000000       0x48 ./Application/User/firmware.o
+ .debug_info    0x00000000      0x741 ./Application/User/firmware.o
+ .debug_abbrev  0x00000000      0x1dd ./Application/User/firmware.o
  .debug_loclists
-                0x00000000       0x46 ./Application/User/firmware.o
- .debug_aranges
                 0x00000000       0x30 ./Application/User/firmware.o
+ .debug_aranges
+                0x00000000       0x20 ./Application/User/firmware.o
  .debug_rnglists
-                0x00000000       0x1f ./Application/User/firmware.o
- .debug_line    0x00000000      0x1e3 ./Application/User/firmware.o
- .debug_str     0x00000000      0x666 ./Application/User/firmware.o
+                0x00000000       0x13 ./Application/User/firmware.o
+ .debug_line    0x00000000      0x1fa ./Application/User/firmware.o
+ .debug_str     0x00000000      0x6e5 ./Application/User/firmware.o
  .comment       0x00000000       0x1f ./Application/User/firmware.o
- .debug_frame   0x00000000       0x40 ./Application/User/firmware.o
+ .debug_frame   0x00000000       0x30 ./Application/User/firmware.o
  .ARM.attributes
                 0x00000000       0x28 ./Application/User/firmware.o
  .text          0x00000000        0x0 ./Application/User/hall_speed_pos_fdbk.o
