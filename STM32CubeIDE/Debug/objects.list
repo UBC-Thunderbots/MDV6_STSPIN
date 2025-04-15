@@ -1,5 +1,6 @@
 "./Application/Startup/startup_stm32f031c6tx.o"
 "./Application/User/aspep.o"
+"./Application/User/firmware.o"
 "./Application/User/hall_speed_pos_fdbk.o"
 "./Application/User/main.o"
 "./Application/User/mc_api.o"

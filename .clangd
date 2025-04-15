@@ -1,2 +1,5 @@
 CompileFlags:
     CompilationDatabase: STM32CubeIDE/Debug/
+Diagnostics:
+  MissingIncludes: None
+  UnusedIncludes: None
