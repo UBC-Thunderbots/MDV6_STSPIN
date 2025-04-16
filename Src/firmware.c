@@ -23,7 +23,7 @@ enum OPCODES mc_SPI_beginFrame(SPI_HandleTypeDef *hspi) {
     do {
         HAL_SPI_TransmitReceive(hspi, &ackStatus, &rawOpcodes, 1, SPI_TIMEOUT);
 
-        if (isEnum(rawOpcodes) == 1) {
+        if (isOpcode(rawOpcodes) == 1) {
             ackStatus = ACK;
             opcode    = (enum OPCODES)rawOpcodes;
         } else {
@@ -34,7 +34,7 @@ enum OPCODES mc_SPI_beginFrame(SPI_HandleTypeDef *hspi) {
     return opcode;
 }
 
-int isEnum(uint8_t x) {
+int isOpcode(uint8_t x) {
     for (int i = 0; i < sizeof(OpcodesList) / sizeof(*OpcodesList); i++) {
         if (OpcodesList[i] == x) {
             return 1;
@@ -43,3 +43,4 @@ int isEnum(uint8_t x) {
 
     return 0;
 }
+

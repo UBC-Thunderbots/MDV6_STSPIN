@@ -1,4 +1,4 @@
-# MDFW V6.x SPI Specification (Last Updated 4/14/2025)
+# MDFW V6.x SPI Specification (Last Updated 4/15/2025)
 # Hardware Specifications
 - **Communication mode:** *Full Duplex*
 - **Frame format:** *Motorola*

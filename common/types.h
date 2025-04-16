@@ -31,7 +31,6 @@ const int OpcodesList[] = { OPCODE_VALUES };
 
 #undef OPCODE_VALUES
 
-
 /**
  * For documentation on fault codes, visit ST MC SDK v6.2.0 documentation page
  * /group___m_c___type.html#fault_codes
