@@ -16,9 +16,16 @@
 # Frame Format
 Borrowed from CAN. Clocks are 1 byte wide.
 
+## Master Frame
 | SOF             | Opcode           | Data      | CRC    | EOF             |
 | --------------- | ---------------- | --------- | ------ | --------------- |
 | 1 Byte (`0x73`) | 1 Byte Undecided | 0-2 Bytes | 1 byte | 1 Byte (`0x45`) |
+
+## Slave Frame
+| SOF             | Opcode           | Data      | CRC    | EOF             |
+| --------------- | ---------------- | --------- | ------ | --------------- |
+| 1 Byte (`0x73`) | ACK/NACK         | 0-2 Bytes | 1 byte | 1 Byte (`0x45`) |
+
 
 # Summary of Opcodes
 
