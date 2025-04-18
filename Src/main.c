@@ -18,8 +18,13 @@
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
-#include "firmware.h"
+
 #include <stdint.h>
+
+#include "firmware.h"
+#include "mc_api.h"
+#include "mc_interface.h"
+#include "stm32f0xx_hal_spi.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
@@ -115,9 +120,9 @@ int main(void) {
                              // state via Debugger
     MC_GetOccurredFaultsMotor1();
 
-    int16_t ax;
-    int16_t bx;
-    uint8_t TX_Buffer;
+    int16_t ax, bx;
+    uint8_t TX_Buffer[2] = {0, 0};
+    uint8_t RX_Buffer[2] = {0, 0};
     /* USER CODE END 2 */
 
     /* Infinite loop */
@@ -129,13 +134,52 @@ int main(void) {
 
         switch (opcode) {
             case MOV_AX:
-                uint8_t axFirst, axSecond;
-                TX_Buffer = SPI_NOOP;
-
-                HAL_SPI_Receive(&hspi1, &axFirst, 1, SPI_TIMEOUT);
-                HAL_SPI_Receive(&hspi1, &axSecond, 1, SPI_TIMEOUT);
-
+                HAL_SPI_Receive(&hspi1, RX_Buffer, 2, SPI_TIMEOUT);
+                ax = (RX_Buffer[0] << 8) + RX_Buffer[1];
                 break;
+            case GET_AX:
+                TX_Buffer[0] = (ax >> 8) & 0xFF;
+                TX_Buffer[1] = ax & 0xFF;
+                HAL_SPI_Transmit(&hspi1, TX_Buffer, 2, SPI_TIMEOUT);
+                break;
+            case MOV_BX:
+                HAL_SPI_Receive(&hspi1, RX_Buffer, 2, SPI_TIMEOUT);
+                bx = (RX_Buffer[0] << 8) + RX_Buffer[1];
+                break;
+            case GET_BX:
+                TX_Buffer[0] = (bx >> 8) & 0xFF;
+                TX_Buffer[1] = bx & 0xFF;
+                HAL_SPI_Transmit(&hspi1, TX_Buffer, 2, SPI_TIMEOUT);
+                break;
+            case SET_SPEEDRAMP:
+                MC_ProgramSpeedRampMotor1(ax, bx);
+                break;
+            case GET_SPEED:
+                ax = MC_GetMecSpeedReferenceMotor1();
+                TX_Buffer[0] = (ax >> 8) & 0xFF;
+                TX_Buffer[1] = ax & 0xFF;
+
+                HAL_SPI_Transmit(&hspi1, TX_Buffer, 2, SPI_TIMEOUT);
+                break;
+            case GET_ENCODER:
+                // TODO: Implement GET_ENCODER FUNCTION
+                // ax = MC_
+                break;
+            case START_MOTOR:
+                MC_StartMotor1();
+                break;
+            case STOP_MOTOR:
+                MC_StopMotor1();
+                break;
+            case ACK_FAULTS:
+                MC_AcknowledgeFaultMotor1();
+            case GET_FAULT:
+                ax = MC_GetOccurredFaultsMotor1();
+                TX_Buffer[0] = (ax >> 8) & 0xFF;  
+                TX_Buffer[1] = ax & 0xFF;
+                HAL_SPI_Transmit(&hspi1, TX_Buffer, 2, SPI_TIMEOUT);
+            case SET_CURRENT:
+            case GET_CURRENT:
             default:
                 break;
         }

@@ -42,11 +42,11 @@ Borrowed from CAN. Clocks are 1 byte wide.
 | Get Encoder Angle                               | `0b00000101` | `0x05` | `5`     |
 | Start Motor                                     | `0b00001000` | `0x08` | `8`     |
 | Stop Motor                                      | `0b11111111` | `0xFF` | `255`   |
-| Clear Faults                                    | `0b00010000` | `0x10` | `16`    |
+| Acknowledge Faults                              | `0b00010000` | `0x10` | `16`    |
 | Get Faults                                      | `0b00010001` | `0x11` | `17`    |
 | Set Current To Motor                            | `0b00100000` | `0x20` | `32`    |
 | Get Current To Motor                            | `0b00100001` | `0x21` | `33`    |
-| ACK                                             | `0b11000000` | `0xC0` | `192`    |
+| ACK                                             | `0b11000000` | `0xC0` | `192`   |
 | NACK                                            | `0b11000001` | `0xC1` | `193`   |
 | SPI Error                                       | `0b11100000` | `0xE0` | `224`   |
 # Data Integrity Methods
@@ -59,11 +59,11 @@ MOV operations contain two bytes of data to be assigned into the register.
 GET operations require two empty clocks to receive data.
 ## Set Motor Speed Ramp
 See: [MC_ProgramSpeedRampMotor1() - MCSDK Documentation](https://docs.x4132.dev/mcsdk/group___m_c_i_a_p_i.html#gabb40bdb1abfc0d65aa272a44d09363c1)
-Calls a motor speed ramp. The target motor speed will be set on the value of `ax`  and the ramp time will be set on the value of `bx` in milliseconds.
+Calls a motor speed ramp. The target motor speed will be set on the value of `ax` (in RPM) and the ramp time will be set on the value of `bx` in milliseconds.
 The ramp will be executed immediately if the motor is running, or will be executed when the motor is next started.
 ## Get Motor Speed
-Returns the motor speed to the nearest RPM.
-## Get Encoder Angle
+Stores motor speed in register `ax`. Then, transmits response over SPI (int16).
+## Get Encoder Angle - NOT IMPLEMENTED
 Gets the current mechanical encoder angle.
 ## Start Motor
 [MC_StartMotor1()](https://docs.x4132.dev/mcsdk/group___m_c_i_a_p_i.html#ga42e5fb747722e38d753b3c5aa8cfa478)
@@ -73,6 +73,7 @@ Gets the current mechanical encoder angle.
 [MC_AcknowledgeFaultMotor1()](https://docs.x4132.dev/mcsdk/group___m_c_i_a_p_i.html#gaee5ef9cd0d85a8998d1e635f6cbaf6f7)
 ## Get Faults
 [MC_GetOccuredFaultsMotor1()](https://docs.x4132.dev/mcsdk/group___m_c_i_a_p_i.html#gaccf1b164487fc23c152be6cd68657a9d)
+stores output of function in `ax` in 
 ## Set Current To Motor
 ## Get Current of Motor
 ## ACK/NACK
