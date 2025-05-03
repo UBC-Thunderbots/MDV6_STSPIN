@@ -1,6 +1,0 @@
-/home/msvc/Documents/tbots/MDV6_STSPIN/Src/register_interface.c:31:9:RI_SetRegisterGlobal	12	static
-/home/msvc/Documents/tbots/MDV6_STSPIN/Src/register_interface.c:153:9:RI_SetRegisterMotor1	16	static
-/home/msvc/Documents/tbots/MDV6_STSPIN/Src/register_interface.c:372:9:RI_GetRegisterGlobal	16	static
-/home/msvc/Documents/tbots/MDV6_STSPIN/Src/register_interface.c:507:11:RI_GetRegisterMotor1	40	static
-/home/msvc/Documents/tbots/MDV6_STSPIN/Src/register_interface.c:788:9:RI_GetIDSize	0	static
-/home/msvc/Documents/tbots/MDV6_STSPIN/Src/register_interface.c:823:16:RI_GetPtrReg	0	static

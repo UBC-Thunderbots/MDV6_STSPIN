@@ -69,9 +69,6 @@ static void MX_SPI1_Init(void);
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
 
-bool DRIVE     = false;
-bool DIRECTION = false;
-
 /* USER CODE END 0 */
 
 /**
@@ -175,7 +172,7 @@ int main(void) {
                 MC_AcknowledgeFaultMotor1();
             case GET_FAULT:
                 ax = MC_GetOccurredFaultsMotor1();
-                TX_Buffer[0] = (ax >> 8) & 0xFF;  
+                TX_Buffer[0] = (ax >> 8) & 0xFF;
                 TX_Buffer[1] = ax & 0xFF;
                 HAL_SPI_Transmit(&hspi1, TX_Buffer, 2, SPI_TIMEOUT);
             case SET_CURRENT:

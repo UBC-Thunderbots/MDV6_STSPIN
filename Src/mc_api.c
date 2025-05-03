@@ -22,7 +22,6 @@
 #include "mc_interface.h"
 #include "mc_api.h"
 #include "mc_config.h"
-#include "mcp.h"
 
 /** @addtogroup MCSDK
   * @{
@@ -718,10 +717,10 @@ __weak float_t MC_GetAveragePowerMotor1_F(void)
 /**
  * @brief Not implemented MC_Profiler function.
  *  */ //cstat !MISRAC2012-Rule-2.7 !RED-unused-param  !MISRAC2012-Rule-2.7  !MISRAC2012-Rule-8.13
-__weak uint8_t MC_ProfilerCommand(uint16_t rxLength, uint8_t *rxBuffer, int16_t txSyncFreeSpace, uint16_t *txLength, uint8_t *txBuffer)
-{
-  return (MCP_CMD_UNKNOWN);
-}
+// __weak uint8_t MC_ProfilerCommand(uint16_t rxLength, uint8_t *rxBuffer, int16_t txSyncFreeSpace, uint16_t *txLength, uint8_t *txBuffer)
+// {
+//   return (MCP_CMD_UNKNOWN);
+// }
 
 /**
   * @}

@@ -1,3 +1,2 @@
-/home/msvc/Documents/tbots/MDV6_STSPIN/Src/stm32_mc_common_it.c:65:6:USART1_IRQHandler	8	static
-/home/msvc/Documents/tbots/MDV6_STSPIN/Src/stm32_mc_common_it.c:127:6:HardFault_Handler	8	static
-/home/msvc/Documents/tbots/MDV6_STSPIN/Src/stm32_mc_common_it.c:146:6:SysTick_Handler	8	static
+/Users/msvc/Documents/code/tbots/MDV6_STSPIN/Src/stm32_mc_common_it.c:126:6:HardFault_Handler	8	static
+/Users/msvc/Documents/code/tbots/MDV6_STSPIN/Src/stm32_mc_common_it.c:145:6:SysTick_Handler	8	static

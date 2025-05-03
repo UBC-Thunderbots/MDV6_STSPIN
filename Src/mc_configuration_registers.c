@@ -21,7 +21,6 @@
 
 #include "mc_type.h"
 #include "mc_configuration_registers.h"
-#include "register_interface.h"
 #include "parameters_conversion.h"
 
 #define FIRMWARE_NAME_STR "ST MC SDK\tVer.6.3.2"

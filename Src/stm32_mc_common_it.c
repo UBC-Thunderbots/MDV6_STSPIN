@@ -29,7 +29,6 @@
 #include "motorcontrol.h"
 #include "stm32f0xx_hal.h"
 #include "stm32f0xx.h"
-#include "mcp_config.h"
 
 /* USER CODE BEGIN Includes */
 
@@ -58,67 +57,67 @@ void HardFault_Handler(void);
 void SysTick_Handler(void);
 
 /* This section is present only when MCP over UART_A is used */
+// thats why its gone
 /**
   * @brief  This function handles USART interrupt request.
   * @param  None
   */
-void USART1_IRQHandler(void)
-{
-  /* USER CODE BEGIN USART1_IRQHandler 0 */
+// void USART1_IRQHandler(void)
+// {
+//   /* USER CODE BEGIN USART1_IRQHandler 0 */
 
-  /* USER CODE END USART1_IRQHandler 0 */
-  uint32_t flags;
-  uint32_t activeIdleFlag;
-  uint32_t isEnabledIdleFlag;
+//   /* USER CODE END USART1_IRQHandler 0 */
+//   uint32_t flags;
+//   uint32_t activeIdleFlag;
+//   uint32_t isEnabledIdleFlag;
 
-  if (0U == LL_USART_IsActiveFlag_TC(USARTA))
-  {
-    /* Nothing to do */
-  }
-  else
-  {
-    /* Disable the DMA channel to prepare the next chunck of data*/
-    LL_DMA_DisableChannel(DMA_TX_A, DMACH_TX_A);
-    LL_USART_ClearFlag_TC(USARTA);
-    /* Data Sent by UART*/
-    /* Need to free the buffer, and to check pending transfer*/
-    ASPEP_HWDataTransmittedIT(&aspepOverUartA);
-  }
-  if (LL_USART_IsActiveFlag_ORE(USARTA))
-  { /* Stopping the debugger will generate an OverRun error*/
-    LL_USART_ClearFlag_ORE(USARTA);
-    LL_USART_EnableIT_IDLE(USARTA);
-  }
-  else
-  {
-    /* Nothing to do */
-  }
+//   if (0U == LL_USART_IsActiveFlag_TC(USARTA))
+//   {
+//     /* Nothing to do */
+//   }
+//   else
+//   {
+//     /* Disable the DMA channel to prepare the next chunck of data*/
+//     LL_DMA_DisableChannel(DMA_TX_A, DMACH_TX_A);
+//     LL_USART_ClearFlag_TC(USARTA);
+//     /* Data Sent by UART*/
+//     /* Need to free the buffer, and to check pending transfer*/
+//     ASPEP_HWDataTransmittedIT(&aspepOverUartA);
+//   }
+//   if (LL_USART_IsActiveFlag_ORE(USARTA))
+//   { /* Stopping the debugger will generate an OverRun error*/
+//     LL_USART_ClearFlag_ORE(USARTA);
+//     LL_USART_EnableIT_IDLE(USARTA);
+//   }
+//   else
+//   {
+//     /* Nothing to do */
+//   }
 
-  activeIdleFlag = LL_USART_IsActiveFlag_IDLE(USARTA);
-  isEnabledIdleFlag = LL_USART_IsEnabledIT_IDLE(USARTA);
+//   activeIdleFlag = LL_USART_IsActiveFlag_IDLE(USARTA);
+//   isEnabledIdleFlag = LL_USART_IsEnabledIT_IDLE(USARTA);
 
-  flags = activeIdleFlag & isEnabledIdleFlag;
-  if (0U == flags)
-  {
-    /* Nothing to do */
-  }
-  else
-  { /* Stopping the debugger will generate an OverRun error*/
-    LL_USART_DisableIT_IDLE(USARTA);
-    /* To be sure we fetch the potential pending data*/
-    /* We disable the DMA request, Read the dummy data, endable back the DMA request */
-    LL_USART_DisableDMAReq_RX(USARTA);
-    (void)LL_USART_ReceiveData8(USARTA);
-    LL_USART_EnableDMAReq_RX(USARTA);
-    /* Clear pending DMA TC to process only new received packet */
-    LL_DMA_ClearFlag_TC(DMA_RX_A, DMACH_RX_A);
-    ASPEP_HWReset(&aspepOverUartA);
-  }
+//   flags = activeIdleFlag & isEnabledIdleFlag;
+//   if (0U == flags)
+//   {
+//     /* Nothing to do */
+//   }
+//   else
+//   { /* Stopping the debugger will generate an OverRun error*/
+//     LL_USART_DisableIT_IDLE(USARTA);
+//     /* To be sure we fetch the potential pending data*/
+//     /* We disable the DMA request, Read the dummy data, endable back the DMA request */
+//     LL_USART_DisableDMAReq_RX(USARTA);
+//     (void)LL_USART_ReceiveData8(USARTA);
+//     LL_USART_EnableDMAReq_RX(USARTA);
+//     /* Clear pending DMA TC to process only new received packet */
+//     LL_DMA_ClearFlag_TC(DMA_RX_A, DMACH_RX_A);
+//   }
 
-  /* USER CODE BEGIN USART1_IRQHandler 1 */
+//   /* USER CODE BEGIN USART1_IRQHandler 1 */
 
-  /* USER CODE END USART1_IRQHandler 1 */
-}
+//   /* USER CODE END USART1_IRQHandler 1 */
+// }
 
 /**
   * @brief  This function handles Hard Fault exception.
@@ -165,15 +164,15 @@ static uint8_t SystickDividerCounter = SYSTICK_DIVIDER;
 #endif /* MC_HAL_IS_USED */
   /* Buffer is ready by the HW layer to be processed */
   /* NO DMA interrupt */
-  if (LL_DMA_IsActiveFlag_TC(DMA_RX_A, DMACH_RX_A))
-  {
-    LL_DMA_ClearFlag_TC(DMA_RX_A, DMACH_RX_A);
-    ASPEP_HWDataReceivedIT(&aspepOverUartA);
-  }
-  else
-  {
-    /* Nothing to do */
-  }
+  // if (LL_DMA_IsActiveFlag_TC(DMA_RX_A, DMACH_RX_A))
+  // {
+  //   LL_DMA_ClearFlag_TC(DMA_RX_A, DMACH_RX_A);
+  //   ASPEP_HWDataReceivedIT(&aspepOverUartA);
+  // }
+  // else
+  // {
+  //   /* Nothing to do */
+  // }
   /* USER CODE BEGIN SysTick_IRQn 1 */
 
   /* USER CODE END SysTick_IRQn 1 */
