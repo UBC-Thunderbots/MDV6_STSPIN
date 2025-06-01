@@ -2,6 +2,6 @@
 /Users/msvc/Documents/code/tbots/MDV6_STSPIN/Src/mc_tasks_foc.c:81:13:FOC_Init	24	static
 /Users/msvc/Documents/code/tbots/MDV6_STSPIN/Src/mc_tasks_foc.c:149:6:TSK_MF_StopProcessing	8	static
 /Users/msvc/Documents/code/tbots/MDV6_STSPIN/Src/mc_tasks_foc.c:430:13:FOC_InitAdditionalMethods	0	static
-/Users/msvc/Documents/code/tbots/MDV6_STSPIN/Src/mc_tasks_foc.c:453:13:FOC_CalcCurrRef	24	static
+/Users/msvc/Documents/code/tbots/MDV6_STSPIN/Src/mc_tasks_foc.c:453:13:FOC_CalcCurrRef	24	static,ignoring_inline_asm
 /Users/msvc/Documents/code/tbots/MDV6_STSPIN/Src/mc_tasks_foc.c:167:13:TSK_MediumFrequencyTaskM1	32	static
 /Users/msvc/Documents/code/tbots/MDV6_STSPIN/Src/mc_tasks_foc.c:512:16:FOC_HighFrequencyTask	72	static

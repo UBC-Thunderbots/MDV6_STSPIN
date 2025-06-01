@@ -14,18 +14,20 @@
     - This configuration is also known as SPI Mode 0.
 
 # Frame Format
-Borrowed from CAN. Clocks are 1 byte wide.
+Borrowed from CAN. Clocks are 1 byte wide. Frame is 6 bytes (48 bits) wide.
 
 ## Master Frame
-| SOF             | Opcode           | Data      | CRC    | EOF             |
-| --------------- | ---------------- | --------- | ------ | --------------- |
-| 1 Byte (`0x73`) | 1 Byte Undecided | 0-2 Bytes | 1 byte | 1 Byte (`0x45`) |
+| SOF             | Opcode  | Data      | CRC      | EOF             |
+| --------------- | ------- | --------- | -------- | --------------- |
+| 1 Byte (`0x73`) | 1 Clock | 2 Clocks  | 1 Clock  | 1 Byte (`0x45`) |
 
 ## Slave Frame
 | SOF             | Opcode           | Data      | CRC    | EOF             |
 | --------------- | ---------------- | --------- | ------ | --------------- |
-| 1 Byte (`0x73`) | ACK/NACK         | 0-2 Bytes | 1 byte | 1 Byte (`0x45`) |
+| 1 Byte (`0x73`) | ACK/NACK         | 2 Clocks  | 1 byte | 1 Byte (`0x45`) |
 
+## Frame Align
+The byte 0xC2 is used to align the frame. It is sent whenever the chip is expecting a SOF header.
 
 # Summary of Opcodes
 
@@ -48,7 +50,11 @@ Borrowed from CAN. Clocks are 1 byte wide.
 | Get Current To Motor                            | `0b00100001` | `0x21` | `33`    |
 | ACK                                             | `0b11000000` | `0xC0` | `192`   |
 | NACK                                            | `0b11000001` | `0xC1` | `193`   |
+| Frame Align*                                    | `0b11000010` | `0xC2` | `194`   |
 | SPI Error                                       | `0b11100000` | `0xE0` | `224`   |
+
+* - *see above section*
+
 # Data Integrity Methods
 ## CRC
 CRC-8 should be implemented on opcode and data.
@@ -73,7 +79,7 @@ Gets the current mechanical encoder angle.
 [MC_AcknowledgeFaultMotor1()](https://docs.x4132.dev/mcsdk/group___m_c_i_a_p_i.html#gaee5ef9cd0d85a8998d1e635f6cbaf6f7)
 ## Get Faults
 [MC_GetOccuredFaultsMotor1()](https://docs.x4132.dev/mcsdk/group___m_c_i_a_p_i.html#gaccf1b164487fc23c152be6cd68657a9d)
-stores output of function in `ax` in 
+stores output of function in `ax` in
 ## Set Current To Motor
 ## Get Current of Motor
 ## ACK/NACK

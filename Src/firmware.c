@@ -2,36 +2,27 @@
 
 #include <stdint.h>
 
-#include "../common/types.h"
 #include "stm32f0xx_hal.h"
 #include "stm32f0xx_hal_spi.h"
 
-enum OPCODES mc_SPI_beginFrame(SPI_HandleTypeDef *hspi) {
-    uint8_t ackStatus = NACK;
+#define DEF_VALUE(a, b) a,
+const uint8_t OpcodesList[] = { OPCODE_VALUES };
+#undef DEF_VALUE
 
-    uint8_t sof;
-    while (ackStatus == NACK) {
-        HAL_SPI_TransmitReceive(hspi, &ackStatus, &sof, 1, SPI_TIMEOUT);
+void MC_SPI_ReceiveMessage(SPI_HandleTypeDef *hspi, uint8_t message[]) {
+    uint8_t checksum = 255;
 
-        if (sof == FRAME_SOF) {
-            ackStatus = ACK;
-        }
-    }
-
-    uint8_t rawOpcodes;
-    enum OPCODES opcode;
     do {
-        HAL_SPI_TransmitReceive(hspi, &ackStatus, &rawOpcodes, 1, SPI_TIMEOUT);
+        HAL_SPI_Receive(hspi, message, 1, SPI_TIMEOUT);
+        checksum = crc_gen_checksum(message[1], (message[2] << 8) + message[3]);
 
-        if (isOpcode(rawOpcodes) == 1) {
-            ackStatus = ACK;
-            opcode    = (enum OPCODES)rawOpcodes;
-        } else {
-            ackStatus = NACK;
+        // the compiler has to optimize this out... right?
+        if (checksum != message[4] || message[0] != FRAME_SOF ||
+            message[5] != FRAME_EOF || !isOpcode(message[1])) {
+            HAL_SPI_Transmit(hspi, CRC_FAIL, 6, SPI_TIMEOUT);
         }
-    } while (ackStatus == NACK);
-
-    return opcode;
+    } while (checksum != message[4] || message[0] != FRAME_SOF ||
+             message[5] != FRAME_EOF || !isOpcode(message[1]));
 }
 
 int isOpcode(uint8_t x) {
@@ -43,4 +34,3 @@ int isOpcode(uint8_t x) {
 
     return 0;
 }
-

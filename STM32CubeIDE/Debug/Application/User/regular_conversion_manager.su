@@ -1,4 +1,4 @@
-/Users/msvc/Documents/code/tbots/MDV6_STSPIN/Src/regular_conversion_manager.c:201:6:RCM_RegisterRegConv	20	static
+/Users/msvc/Documents/code/tbots/MDV6_STSPIN/Src/regular_conversion_manager.c:201:6:RCM_RegisterRegConv	16	static
 /Users/msvc/Documents/code/tbots/MDV6_STSPIN/Src/regular_conversion_manager.c:166:6:RCM_RegisterRegConv_WithCB	16	static
 /Users/msvc/Documents/code/tbots/MDV6_STSPIN/Src/regular_conversion_manager.c:291:10:RCM_ExecRegularConv	20	static
 /Users/msvc/Documents/code/tbots/MDV6_STSPIN/Src/regular_conversion_manager.c:423:6:RCM_RequestUserConv	0	static

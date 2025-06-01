@@ -21,10 +21,12 @@
 
 #include <stdint.h>
 
+#include "crc.h"
 #include "firmware.h"
 #include "mc_api.h"
 #include "mc_interface.h"
 #include "stm32f0xx_hal_spi.h"
+#include "types.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
@@ -80,11 +82,9 @@ int main(void) {
 
     /* USER CODE END 1 */
 
-    /* MCU
-     * Configuration--------------------------------------------------------*/
+    /* MCU Configuration --------------------------------------------------------*/
 
-    /* Reset of all peripherals, Initializes the Flash interface and the
-     * Systick. */
+    /* Reset of all peripherals, Initializes the Flash interface and the Systick. */
     HAL_Init();
 
     /* USER CODE BEGIN Init */
@@ -104,7 +104,7 @@ int main(void) {
     MX_ADC_Init();
     MX_TIM1_Init();
     MX_TIM2_Init();
-    MX_USART1_UART_Init();
+    // MX_USART1_UART_Init();
     MX_MotorControl_Init();
 
     /* Initialize interrupts */
@@ -117,9 +117,12 @@ int main(void) {
                              // state via Debugger
     MC_GetOccurredFaultsMotor1();
 
-    int16_t ax, bx;
-    uint8_t TX_Buffer[2] = {0, 0};
-    uint8_t RX_Buffer[2] = {0, 0};
+    int16_t ax = 0x0, bx = 0x0;
+    uint8_t TX_Buffer[2]   = {0x41, 0x42};
+    uint8_t NACK_Buffer[6] = {FRAME_SOF, NACK, 0, 0, crc_gen_checksum(ACK, (TX_Buffer[0] << 8) + TX_Buffer[1]),
+                              FRAME_EOF};
+
+    uint8_t frame_align = 0xC2;
     /* USER CODE END 2 */
 
     /* Infinite loop */
@@ -127,36 +130,38 @@ int main(void) {
     while (1) {
         /* USER CODE END WHILE */
         /* USER CODE BEGIN 3 */
-        enum OPCODES opcode = mc_SPI_beginFrame(&hspi1);
+        uint8_t message[6] = {0};
 
-        switch (opcode) {
+        HAL_SPI_Receive(&hspi1, message, 6, SPI_TIMEOUT);
+
+        // frame integrity check
+        if (message[0] != FRAME_SOF || message[5] != FRAME_EOF || message[4] != crc_gen_checksum(message[1], (message[2] << 8) + message[3])) {
+            HAL_SPI_Transmit(&hspi1, NACK_Buffer, 6, SPI_TIMEOUT);
+            continue;
+        }
+
+        switch (message[1]) {
             case MOV_AX:
-                HAL_SPI_Receive(&hspi1, RX_Buffer, 2, SPI_TIMEOUT);
-                ax = (RX_Buffer[0] << 8) + RX_Buffer[1];
+                ax = (message[2] << 8) + message[3];
                 break;
             case GET_AX:
                 TX_Buffer[0] = (ax >> 8) & 0xFF;
                 TX_Buffer[1] = ax & 0xFF;
-                HAL_SPI_Transmit(&hspi1, TX_Buffer, 2, SPI_TIMEOUT);
                 break;
             case MOV_BX:
-                HAL_SPI_Receive(&hspi1, RX_Buffer, 2, SPI_TIMEOUT);
-                bx = (RX_Buffer[0] << 8) + RX_Buffer[1];
+                bx = (message[2] << 8) + message[3];
                 break;
             case GET_BX:
                 TX_Buffer[0] = (bx >> 8) & 0xFF;
                 TX_Buffer[1] = bx & 0xFF;
-                HAL_SPI_Transmit(&hspi1, TX_Buffer, 2, SPI_TIMEOUT);
                 break;
             case SET_SPEEDRAMP:
                 MC_ProgramSpeedRampMotor1(ax, bx);
                 break;
             case GET_SPEED:
-                ax = MC_GetMecSpeedReferenceMotor1();
+                ax           = MC_GetMecSpeedReferenceMotor1();
                 TX_Buffer[0] = (ax >> 8) & 0xFF;
                 TX_Buffer[1] = ax & 0xFF;
-
-                HAL_SPI_Transmit(&hspi1, TX_Buffer, 2, SPI_TIMEOUT);
                 break;
             case GET_ENCODER:
                 // TODO: Implement GET_ENCODER FUNCTION
@@ -171,15 +176,21 @@ int main(void) {
             case ACK_FAULTS:
                 MC_AcknowledgeFaultMotor1();
             case GET_FAULT:
-                ax = MC_GetOccurredFaultsMotor1();
+                ax           = MC_GetOccurredFaultsMotor1();
                 TX_Buffer[0] = (ax >> 8) & 0xFF;
                 TX_Buffer[1] = ax & 0xFF;
-                HAL_SPI_Transmit(&hspi1, TX_Buffer, 2, SPI_TIMEOUT);
             case SET_CURRENT:
             case GET_CURRENT:
             default:
                 break;
         }
+
+        uint8_t checksum  = crc_gen_checksum(ACK, (TX_Buffer[0] << 8) + TX_Buffer[1]);
+        uint8_t tx_msg[6] = {FRAME_SOF, ACK, TX_Buffer[0], TX_Buffer[1], checksum, FRAME_EOF};
+
+        HAL_SPI_Transmit(&hspi1, tx_msg, 6, SPI_TIMEOUT);
+        TX_Buffer[0] = 0;
+        TX_Buffer[1] = 0;
     }
     /* USER CODE END 3 */
 }
@@ -282,8 +293,7 @@ static void MX_ADC_Init(void) {
     /* ADC DMA Init */
 
     /* ADC Init */
-    LL_DMA_SetDataTransferDirection(DMA1, LL_DMA_CHANNEL_1,
-                                    LL_DMA_DIRECTION_PERIPH_TO_MEMORY);
+    LL_DMA_SetDataTransferDirection(DMA1, LL_DMA_CHANNEL_1, LL_DMA_DIRECTION_PERIPH_TO_MEMORY);
 
     LL_DMA_SetChannelPriorityLevel(DMA1, LL_DMA_CHANNEL_1, LL_DMA_PRIORITY_LOW);
 
@@ -361,11 +371,9 @@ static void MX_TIM1_Init(void) {
     /* TIM1 DMA Init */
 
     /* TIM1_CH4_TRIG_COM Init */
-    LL_DMA_SetDataTransferDirection(DMA1, LL_DMA_CHANNEL_4,
-                                    LL_DMA_DIRECTION_MEMORY_TO_PERIPH);
+    LL_DMA_SetDataTransferDirection(DMA1, LL_DMA_CHANNEL_4, LL_DMA_DIRECTION_MEMORY_TO_PERIPH);
 
-    LL_DMA_SetChannelPriorityLevel(DMA1, LL_DMA_CHANNEL_4,
-                                   LL_DMA_PRIORITY_HIGH);
+    LL_DMA_SetChannelPriorityLevel(DMA1, LL_DMA_CHANNEL_4, LL_DMA_PRIORITY_HIGH);
 
     LL_DMA_SetMode(DMA1, LL_DMA_CHANNEL_4, LL_DMA_MODE_CIRCULAR);
 
@@ -378,11 +386,9 @@ static void MX_TIM1_Init(void) {
     LL_DMA_SetMemorySize(DMA1, LL_DMA_CHANNEL_4, LL_DMA_MDATAALIGN_HALFWORD);
 
     /* TIM1_CH3_UP Init */
-    LL_DMA_SetDataTransferDirection(DMA1, LL_DMA_CHANNEL_5,
-                                    LL_DMA_DIRECTION_MEMORY_TO_PERIPH);
+    LL_DMA_SetDataTransferDirection(DMA1, LL_DMA_CHANNEL_5, LL_DMA_DIRECTION_MEMORY_TO_PERIPH);
 
-    LL_DMA_SetChannelPriorityLevel(DMA1, LL_DMA_CHANNEL_5,
-                                   LL_DMA_PRIORITY_HIGH);
+    LL_DMA_SetChannelPriorityLevel(DMA1, LL_DMA_CHANNEL_5, LL_DMA_PRIORITY_HIGH);
 
     LL_DMA_SetMode(DMA1, LL_DMA_CHANNEL_5, LL_DMA_MODE_CIRCULAR);
 
@@ -626,8 +632,7 @@ static void MX_USART1_UART_Init(void) {
     /* USART1 DMA Init */
 
     /* USART1_RX Init */
-    LL_DMA_SetDataTransferDirection(DMA1, LL_DMA_CHANNEL_3,
-                                    LL_DMA_DIRECTION_PERIPH_TO_MEMORY);
+    LL_DMA_SetDataTransferDirection(DMA1, LL_DMA_CHANNEL_3, LL_DMA_DIRECTION_PERIPH_TO_MEMORY);
 
     LL_DMA_SetChannelPriorityLevel(DMA1, LL_DMA_CHANNEL_3, LL_DMA_PRIORITY_LOW);
 
@@ -642,8 +647,7 @@ static void MX_USART1_UART_Init(void) {
     LL_DMA_SetMemorySize(DMA1, LL_DMA_CHANNEL_3, LL_DMA_MDATAALIGN_BYTE);
 
     /* USART1_TX Init */
-    LL_DMA_SetDataTransferDirection(DMA1, LL_DMA_CHANNEL_2,
-                                    LL_DMA_DIRECTION_MEMORY_TO_PERIPH);
+    LL_DMA_SetDataTransferDirection(DMA1, LL_DMA_CHANNEL_2, LL_DMA_DIRECTION_MEMORY_TO_PERIPH);
 
     LL_DMA_SetChannelPriorityLevel(DMA1, LL_DMA_CHANNEL_2, LL_DMA_PRIORITY_LOW);
 
@@ -743,6 +747,7 @@ static void MX_SPI1_Init(void) {
     hspi1.Init.CRCPolynomial  = 7;
     hspi1.Init.CRCLength      = SPI_CRC_LENGTH_DATASIZE;
     hspi1.Init.NSSPMode       = SPI_NSS_PULSE_DISABLE;
+
     if (HAL_SPI_Init(&hspi1) != HAL_OK) {
         Error_Handler();
     }

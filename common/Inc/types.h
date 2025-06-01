@@ -1,5 +1,5 @@
-#ifndef COMMON_TYPES
-#define COMMON_TYPES
+#ifndef __COMMON_TYPES
+#define __COMMON_TYPES
 
 #define OPCODE_VALUES                    \
     DEF_VALUE(SPI_NOOP, 0b00000000)           \
@@ -24,12 +24,6 @@
 #define DEF_VALUE(a, b) a = b,
 enum OPCODES { OPCODE_VALUES };
 #undef DEF_VALUE
-
-#define DEF_VALUE(a, b) a,
-const int OpcodesList[] = { OPCODE_VALUES };
-#undef DEF_VALUE
-
-#undef OPCODE_VALUES
 
 /**
  * For documentation on fault codes, visit ST MC SDK v6.2.0 documentation page

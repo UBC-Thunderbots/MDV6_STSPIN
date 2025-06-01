@@ -90,9 +90,9 @@ void HAL_SPI_MspInit(SPI_HandleTypeDef* hspi) {
 
         /**SPI1 GPIO Configuration
         PA15     ------> SPI1_NSS
-        PB3     ------> SPI1_SCK
-        PB4     ------> SPI1_MISO
-        PB5     ------> SPI1_MOSI
+        PB3     ------> SPI1_SCK -> NEEDS TO BECOME MISO
+        PB4     ------> SPI1_MISO -> NEEDS TO BE MOSI
+        PB5     ------> SPI1_MOSI -> NEEDS TO BE CLK
         */
 
         GPIO_InitStruct.Pin       = GPIO_PIN_15;

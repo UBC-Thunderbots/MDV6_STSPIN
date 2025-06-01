@@ -1,4 +1,5 @@
 "./Application/Startup/startup_stm32f031c6tx.o"
+"./Application/User/crc.o"
 "./Application/User/firmware.o"
 "./Application/User/hall_speed_pos_fdbk.o"
 "./Application/User/main.o"
