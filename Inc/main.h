@@ -106,7 +106,7 @@ void Error_Handler(void);
 #define UART_RX_GPIO_Port GPIOB
 
 /* USER CODE BEGIN Private defines */
-
+#define FRAME_SIZE 6
 /* USER CODE END Private defines */
 
 #ifdef __cplusplus

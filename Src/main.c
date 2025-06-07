@@ -25,6 +25,7 @@
 #include "firmware.h"
 #include "mc_api.h"
 #include "mc_interface.h"
+#include "stm32f031x6.h"
 #include "stm32f0xx_hal_spi.h"
 #include "types.h"
 
@@ -52,6 +53,12 @@
 
 /* USER CODE BEGIN PV */
 SPI_HandleTypeDef hspi1;
+
+int16_t ax = 0, bx = 0;
+uint8_t TX_Buffer[FRAME_SIZE] = {0};
+uint8_t RX_Buffer[FRAME_SIZE] = {0};
+
+volatile uint8_t new_data_received = 0;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -113,16 +120,14 @@ int main(void) {
     MX_SPI1_Init();
 
     // call it once for live expression
-    MC_GetSTMStateMotor1();  // set a breakpoint on the line if reading the
-                             // state via Debugger
-    MC_GetOccurredFaultsMotor1();
+    // MC_GetSTMStateMotor1();  // set a breakpoint on the line if reading the
+    //                          // state via Debugger
+    // MC_GetOccurredFaultsMotor1();
 
-    int16_t ax = 0x0, bx = 0x0;
-    uint8_t TX_Buffer[2]   = {0x41, 0x42};
-    uint8_t NACK_Buffer[6] = {FRAME_SOF, NACK, 0, 0, crc_gen_checksum(ACK, (TX_Buffer[0] << 8) + TX_Buffer[1]),
-                              FRAME_EOF};
-
-    uint8_t frame_align = 0xC2;
+    // Initial arm of SPI recv
+    if (HAL_SPI_TransmitReceive_IT(&hspi1, TX_Buffer, RX_Buffer, FRAME_SIZE) != HAL_OK) {
+        Error_Handler();
+    }
     /* USER CODE END 2 */
 
     /* Infinite loop */
@@ -130,69 +135,98 @@ int main(void) {
     while (1) {
         /* USER CODE END WHILE */
         /* USER CODE BEGIN 3 */
-        uint8_t message[6] = {0};
+        // TODO: Need 2 add double buffering to prevent race condition
+        if (new_data_received) {
+            // frame integrity check
+            if (RX_Buffer[0] != FRAME_SOF || RX_Buffer[5] != FRAME_EOF ||
+                RX_Buffer[4] != crc_gen_checksum(RX_Buffer[1], (RX_Buffer[2] << 8) + RX_Buffer[3])) {
+                // send the NACK
+                continue;
+            }
 
-        HAL_SPI_Receive(&hspi1, message, 6, SPI_TIMEOUT);
+            uint16_t data = 0;
 
-        // frame integrity check
-        if (message[0] != FRAME_SOF || message[5] != FRAME_EOF || message[4] != crc_gen_checksum(message[1], (message[2] << 8) + message[3])) {
-            HAL_SPI_Transmit(&hspi1, NACK_Buffer, 6, SPI_TIMEOUT);
-            continue;
+            switch (RX_Buffer[1]) {
+                case MOV_AX:
+                    ax = (RX_Buffer[2] << 8) + RX_Buffer[3];
+                    break;
+                case GET_AX:
+                    data = ax;
+                    break;
+                case MOV_BX:
+                    bx = (RX_Buffer[2] << 8) + RX_Buffer[3];
+                    break;
+                case GET_BX:
+                    data = bx;
+                    break;
+                case SET_SPEEDRAMP:
+                    MC_ProgramSpeedRampMotor1(ax, bx);
+                    break;
+                case GET_SPEED:
+                    data = MC_GetMecSpeedReferenceMotor1();
+                    break;
+                case GET_ENCODER:
+                    // TODO: Implement GET_ENCODER FUNCTION
+                    // ax = MC_
+                    break;
+                case START_MOTOR:
+                    MC_StartMotor1();
+                    break;
+                case STOP_MOTOR:
+                    MC_StopMotor1();
+                    break;
+                case ACK_FAULTS:
+                    MC_AcknowledgeFaultMotor1();
+                    break;
+                case GET_FAULT:
+                    data = MC_GetOccurredFaultsMotor1();
+                    break;
+                case SET_CURRENT:
+                case GET_CURRENT:
+                default:
+                    break;
+            }
+
+            uint8_t checksum = crc_gen_checksum(ACK, data);
+            TX_Buffer[0]     = FRAME_SOF;
+            TX_Buffer[1]     = ACK;
+            TX_Buffer[2]     = (data >> 8) & 0xFF;
+            TX_Buffer[3]     = data & 0xFF;
+            TX_Buffer[4]     = checksum;
+            TX_Buffer[5]     = FRAME_EOF;
+
+            new_data_received = 0;
         }
-
-        switch (message[1]) {
-            case MOV_AX:
-                ax = (message[2] << 8) + message[3];
-                break;
-            case GET_AX:
-                TX_Buffer[0] = (ax >> 8) & 0xFF;
-                TX_Buffer[1] = ax & 0xFF;
-                break;
-            case MOV_BX:
-                bx = (message[2] << 8) + message[3];
-                break;
-            case GET_BX:
-                TX_Buffer[0] = (bx >> 8) & 0xFF;
-                TX_Buffer[1] = bx & 0xFF;
-                break;
-            case SET_SPEEDRAMP:
-                MC_ProgramSpeedRampMotor1(ax, bx);
-                break;
-            case GET_SPEED:
-                ax           = MC_GetMecSpeedReferenceMotor1();
-                TX_Buffer[0] = (ax >> 8) & 0xFF;
-                TX_Buffer[1] = ax & 0xFF;
-                break;
-            case GET_ENCODER:
-                // TODO: Implement GET_ENCODER FUNCTION
-                // ax = MC_
-                break;
-            case START_MOTOR:
-                MC_StartMotor1();
-                break;
-            case STOP_MOTOR:
-                MC_StopMotor1();
-                break;
-            case ACK_FAULTS:
-                MC_AcknowledgeFaultMotor1();
-            case GET_FAULT:
-                ax           = MC_GetOccurredFaultsMotor1();
-                TX_Buffer[0] = (ax >> 8) & 0xFF;
-                TX_Buffer[1] = ax & 0xFF;
-            case SET_CURRENT:
-            case GET_CURRENT:
-            default:
-                break;
-        }
-
-        uint8_t checksum  = crc_gen_checksum(ACK, (TX_Buffer[0] << 8) + TX_Buffer[1]);
-        uint8_t tx_msg[6] = {FRAME_SOF, ACK, TX_Buffer[0], TX_Buffer[1], checksum, FRAME_EOF};
-
-        HAL_SPI_Transmit(&hspi1, tx_msg, 6, SPI_TIMEOUT);
-        TX_Buffer[0] = 0;
-        TX_Buffer[1] = 0;
     }
     /* USER CODE END 3 */
+}
+
+/**
+ * @brief  TxRx Transfer completed callback.
+ * @param  hspi: pointer to a SPI_HandleTypeDef structure.
+ * @retval None
+ */
+void HAL_SPI_TxRxCpltCallback(SPI_HandleTypeDef* hspi) {
+    // let main thread know new data has been recv
+    if (hspi->Instance == SPI1) {
+        new_data_received = 1;
+    }
+
+    // rearm the receiver
+    if (HAL_SPI_TransmitReceive_IT(&hspi1, TX_Buffer, RX_Buffer, FRAME_SIZE) != HAL_OK) {
+        Error_Handler();
+    }
+}
+
+/**
+ * @brief  SPI error callback.
+ * @param  hspi: pointer to a SPI_HandleTypeDef structure.
+ * @retval None
+ */
+void HAL_SPI_ErrorCallback(SPI_HandleTypeDef* hspi) {
+    if (hspi->Instance == SPI1) {
+        Error_Handler();
+    }
 }
 
 /**
@@ -244,8 +278,11 @@ void SystemClock_Config(void) {
  */
 static void MX_NVIC_Init(void) {
     /* USART1_IRQn interrupt configuration */
-    NVIC_SetPriority(USART1_IRQn, 3);
-    NVIC_EnableIRQ(USART1_IRQn);
+    // NVIC_SetPriority(USART1_IRQn, 3);
+    // NVIC_EnableIRQ(USART1_IRQn);
+    /* SPI1_IRQn interrupt configuration */
+    NVIC_SetPriority(SPI1_IRQn, 3);
+    NVIC_EnableIRQ(SPI1_IRQn);
     /* DMA1_Channel1_IRQn interrupt configuration */
     NVIC_SetPriority(DMA1_Channel1_IRQn, 1);
     NVIC_EnableIRQ(DMA1_Channel1_IRQn);
