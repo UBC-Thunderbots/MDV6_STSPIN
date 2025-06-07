@@ -78,7 +78,7 @@ def main():
         print("Invalid OPCODE name.")
         sys.exit(1)
     opcode = OPCODES[opcode_str]
-    if opcode_str.startswith("MOV") or opcode_str in ("SET_SPEEDRAMP", "SET_ENCODER", "SET_CURRENT"):
+    if opcode_str.startswith("MOV"):
         data = int(input("Enter 16-bit data (as integer): "))
     else:
         data = 0

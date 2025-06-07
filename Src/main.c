@@ -25,6 +25,7 @@
 #include "firmware.h"
 #include "mc_api.h"
 #include "mc_interface.h"
+#include "stm32_hal_legacy.h"
 #include "stm32f031x6.h"
 #include "stm32f0xx_hal_spi.h"
 #include "types.h"
@@ -55,8 +56,8 @@
 SPI_HandleTypeDef hspi1;
 
 int16_t ax = 0, bx = 0;
-uint8_t TX_Buffer[FRAME_SIZE] = {0};
-uint8_t RX_Buffer[FRAME_SIZE] = {0};
+volatile uint8_t TX_Buffer[FRAME_SIZE] = {0};
+volatile uint8_t RX_Buffer[FRAME_SIZE] = {0};
 
 volatile uint8_t new_data_received = 0;
 /* USER CODE END PV */
@@ -140,7 +141,9 @@ int main(void) {
             // frame integrity check
             if (RX_Buffer[0] != FRAME_SOF || RX_Buffer[5] != FRAME_EOF ||
                 RX_Buffer[4] != crc_gen_checksum(RX_Buffer[1], (RX_Buffer[2] << 8) + RX_Buffer[3])) {
+                TX_Buffer[3] = 0;
                 // send the NACK
+                new_data_received = false;
                 continue;
             }
 
