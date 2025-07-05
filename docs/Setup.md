@@ -18,3 +18,12 @@ use stm32cubeide or stm32cubeprog
 
 # debuggin
 use stm32cubeide (idk how to set up openocd yet)
+
+# hardware setup
+the SPI pinout is broken on mdv6.1/2/3.
+
+SPI master pin --> MDV6.1/2/3 pin
+CS --> CS
+CLK --> MISO
+MISO --> MOSI
+MOSI --> CLK
