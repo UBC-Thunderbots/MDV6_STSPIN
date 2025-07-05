@@ -56,8 +56,8 @@
 SPI_HandleTypeDef hspi1;
 
 int16_t ax = 0, bx = 0;
-uint8_t TX_Buffer[FRAME_SIZE] = {0};
-uint8_t RX_Buffer[FRAME_SIZE] = {0};
+volatile uint8_t TX_Buffer[FRAME_SIZE] = {0};
+volatile uint8_t RX_Buffer[FRAME_SIZE] = {0};
 
 volatile uint8_t new_data_received = 0;
 /* USER CODE END PV */
