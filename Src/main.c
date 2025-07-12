@@ -56,8 +56,11 @@
 SPI_HandleTypeDef hspi1;
 
 int16_t ax = 0, bx = 0;
-volatile uint8_t TX_Buffer[FRAME_SIZE] = {0};
-volatile uint8_t RX_Buffer[FRAME_SIZE] = {0};
+// uint8_t tx0[FRAME_SIZE] = {0}, tx1[FRAME_SIZE] = {0};
+// uint8_t rx0[FRAME_SIZE] = {0}, rx1[FRAME_SIZE] = {0};
+// uint8_t *TX_Buffer = tx0, *RX_Buffer = rx0;
+uint8_t TX_Buffer[FRAME_SIZE] = {0}, RX_Buffer[FRAME_SIZE] = {0};
+uint8_t cur_buf = 0;
 
 volatile uint8_t new_data_received = 0;
 /* USER CODE END PV */
@@ -199,6 +202,11 @@ int main(void) {
             TX_Buffer[5]     = FRAME_EOF;
 
             new_data_received = 0;
+
+            // rearm the receiver
+            if (HAL_SPI_TransmitReceive_IT(&hspi1, TX_Buffer, RX_Buffer, FRAME_SIZE) != HAL_OK) {
+                Error_Handler();
+            }
         }
     }
     /* USER CODE END 3 */
@@ -215,10 +223,6 @@ void HAL_SPI_TxRxCpltCallback(SPI_HandleTypeDef* hspi) {
         new_data_received = 1;
     }
 
-    // rearm the receiver
-    if (HAL_SPI_TransmitReceive_IT(&hspi1, TX_Buffer, RX_Buffer, FRAME_SIZE) != HAL_OK) {
-        Error_Handler();
-    }
 }
 
 /**

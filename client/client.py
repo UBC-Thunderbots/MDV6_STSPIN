@@ -1,30 +1,4 @@
 import spidev
-import struct
-import sys
-
-# --- BEGIN: OPCODE Enum and mappings, derived from types.h
-OPCODES = {
-    'SPI_NOOP':         0x00,
-    'MOV_AX':           0x82,
-    'GET_AX':           0x83,
-    'MOV_BX':           0x84,
-    'GET_BX':           0x85,
-    'SET_SPEEDRAMP':    0x02,
-    'GET_SPEED':        0x03,
-    'SET_ENCODER':      0x04,
-    'GET_ENCODER':      0x05,
-    'START_MOTOR':      0x08,
-    'STOP_MOTOR':       0xFF,
-    'ACK_FAULTS':       0x10,
-    'GET_FAULT':        0x11,
-    'SET_CURRENT':      0x20,
-    'GET_CURRENT':      0x21,
-    'ACK':              0xC0,
-    'NACK':             0xC1,
-    'SPI_ERROR':        0xE0,
-}
-FRAME_SOF = 0x73
-FRAME_EOF = 0x45
 
 # --- BEGIN: CRC TABLE and function from crc.h
 CRC_x2F_TABLE = [
@@ -53,21 +27,36 @@ def crc_gen_checksum(opcode, data):
     crc = CRC_x2F_TABLE[crc ^ (data & 0xFF)]
     return crc ^ 0xFF
 
-def spi_transfer(frame, bus=0, device=0, max_speed_hz=1_000_000):
-    spi = spidev.SpiDev()
-    spi.open(bus, device)
-    spi.max_speed_hz = max_speed_hz
-    spi.mode = 0b00  # SPI Mode 0 (CPOL=0, CPHA=0)
+# --- BEGIN: OPCODE Enum and mappings, derived from types.h
+OPCODES = {
+    "SPI_NOOP": 0x00,
+    "MOV_AX": 0x82,
+    "GET_AX": 0x83,
+    "MOV_BX": 0x84,
+    "GET_BX": 0x85,
+    "SET_SPEEDRAMP": 0x02,
+    "GET_SPEED": 0x03,
+    "SET_ENCODER": 0x04,
+    "GET_ENCODER": 0x05,
+    "START_MOTOR": 0x08,
+    "STOP_MOTOR": 0xFF,
+    "ACK_FAULTS": 0x10,
+    "GET_FAULT": 0x11,
+    "SET_CURRENT": 0x20,
+    "GET_CURRENT": 0x21,
+    "ACK": 0xC0,
+    "NACK": 0xC1,
+    "SPI_ERROR": 0xE0,
+}
+FRAME_SOF = 0x73
+FRAME_EOF = 0x45
 
-    # frame alignment
-    while spi.xfer2([0x00])[0] != 0xC2:
-        pass #jank
+spi = spidev.SpiDev()
+spi.open(0, 0)
+spi.max_speed_hz = 500_000
+spi.mode = 0
 
-    res = spi.xfer2(frame, 1000, max_speed_hz)
-    spi.close()
-    return res
-
-noop_opcode = [FRAME_SOF, OPCODES["SPI_NOOP"], 0, 0, FRAME_EOF]
+noop_opcode = [FRAME_SOF, OPCODES["SPI_NOOP"], 0, 0, crc_gen_checksum(OPCODES["SPI_NOOP"], 0), FRAME_EOF]
 
 def main():
     print("Enter OPCODE name (like MOV_AX, GET_AX, etc):")
@@ -76,20 +65,20 @@ def main():
     opcode_str = input("OPCODE> ").strip()
     if opcode_str not in OPCODES:
         print("Invalid OPCODE name.")
-        sys.exit(1)
+        return
     opcode = OPCODES[opcode_str]
-    if opcode_str.startswith("MOV"):
+    if opcode_str.startswith("MOV") or opcode_str in ("SET_ENCODER", "SET_CURRENT"):
         data = int(input("Enter 16-bit data (as integer): "))
     else:
         data = 0
-    sof = FRAME_SOF
-    eof = FRAME_EOF
     crc = crc_gen_checksum(opcode, data)
-    frame = [sof, opcode, (data >> 8) & 0xFF, data & 0xFF, crc, eof]
+    frame = [FRAME_SOF, opcode, (data >> 8) & 0xFF, data & 0xFF, crc, FRAME_EOF]
     print("Sending frame:", [f"0x{b:02X}" for b in frame])
-    spi_transfer(frame)
-    response = spi_transfer(noop_opcode)
+    response = spi.xfer2(frame)
     print("Received:", [f"0x{b:02X}" for b in response])
+    # response = spi.xfer2(noop_opcode)
+    # print("Received:", [f"0x{b:02X}" for b in response])
+
 
 if __name__ == "__main__":
     while True:
