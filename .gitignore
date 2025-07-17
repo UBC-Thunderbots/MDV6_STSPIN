@@ -36,6 +36,8 @@
 *.elf
 *.mk
 
+.DS_Store
+
 .cache
 
 STM32CubeIDE/.settings/
