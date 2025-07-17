@@ -37,3 +37,8 @@
 *.mk
 
 .cache
+
+STM32CubeIDE/.settings/
+STM32CubeIDE/.metadata/
+STM32CubeIDE/Debug/
+STM32CubeIDE/Release/
