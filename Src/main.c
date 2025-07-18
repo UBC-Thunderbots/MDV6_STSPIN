@@ -144,9 +144,15 @@ int main(void) {
             // frame integrity check
             if (RX_Buffer[0] != FRAME_SOF || RX_Buffer[5] != FRAME_EOF ||
                 RX_Buffer[4] != crc_gen_checksum(RX_Buffer[1], (RX_Buffer[2] << 8) + RX_Buffer[3])) {
+
+            	// send the NACK
             	TX_Buffer[3] = 0;
-                // send the NACK
-                new_data_received = false;
+            	new_data_received = false;
+
+                if (HAL_SPI_TransmitReceive_IT(&hspi1, TX_Buffer, RX_Buffer, FRAME_SIZE) != HAL_OK) {
+					Error_Handler();
+				}
+
                 continue;
             }
 
