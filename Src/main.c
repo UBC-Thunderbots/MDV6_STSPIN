@@ -113,12 +113,38 @@ int main(void)
   MX_NVIC_Init();
   /* USER CODE BEGIN 2 */
 
+  //  MC_ProgramSpeedRampMotor1(10, 1000);
+//  qd_f_t current_ref = {0.0f, 1.0f};  // {Id, Iq}
+//  MC_SetCurrentReferenceMotor1_F(current_ref);
+//  MC_SetCurrentReferenceMotor1_F(0.7);//, 1000);
+
+  MC_ProgramTorqueRampMotor1_F(1.0, 2000);
+
+//  MC_StartMotor1();
+//  HAL_Delay(3000);
+  MC_ProgramSpeedRampMotor1(100, 1000);
+
+  MC_StartMotor1();
+
+//  MC_StopMotor1();
+
   /* USER CODE END 2 */
+
+    
+  volatile float maxI = 0;
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
+
+
+    volatile qd_f_t curr = MC_GetIqdMotor1_F();
+	  volatile float currentI = curr.q;
+
+	  if (currentI > maxI){
+		  maxI = currentI;
+	  }
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */

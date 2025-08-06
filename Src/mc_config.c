@@ -49,8 +49,8 @@ PID_Handle_t PIDSpeedHandle_M1 =
 {
   .hDefKpGain          = (int16_t)PID_SPEED_KP_DEFAULT,
   .hDefKiGain          = (int16_t)PID_SPEED_KI_DEFAULT,
-  .wUpperIntegralLimit = (int32_t)IQMAX * (int32_t)SP_KIDIV,
-  .wLowerIntegralLimit = -(int32_t)IQMAX * (int32_t)SP_KIDIV,
+  .wUpperIntegralLimit = 4,//(int32_t)IQMAX * (int32_t)SP_KIDIV,
+  .wLowerIntegralLimit = 4,//-(int32_t)IQMAX * (int32_t)SP_KIDIV,
   .hUpperOutputLimit   = (int16_t)IQMAX,
   .hLowerOutputLimit   = -(int16_t)IQMAX,
   .hKpDivisor          = (uint16_t)SP_KPDIV,

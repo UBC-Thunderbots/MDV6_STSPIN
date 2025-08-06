@@ -66,8 +66,8 @@
 #define ISR_FREQUENCY_HZ (PWM_FREQUENCY/REGULATION_EXECUTION_RATE) /*!< @brief FOC execution rate in
                                                            Hz */
 /* Gains values for torque and flux control loops */
-#define PID_TORQUE_KP_DEFAULT         1250
-#define PID_TORQUE_KI_DEFAULT         2000
+#define PID_TORQUE_KP_DEFAULT         50
+#define PID_TORQUE_KI_DEFAULT         200
 #define PID_TORQUE_KD_DEFAULT         100
 #define PID_FLUX_KP_DEFAULT           1250
 #define PID_FLUX_KI_DEFAULT           2000
@@ -101,7 +101,7 @@
 /* USER CODE END PID_SPEED_INTEGRAL_INIT_DIV */
 
 #define SPD_DIFFERENTIAL_TERM_ENABLING DISABLE
-#define IQMAX_A                          9.5
+#define IQMAX_A                          12//9.5
 
 /* Default settings */
 #define DEFAULT_CONTROL_MODE           MCM_SPEED_MODE
