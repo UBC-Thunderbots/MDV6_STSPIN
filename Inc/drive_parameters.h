@@ -87,11 +87,11 @@
                                                       regulation loop (Hz) */
 
 #define PID_SPEED_KP_DEFAULT          100/(SPEED_UNIT/10) /* Workbench compute the gain for 01Hz unit*/
-#define PID_SPEED_KI_DEFAULT          200000/(SPEED_UNIT/10) /* Workbench compute the gain for 01Hz unit*/
+#define PID_SPEED_KI_DEFAULT          2000/(SPEED_UNIT/10) /* Workbench compute the gain for 01Hz unit*/
 #define PID_SPEED_KD_DEFAULT          0/(SPEED_UNIT/10) /* Workbench compute the gain for 01Hz unit*/
 /* Speed PID parameter dividers */
 #define SP_KPDIV                      64
-#define SP_KIDIV                      16384
+#define SP_KIDIV                      16384/100
 #define SP_KDDIV                      16
 #define SP_KPDIV_LOG                  LOG2((64))
 #define SP_KIDIV_LOG                  LOG2((16384))
