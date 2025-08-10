@@ -111,9 +111,9 @@
 #define DEFAULT_FLUX_COMPONENT_A         0
 
 /**************************    FIRMWARE PROTECTIONS SECTION   *****************/
-#define OV_VOLTAGE_THRESHOLD_V          29 /*!< Over-voltage
+#define OV_VOLTAGE_THRESHOLD_V          40 /*!< Over-voltage
                                                          threshold */
-#define UD_VOLTAGE_THRESHOLD_V          20 /*!< Under-voltage
+#define UD_VOLTAGE_THRESHOLD_V          10 /*!< Under-voltage
                                                           threshold */
 #ifdef NOT_IMPLEMENTED
 

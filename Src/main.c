@@ -118,15 +118,15 @@ int main(void)
 //  MC_SetCurrentReferenceMotor1_F(current_ref);
 //  MC_SetCurrentReferenceMotor1_F(0.7);//, 1000);
 
-  MC_ProgramTorqueRampMotor1_F(1.0, 2000);
+  MC_ProgramTorqueRampMotor1_F(0.5, 2000);
 
 //  MC_StartMotor1();
 //  HAL_Delay(3000);
-  MC_ProgramSpeedRampMotor1(100, 1000);
+  // MC_ProgramSpeedRampMotor1(100, 1000);
 
   MC_StartMotor1();
-
-//  MC_StopMotor1();
+  HAL_Delay(10000);
+  MC_StopMotor1();
 
   /* USER CODE END 2 */
 
