@@ -69,10 +69,10 @@ PID_Handle_t PIDIqHandle_M1 =
 {
   .hDefKpGain          = (int16_t)PID_TORQUE_KP_DEFAULT,
   .hDefKiGain          = (int16_t)PID_TORQUE_KI_DEFAULT,
-  .wUpperIntegralLimit = (int32_t)INT16_MAX * TF_KIDIV,
-  .wLowerIntegralLimit = (int32_t)-INT16_MAX * TF_KIDIV,
-  .hUpperOutputLimit   = INT16_MAX,
-  .hLowerOutputLimit   = -INT16_MAX,
+  .wUpperIntegralLimit = (int32_t)(INT16_MAX/2) * TF_KIDIV, // Prevent overshoot with integral windup
+  .wLowerIntegralLimit = (int32_t)(-INT16_MAX/2)* TF_KIDIV, // Prevent overshoot with integral windup
+  .hUpperOutputLimit   = INT16_MAX / 2, // Lowered saturation limits
+  .hLowerOutputLimit   = -INT16_MAX / 2, // Lowered saturation limits
   .hKpDivisor          = (uint16_t)TF_KPDIV,
   .hKiDivisor          = (uint16_t)TF_KIDIV,
   .hKpDivisorPOW2      = (uint16_t)TF_KPDIV_LOG,
