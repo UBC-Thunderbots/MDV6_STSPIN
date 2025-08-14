@@ -121,9 +121,9 @@ int main(void)
 
   //MC_ProgramTorqueRampMotor1_F(1.0,1000);
   MC_StartMotor1();
-  HAL_Delay(15000);
+  //HAL_Delay(15000);
 
-  MC_StopMotor1();
+  //MC_StopMotor1();
 
   /* USER CODE END 2 */
 
