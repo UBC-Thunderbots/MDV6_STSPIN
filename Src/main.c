@@ -135,6 +135,7 @@ int main(void)
 
   /* Debugging Speed feedback*/
      volatile int16_t speed_rotation_direction = 0;
+     volatile uint8_t hall_sensor_value = 0;
   /* Infinite loop */
 
   /* USER CODE BEGIN WHILE */
@@ -152,6 +153,9 @@ int main(void)
     
     // Check the sign of hFinalSpeed
     speed_rotation_direction = MCI_GetImposedMotorDirection(pMCI[M1]);
+
+    //read pin assignments of Hall
+    hall_sensor_value = ReadHallPins(&HALL_M1);
 
     /* USER CODE END WHILE */
     /* USER CODE BEGIN 3 */

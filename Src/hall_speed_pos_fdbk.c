@@ -902,6 +902,19 @@ __weak void HALL_SetMecAngle(HALL_Handle_t *pHandle, int16_t hMecAngle)
 {
 }
 #endif
+
+
+/*Code for reading hall pins*/
+
+uint8_t ReadHallPins(HALL_Handle_t *pHandle)
+{
+    uint8_t h1 = (uint8_t)HAL_GPIO_ReadPin(pHandle->H1Port, pHandle->H1Pin);
+    uint8_t h2 = (uint8_t)HAL_GPIO_ReadPin(pHandle->H2Port, pHandle->H2Pin);
+    uint8_t h3 = (uint8_t)HAL_GPIO_ReadPin(pHandle->H3Port, pHandle->H3Pin);
+
+    // Combine into a single value (H3 H2 H1)
+    return (h3 << 2) | (h2 << 1) | h1;
+}
 /**
   * @}
   */
