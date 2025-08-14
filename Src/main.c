@@ -128,6 +128,12 @@ int main(void) {
     //                          // state via Debugger
     // MC_GetOccurredFaultsMotor1();
 
+    // Test code: spins motor for 10 seconds
+    // MC_ProgramSpeedRampMotor1_F(1500,1000);
+    // MC_StartMotor1();
+    // HAL_Delay(10000);
+    // MC_StopMotor1();
+
     // Initial arm of SPI recv
     if (HAL_SPI_TransmitReceive_IT(&hspi1, TX_Buffer, RX_Buffer, FRAME_SIZE) != HAL_OK) {
         Error_Handler();

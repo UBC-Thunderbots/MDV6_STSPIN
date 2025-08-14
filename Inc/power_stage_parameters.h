@@ -46,7 +46,7 @@
 
 /*  ICSs gains in case of isolated current sensors,
         amplification gain for shunts based sensing */
-#define AMPLIFICATION_GAIN                   3.21
+#define AMPLIFICATION_GAIN                   3.663 //Derived from taking magnitude of current-sense circuit transfer function at w=2*pi*13000
 
 /*** Noise parameters ***/
 #define TNOISE_NS                            1200

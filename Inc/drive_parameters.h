@@ -52,15 +52,15 @@
 #define SW_DEADTIME_NS                      600 /*!< Dead-time to be inserted by FW, only if low side signals are enabled */
 
 /* Torque and flux regulation loops */
-#define REGULATION_EXECUTION_RATE           1 /*!< FOC execution rate in number of PWM cycles */
+#define REGULATION_EXECUTION_RATE           2 /*!< FOC execution rate in number of PWM cycles */
 #define ISR_FREQUENCY_HZ                    (PWM_FREQUENCY/REGULATION_EXECUTION_RATE) /*!< @brief FOC execution rate in Hz */
 
 /* Gains values for torque and flux control loops */
-#define PID_TORQUE_KP_DEFAULT               2841
-#define PID_TORQUE_KI_DEFAULT               2072
+#define PID_TORQUE_KP_DEFAULT               50
+#define PID_TORQUE_KI_DEFAULT               200
 #define PID_TORQUE_KD_DEFAULT               100
-#define PID_FLUX_KP_DEFAULT                 1420
-#define PID_FLUX_KI_DEFAULT                 1036
+#define PID_FLUX_KP_DEFAULT                 1250
+#define PID_FLUX_KI_DEFAULT                 2000
 #define PID_FLUX_KD_DEFAULT                 100
 
 /* Torque/Flux control loop gains dividers*/
@@ -72,18 +72,18 @@
 #define TF_KDDIV_LOG                        LOG2((8192))
 #define TFDIFFERENTIAL_TERM_ENABLING        DISABLE
 
-#define PID_SPEED_KP_DEFAULT                2932/(SPEED_UNIT/10) /* Workbench compute the gain for 01Hz unit*/
-#define PID_SPEED_KI_DEFAULT                290/(SPEED_UNIT/10) /* Workbench compute the gain for 01Hz unit*/
+#define PID_SPEED_KP_DEFAULT                1000/(SPEED_UNIT/10) /* Workbench compute the gain for 01Hz unit*/
+#define PID_SPEED_KI_DEFAULT                100/(SPEED_UNIT/10) /* Workbench compute the gain for 01Hz unit*/
 #define PID_SPEED_KD_DEFAULT                0/(SPEED_UNIT/10) /* Workbench compute the gain for 01Hz unit*/
 
 /* Speed control loop */
 #define SPEED_LOOP_FREQUENCY_HZ             (uint16_t)1000 /*!<Execution rate of speed regulation loop (Hz) */
 
 /* Speed PID parameter dividers */
-#define SP_KPDIV                            128
+#define SP_KPDIV                            64
 #define SP_KIDIV                            16384
 #define SP_KDDIV                            16
-#define SP_KPDIV_LOG                        LOG2((128))
+#define SP_KPDIV_LOG                        LOG2((64))
 #define SP_KIDIV_LOG                        LOG2((16384))
 #define SP_KDDIV_LOG                        LOG2((16))
 
@@ -92,7 +92,7 @@
 /* USER CODE END PID_SPEED_INTEGRAL_INIT_DIV */
 
 #define SPD_DIFFERENTIAL_TERM_ENABLING      DISABLE
-#define IQMAX_A                             9.5
+#define IQMAX_A                             12//9.5
 
 /* Default settings */
 #define DEFAULT_CONTROL_MODE                MCM_SPEED_MODE
@@ -102,8 +102,8 @@
 #define DEFAULT_FLUX_COMPONENT_A            0
 
 /**************************    FIRMWARE PROTECTIONS SECTION   *****************/
-#define OV_VOLTAGE_THRESHOLD_V              50 /*!< Over-voltage threshold */
-#define UD_VOLTAGE_THRESHOLD_V              8 /*!< Under-voltage threshold */
+#define OV_VOLTAGE_THRESHOLD_V              9000 /*!< Over-voltage threshold */
+#define UD_VOLTAGE_THRESHOLD_V              20 /*!< Under-voltage threshold */
 #ifdef NOT_IMPLEMENTED
 #define ON_OVER_VOLTAGE                     TURN_OFF_PWM /*!< TURN_OFF_PWM, TURN_ON_R_BRAKE or TURN_ON_LOW_SIDES */
 #endif /* NOT_IMPLEMENTED */
