@@ -1,0 +1,36 @@
+{
+    "configurations": [
+        {
+            "name": "Mac",
+            "includePath": [
+                "${default}",
+                "${workspaceFolder}/Inc",
+                "${workspaceFolder}/Drivers/STM32F0xx_HAL_Driver/Inc",
+                "${workspaceFolder}/Drivers/STM32F0xx_HAL_Driver/Inc/Legacy",
+                "${workspaceFolder}/MCSDK_v6.3.2-Full/MotorControl/MCSDK/MCLib/Any/Inc",
+                "${workspaceFolder}/Drivers/CMSIS/Device/ST/STM32F0xx/Include",
+                "${workspaceFolder}/Drivers/CMSIS/Include",
+                "${workspaceFolder}/Drivers/CMSIS/DSP/Include"
+            ],
+            "defines": [
+                "DEBUG",
+                "ARM_MATH_CM0",
+                "USE_FUL_LL_DRIVER",
+                "USE_HAL_DRIVER",
+                "STM32F031x6"
+            ],
+            "compilerPath": "/opt/homebrew/bin/arm-none-eabi-gcc",
+            "compilerArgs": [
+                "-ffunction-sections",
+                "-Ofast",
+                "-MMD",
+                "-M",
+                "-mthumb",
+                "-mfloat-abi=soft"
+            ],
+            "cStandard": "gnu11",
+            "cppStandard": "c++11"
+        }
+    ],
+    "version": 4
+}

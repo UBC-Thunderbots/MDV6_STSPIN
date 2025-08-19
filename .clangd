@@ -1,0 +1,20 @@
+
+---
+CompileFlags:
+    Add: [-xc]
+    Remove: [-xc++]
+    CompilationDatabase: STM32CubeIDE/Debug/
+    Compiler: arm-none-eabi-gcc
+Diagnostics:
+  MissingIncludes: None
+  UnusedIncludes: None
+
+---
+
+If:
+  PathMatch: client/*
+
+CompileFlags:
+  Add: [-xc++]
+  Remove: [-xc]
+  Compiler: clang++

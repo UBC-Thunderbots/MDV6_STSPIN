@@ -19,6 +19,7 @@
 
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
+#include "stm32f0xx_hal_spi.h"
 #include "stm32f0xx_it.h"
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
@@ -57,6 +58,7 @@
 /* External variables --------------------------------------------------------*/
 
 /* USER CODE BEGIN EV */
+extern SPI_HandleTypeDef hspi1;
 
 /* USER CODE END EV */
 
@@ -99,5 +101,10 @@ void PendSV_Handler(void)
 /******************************************************************************/
 
 /* USER CODE BEGIN 1 */
+
+void SPI1_IRQHandler(void)
+{
+    HAL_SPI_IRQHandler(&hspi1);
+}
 
 /* USER CODE END 1 */

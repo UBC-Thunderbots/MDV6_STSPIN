@@ -1,6 +1,0 @@
-C:/Users/kenny/.st_workbench/projects/MDv6OL/Src/stm32f0xx_mc_it.c:73:6:DMA1_Channel1_IRQHandler	8	static
-C:/Users/kenny/.st_workbench/projects/MDv6OL/Src/stm32f0xx_mc_it.c:97:6:TIM1_BRK_UP_TRG_COM_IRQHandler	16	static
-C:/Users/kenny/.st_workbench/projects/MDv6OL/Src/stm32f0xx_mc_it.c:134:6:DMA1_Channel4_5_IRQHandler	8	static
-C:/Users/kenny/.st_workbench/projects/MDv6OL/Src/stm32f0xx_mc_it.c:158:6:TIM2_IRQHandler	8	static
-C:/Users/kenny/.st_workbench/projects/MDv6OL/Src/stm32f0xx_mc_it.c:187:6:HardFault_Handler	8	static
-C:/Users/kenny/.st_workbench/projects/MDv6OL/Src/stm32f0xx_mc_it.c:205:6:SysTick_Handler	8	static

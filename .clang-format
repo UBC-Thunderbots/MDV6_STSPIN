@@ -1,0 +1,4 @@
+BasedOnStyle: Google
+IndentWidth: 4
+AlignConsecutiveAssignments: Consecutive
+ColumnLimit: 120

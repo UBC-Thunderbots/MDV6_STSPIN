@@ -9,7 +9,7 @@
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; Copyright (c) 2022 STMicroelectronics.
+  * <h2><center>&copy; Copyright (c) 2023 STMicroelectronics.
   * All rights reserved.</center></h2>
   *
   * This software component is licensed by ST under Ultimate Liberty license
@@ -33,20 +33,20 @@
                                                          by HW if low side signals
                                                          are not used */
 /*********** Bus voltage sensing section ****************/
-#define VBUS_PARTITIONING_FACTOR      0.070883075842697 /*!< It expresses how
+#define VBUS_PARTITIONING_FACTOR      0.0526  /*!< It expresses how
                                                        much the Vbus is attenuated
                                                        before being converted into
                                                        digital value */
 #define NOMINAL_BUS_VOLTAGE_V         24
 /******** Current reading parameters section ******/
 /*** Topology ***/
-#define SINGLE_SHUNT
+#define SINGLE_SHUNT_PHASE_SHIFT
 
-#define RSHUNT                        0.025
+#define RSHUNT                        0.015
 
 /*  ICSs gains in case of isolated current sensors,
         amplification gain for shunts based sensing */
-#define AMPLIFICATION_GAIN            3.33
+#define AMPLIFICATION_GAIN            3.663 //Derived from taking magnitude of current-sense circuit transfer function at w=2*pi*13000
 
 /*** Noise parameters ***/
 #define TNOISE_NS                     1200
@@ -64,4 +64,4 @@
                                                        temperature, Celsius degrees */
 
 #endif /*POWER_STAGE_PARAMETERS_H*/
-/******************* (C) COPYRIGHT 2022 STMicroelectronics *****END OF FILE****/
+/******************* (C) COPYRIGHT 2023 STMicroelectronics *****END OF FILE****/
