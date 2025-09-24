@@ -100,27 +100,27 @@ int main(void)
 
   /* USER CODE END SysInit */
 
-  /* Initialize all configured peripherals */
+  // /* Initialize all configured peripherals */
   MX_GPIO_Init();
-  MX_DMA_Init();
+  // MX_DMA_Init();
   MX_ADC_Init();
   MX_TIM1_Init();
   MX_TIM2_Init();
-  MX_USART1_UART_Init();
-  MX_MotorControl_Init();
+  // MX_USART1_UART_Init();
+  // MX_MotorControl_Init();
 
   /* Initialize interrupts */
-  MX_NVIC_Init();
+  //MX_NVIC_Init();
   /* USER CODE BEGIN 2 */
 
   // call it once for live expression
   MC_GetSTMStateMotor1(); // set a breakpoint on the line if reading the state via Debugger
   MC_GetOccurredFaultsMotor1();
 
-  MC_ProgramSpeedRampMotor1_F(1500,1000);
+  //MC_ProgramSpeedRampMotor1_F(1500,1000);
 
   //MC_ProgramTorqueRampMotor1_F(1.0,1000);
-  MC_StartMotor1();
+  //MC_StartMotor1();
   //HAL_Delay(15000);
 
   //MC_StopMotor1();
@@ -134,13 +134,32 @@ int main(void)
   // volatile uint16_t vbus_fault_previous = 0;
 
   /* Debugging Speed feedback*/
-     volatile int16_t speed_rotation_direction = 0;
-     volatile uint8_t hall_sensor_value = 0;
+    //  volatile int16_t speed_rotation_direction = 0;
+    //  volatile uint8_t hall_sensor_value = 0;
   /* Infinite loop */
+    volatile uint32_t raw;
+    volatile float volts;
 
   /* USER CODE BEGIN WHILE */
   while (1)
   {
+    float current_est; // if you know shunt & gain
+
+    HAL_ADC_Start(&hadc);
+    if (HAL_ADC_PollForConversion(&hadc, 5) == HAL_OK)
+    {
+      raw = HAL_ADC_GetValue(&hadc);          // 0..4095 (right aligned)
+      volts = (raw * 3.3f) / 4095.0f;         // assuming Vref = 3.3V
+
+      // If single shunt front-end: I(A) ≈ (volts - Voffset) / (Rshunt * Gain)
+      // Example (adjust!):
+      // const float Voffset = 1.65f;
+      // const float Rshunt = 0.010f;
+      // const float Gain   = 20.0f;
+      // current_est = (volts - Voffset)/(Rshunt*Gain);
+      (void)current_est;
+    }
+    HAL_Delay(10);
     /*Debugging under voltage*/
     // bus_voltage_volts = VBS_GetAvBusVoltage_V(&BusVoltageSensor_M1);
     // vbus_fault = VBS_CheckVbus(&BusVoltageSensor_M1);
@@ -152,10 +171,10 @@ int main(void)
     // }
     
     // Check the sign of hFinalSpeed
-    speed_rotation_direction = MCI_GetImposedMotorDirection(pMCI[M1]);
+    //speed_rotation_direction = MCI_GetImposedMotorDirection(pMCI[M1]);
 
     //read pin assignments of Hall
-    hall_sensor_value = ReadHallPins(&HALL_M1);
+   // hall_sensor_value = ReadHallPins(&HALL_M1);
 
     /* USER CODE END WHILE */
     /* USER CODE BEGIN 3 */
