@@ -117,45 +117,27 @@ int main(void)
   MC_GetSTMStateMotor1(); // set a breakpoint on the line if reading the state via Debugger
   MC_GetOccurredFaultsMotor1();
 
-  MC_ProgramSpeedRampMotor1_F(1500,1000);
+    MC_ProgramSpeedRampMotor1_F(1000,2000);
+    
+    MC_StartMotor1();
+    
+    HAL_Delay(10000);
 
-  //MC_ProgramTorqueRampMotor1_F(1.0,1000);
-  MC_StartMotor1();
-  //HAL_Delay(15000);
+    // MC_ProgramSpeedRampMotor1_F(100,2000);
 
-  //MC_StopMotor1();
+    // HAL_Delay(5000);
+
+    // MC_ProgramSpeedRampMotor1_F(1000,1000);
+
+    // HAL_Delay(5000);
+
+    MC_StopMotor1();
 
   /* USER CODE END 2 */
-
-  /* Debugging under voltage*/
-  // volatile float bus_voltage_volts = 0.0f;
-  // volatile float bus_voltage_volts_previous = 0.0f;
-  // volatile uint16_t vbus_fault = 0;
-  // volatile uint16_t vbus_fault_previous = 0;
-
-  /* Debugging Speed feedback*/
-     volatile int16_t speed_rotation_direction = 0;
-     volatile uint8_t hall_sensor_value = 0;
-  /* Infinite loop */
 
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-    /*Debugging under voltage*/
-    // bus_voltage_volts = VBS_GetAvBusVoltage_V(&BusVoltageSensor_M1);
-    // vbus_fault = VBS_CheckVbus(&BusVoltageSensor_M1);
-    
-    // if(vbus_fault == MC_UNDER_VOLT){
-    // 	bus_voltage_volts_previous = bus_voltage_volts;
-    //   MC_StopMotor1();
-    //   vbus_fault_previous = vbus_fault;
-    // }
-    
-    // Check the sign of hFinalSpeed
-    speed_rotation_direction = MCI_GetImposedMotorDirection(pMCI[M1]);
-
-    //read pin assignments of Hall
-    hall_sensor_value = ReadHallPins(&HALL_M1);
 
     /* USER CODE END WHILE */
     /* USER CODE BEGIN 3 */
