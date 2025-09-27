@@ -63,7 +63,6 @@ static void MX_DMA_Init(void);
 static void MX_ADC_Init(void);
 static void MX_TIM1_Init(void);
 static void MX_TIM2_Init(void);
-static void MX_USART1_UART_Init(void);
 static void MX_NVIC_Init(void);
 /* USER CODE BEGIN PFP */
 
@@ -71,6 +70,17 @@ static void MX_NVIC_Init(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
+uint32_t get_adc() {
+    if (HAL_ADC_Start(&hadc) == HAL_OK) {
+        if (HAL_ADC_PollForConversion(&hadc, 1000) == HAL_OK) {
+            uint32_t adc_value = HAL_ADC_GetValue(&hadc);
+            HAL_ADC_Stop(&hadc);
+            return adc_value;  // Return raw ADC value
+        }
+    }
+    HAL_ADC_Stop(&hadc);
+    return 0;  // Error value
+}
 
 /* USER CODE END 0 */
 
@@ -82,7 +92,7 @@ int main(void)
 {
   /* USER CODE BEGIN 1 */
 
-  /* USER CODE END 1 */
+  /* USERs CODE END 1 */
 
   /* MCU Configuration--------------------------------------------------------*/
 
@@ -106,7 +116,6 @@ int main(void)
   MX_ADC_Init();
   MX_TIM1_Init();
   MX_TIM2_Init();
-  MX_USART1_UART_Init();
   MX_MotorControl_Init();
 
   /* Initialize interrupts */
@@ -117,21 +126,21 @@ int main(void)
   MC_GetSTMStateMotor1(); // set a breakpoint on the line if reading the state via Debugger
   MC_GetOccurredFaultsMotor1();
 
-    MC_ProgramSpeedRampMotor1_F(1000,2000);
-    
-    MC_StartMotor1();
-    
-    HAL_Delay(10000);
-
-    // MC_ProgramSpeedRampMotor1_F(100,2000);
-
-    // HAL_Delay(5000);
-
-    // MC_ProgramSpeedRampMotor1_F(1000,1000);
-
-    // HAL_Delay(5000);
-
-    MC_StopMotor1();
+//    MC_ProgramSpeedRampMotor1_F(1000,2000);
+//
+//    MC_StartMotor1();
+//
+//    HAL_Delay(10000);
+//
+//    // MC_ProgramSpeedRampMotor1_F(100,2000);
+//
+//    // HAL_Delay(5000);
+//
+//    // MC_ProgramSpeedRampMotor1_F(1000,1000);
+//
+//    // HAL_Delay(5000);
+//
+//    MC_StopMotor1();
 
   /* USER CODE END 2 */
 
@@ -139,6 +148,7 @@ int main(void)
   while (1)
   {
 
+	  get_adc();
     /* USER CODE END WHILE */
     /* USER CODE BEGIN 3 */
   }
@@ -419,41 +429,6 @@ static void MX_TIM2_Init(void)
   /* USER CODE BEGIN TIM2_Init 2 */
 
   /* USER CODE END TIM2_Init 2 */
-
-}
-
-/**
-  * @brief USART1 Initialization Function
-  * @param None
-  * @retval None
-  */
-static void MX_USART1_UART_Init(void)
-{
-
-  /* USER CODE BEGIN USART1_Init 0 */
-
-  /* USER CODE END USART1_Init 0 */
-
-  /* USER CODE BEGIN USART1_Init 1 */
-
-  /* USER CODE END USART1_Init 1 */
-  huart1.Instance = USART1;
-  huart1.Init.BaudRate = 1843200;
-  huart1.Init.WordLength = UART_WORDLENGTH_8B;
-  huart1.Init.StopBits = UART_STOPBITS_1;
-  huart1.Init.Parity = UART_PARITY_NONE;
-  huart1.Init.Mode = UART_MODE_TX_RX;
-  huart1.Init.HwFlowCtl = UART_HWCONTROL_NONE;
-  huart1.Init.OverSampling = UART_OVERSAMPLING_16;
-  huart1.Init.OneBitSampling = UART_ONE_BIT_SAMPLE_DISABLE;
-  huart1.AdvancedInit.AdvFeatureInit = UART_ADVFEATURE_NO_INIT;
-  if (HAL_UART_Init(&huart1) != HAL_OK)
-  {
-    Error_Handler();
-  }
-  /* USER CODE BEGIN USART1_Init 2 */
-
-  /* USER CODE END USART1_Init 2 */
 
 }
 
