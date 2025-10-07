@@ -117,19 +117,23 @@ int main(void)
   MC_GetSTMStateMotor1(); // set a breakpoint on the line if reading the state via Debugger
   MC_GetOccurredFaultsMotor1();
 
-    MC_ProgramSpeedRampMotor1_F(1000,2000);
+    MC_ProgramSpeedRampMotor1_F(3000,400);
     
     MC_StartMotor1();
     
-    HAL_Delay(10000);
+    HAL_Delay(1000);
 
-    // MC_ProgramSpeedRampMotor1_F(100,2000);
+    MC_ProgramSpeedRampMotor1_F(700, 400);
 
-    // HAL_Delay(5000);
+    HAL_Delay(5000);
 
-    // MC_ProgramSpeedRampMotor1_F(1000,1000);
+    MC_ProgramSpeedRampMotor1_F(0, 2000);
 
-    // HAL_Delay(5000);
+    HAL_Delay(500);
+
+    MC_ProgramSpeedRampMotor1_F(-1000, 500);
+
+    HAL_Delay(2000);
 
     MC_StopMotor1();
 
