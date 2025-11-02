@@ -111,7 +111,7 @@ int main(void)
   MX_ADC_Init();
   MX_TIM1_Init();
   MX_TIM2_Init();
-  MX_USART1_UART_Init();
+  //MX_USART1_UART_Init();
   MX_MotorControl_Init();
 
   /* Initialize interrupts */
@@ -133,10 +133,10 @@ int main(void)
 
   // Run motor for 5 seconds
   MC_StartMotor1();
-  HAL_Delay(5000);
+  //HAL_Delay(5000);
 
   // Stop motor
-  MC_StopMotor1();
+  //MC_StopMotor1();
 
   /* USER CODE END 2 */
 
