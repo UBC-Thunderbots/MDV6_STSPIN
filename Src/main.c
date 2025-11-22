@@ -57,11 +57,9 @@
 SPI_HandleTypeDef hspi1;
 
 int16_t ax = 0, bx = 0;
-uint8_t TX_Buffer[FRAME_SIZE] = {0}, RX_Buffer[FRAME_SIZE] = {0};
-uint8_t cur_buf = 0;
-uint32_t last_spi_err = 0;
+uint8_t tx[FRAME_SIZE] = {}, rx[FRAME_SIZE] = {};
+bool data_ready = false;
 
-volatile uint8_t new_data_received = 0;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -72,75 +70,12 @@ static void MX_ADC_Init(void);
 static void MX_TIM1_Init(void);
 static void MX_TIM2_Init(void);
 static void MX_NVIC_Init(void);
-/* USER CODE BEGIN PFP */
 static void MX_SPI1_Init(void);
-
-/* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
 
 /* USER CODE END 0 */
-
-static
-void SPI_Init(void)
-{
-    LL_APB1_GRP2_EnableClock(LL_APB1_GRP2_PERIPH_SPI1);
-    LL_AHB1_GRP1_EnableClock(LL_AHB1_GRP1_PERIPH_GPIOA);
-    LL_AHB1_GRP1_EnableClock(LL_AHB1_GRP1_PERIPH_GPIOB);
-
-    LL_GPIO_InitTypeDef GPIO_InitStruct = {0};
-
-    // PA15 (NSS)
-    GPIO_InitStruct.Pin        = LL_GPIO_PIN_15;
-    GPIO_InitStruct.Mode       = LL_GPIO_MODE_ALTERNATE;
-    GPIO_InitStruct.OutputType = LL_GPIO_OUTPUT_PUSHPULL;
-    GPIO_InitStruct.Pull       = LL_GPIO_PULL_NO;
-    GPIO_InitStruct.Speed      = LL_GPIO_SPEED_FREQ_HIGH;
-    GPIO_InitStruct.Alternate  = LL_GPIO_AF_0;
-    LL_GPIO_Init(GPIOA, &GPIO_InitStruct);
-
-    // PB3 (MISO), PB4 (MOSI), PB5 (SCK)
-    GPIO_InitStruct.Pin        = LL_GPIO_PIN_3 | LL_GPIO_PIN_4 | LL_GPIO_PIN_5;
-    GPIO_InitStruct.Mode       = LL_GPIO_MODE_ALTERNATE;
-    GPIO_InitStruct.OutputType = LL_GPIO_OUTPUT_PUSHPULL;
-    GPIO_InitStruct.Pull       = LL_GPIO_PULL_NO;
-    GPIO_InitStruct.Speed      = LL_GPIO_SPEED_FREQ_HIGH;
-    GPIO_InitStruct.Alternate  = LL_GPIO_AF_0;
-    LL_GPIO_Init(GPIOB, &GPIO_InitStruct);
-
-	LL_SPI_InitTypeDef SPI_InitStruct = {0};
-
-	SPI_InitStruct.TransferDirection = LL_SPI_FULL_DUPLEX;
-	SPI_InitStruct.Mode              = LL_SPI_MODE_SLAVE;
-	SPI_InitStruct.DataWidth         = LL_SPI_DATAWIDTH_8BIT;
-	SPI_InitStruct.ClockPolarity     = LL_SPI_POLARITY_LOW;
-	SPI_InitStruct.ClockPhase        = LL_SPI_PHASE_1EDGE;
-	SPI_InitStruct.NSS               = LL_SPI_NSS_HARD_INPUT;
-	SPI_InitStruct.BitOrder          = LL_SPI_MSB_FIRST;
-	SPI_InitStruct.CRCCalculation    = LL_SPI_CRCCALCULATION_DISABLE;
-	SPI_InitStruct.BaudRate          = LL_SPI_BAUDRATEPRESCALER_DIV2; // ignored in slave
-
-	LL_SPI_Init(SPI1, &SPI_InitStruct);
-	LL_SPI_Enable(SPI1);
-
-	LL_SPI_EnableIT_RXNE(SPI1);
-	NVIC_SetPriority(SPI1_IRQn, 0);
-	NVIC_EnableIRQ(SPI1_IRQn);
-}
-
-//void SPI1_IRQHandler(void)
-//{
-//    if (LL_SPI_IsActiveFlag_RXNE(SPI1))
-//    {
-//        uint8_t rx = LL_SPI_ReceiveData8(SPI1);
-//    }
-//
-//    if (LL_SPI_IsActiveFlag_TXE(SPI1))
-//    {
-//        LL_SPI_TransmitData8(SPI1, 69);
-//    }
-//}
 
 /**
  * @brief  The application entry point.
@@ -182,11 +117,12 @@ int main(void) {
     MX_SPI1_Init();
 
     // Initial arm of SPI recv
-    if (HAL_SPI_TransmitReceive_IT(&hspi1, TX_Buffer, RX_Buffer, FRAME_SIZE) != HAL_OK) {
+    if (HAL_SPI_TransmitReceive_IT(&hspi1, tx, rx, FRAME_SIZE) != HAL_OK) {
         Error_Handler();
     }
 
     LL_GPIO_SetOutputPin(M1_EN_DRIVER_GPIO_Port, M1_EN_DRIVER_Pin);
+    data_ready = true;
     /* USER CODE END 2 */
 
     /* Infinite loop */
@@ -194,90 +130,6 @@ int main(void) {
     while (1) {
         /* USER CODE END WHILE */
         /* USER CODE BEGIN 3 */
-        // TODO: Need 2 add double buffering to prevent race condition
-        if (new_data_received) {
-            // frame integrity check
-            if (RX_Buffer[0] != FRAME_SOF || RX_Buffer[5] != FRAME_EOF ||
-                RX_Buffer[4] != crc_gen_checksum(RX_Buffer[1], (RX_Buffer[2] << 8) + RX_Buffer[3])) {
-
-            	// send the NACK
-            	TX_Buffer[0] = FRAME_SOF;
-            	TX_Buffer[1] = NACK;
-            	TX_Buffer[2] = last_spi_err;
-            	TX_Buffer[3] = 0;
-            	TX_Buffer[4] = crc_gen_checksum(NACK, 0);
-            	TX_Buffer[5] = FRAME_EOF;
-            	new_data_received = false;
-
-                if (HAL_SPI_TransmitReceive_IT(&hspi1, TX_Buffer, RX_Buffer, FRAME_SIZE) != HAL_OK) {
-					Error_Handler();
-				}
-
-				LL_GPIO_SetOutputPin(M1_EN_DRIVER_GPIO_Port, M1_EN_DRIVER_Pin);
-
-                continue;
-            }
-
-            uint16_t data = 0;
-
-            switch (RX_Buffer[1]) {
-                case MOV_AX:
-                    ax = (RX_Buffer[2] << 8) + RX_Buffer[3];
-                    break;
-                case GET_AX:
-                    data = ax;
-                    break;
-                case MOV_BX:
-                    bx = (RX_Buffer[2] << 8) + RX_Buffer[3];
-                    break;
-                case GET_BX:
-                    data = bx;
-                    break;
-                case SET_SPEEDRAMP:
-                    MC_ProgramSpeedRampMotor1(ax, bx);
-                    break;
-                case GET_SPEED:
-                    data = MC_GetMecSpeedReferenceMotor1();
-                    break;
-                case GET_ENCODER:
-                    // TODO: Implement GET_ENCODER FUNCTION
-                    // ax = MC_
-                    break;
-                case START_MOTOR:
-                    MC_StartMotor1();
-                    break;
-                case STOP_MOTOR:
-                    MC_StopMotor1();
-                    break;
-                case ACK_FAULTS:
-                    MC_AcknowledgeFaultMotor1();
-                    break;
-                case GET_FAULT:
-                    data = MC_GetOccurredFaultsMotor1();
-                    break;
-                case SET_CURRENT:
-                case GET_CURRENT:
-                default:
-                    break;
-            }
-
-            uint8_t checksum = crc_gen_checksum(ACK, data);
-            TX_Buffer[0]     = FRAME_SOF;
-            TX_Buffer[1]     = ACK;
-            TX_Buffer[2]     = (data >> 8) & 0xFF;
-            TX_Buffer[3]     = data & 0xFF;
-            TX_Buffer[4]     = checksum;
-            TX_Buffer[5]     = FRAME_EOF;
-
-            new_data_received = 0;
-
-            // rearm the receiver
-            if (HAL_SPI_TransmitReceive_IT(&hspi1, TX_Buffer, RX_Buffer, FRAME_SIZE) != HAL_OK) {
-                Error_Handler();
-            }
-
-            LL_GPIO_SetOutputPin(M1_EN_DRIVER_GPIO_Port, M1_EN_DRIVER_Pin);
-        }
     }
     /* USER CODE END 3 */
 }
@@ -290,8 +142,79 @@ int main(void) {
 void HAL_SPI_TxRxCpltCallback(SPI_HandleTypeDef* hspi) {
     // let main thread know new data has been recv
     if (hspi->Instance == SPI1) {
-    	LL_GPIO_ResetOutputPin(M1_EN_DRIVER_GPIO_Port, M1_EN_DRIVER_Pin);
-        new_data_received = 1;
+
+		// Frame integrity check
+		if (rx[0] != FRAME_SOF ||
+			rx[5] != FRAME_EOF ||
+			rx[4] != crc_gen_checksum(rx[1], (rx[2] << 8) + rx[3])) {
+
+			// send the NAC
+			tx[0] = FRAME_SOF;
+			tx[1] = NACK;
+			tx[2] = 0;
+			tx[3] = 0;
+			tx[4] = crc_gen_checksum(NACK, 0);
+			tx[5] = FRAME_EOF;
+
+			goto rearm_receiver;
+		}
+
+		uint16_t data = 0;
+
+		switch (rx[1]) {
+			case MOV_AX:
+				ax = (rx[2] << 8) + rx[3];
+				break;
+			case GET_AX:
+				data = ax;
+				break;
+			case MOV_BX:
+				bx = (rx[2] << 8) + rx[3];
+				break;
+			case GET_BX:
+				data = bx;
+				break;
+			case SET_SPEEDRAMP:
+				MC_ProgramSpeedRampMotor1(ax, bx);
+				break;
+			case GET_SPEED:
+				data = MC_GetMecSpeedReferenceMotor1();
+				break;
+			case START_MOTOR:
+				MC_StartMotor1();
+				break;
+			case STOP_MOTOR:
+				MC_StopMotor1();
+				break;
+			case ACK_FAULTS:
+				MC_AcknowledgeFaultMotor1();
+				break;
+			case GET_FAULT:
+				data = MC_GetOccurredFaultsMotor1();
+				break;
+			case GET_ENCODER:
+			case SET_CURRENT:
+			case GET_CURRENT:
+			default:
+				break;
+		}
+
+		uint8_t checksum = crc_gen_checksum(ACK, data);
+		tx[0] = FRAME_SOF;
+		tx[1] = ACK;
+		tx[2] = (data >> 8) & 0xFF;
+		tx[3] = data & 0xFF;
+		tx[4] = checksum;
+		tx[5] = FRAME_EOF;
+
+rearm_receiver:
+
+		if (HAL_SPI_TransmitReceive_IT(&hspi1, tx, rx, FRAME_SIZE) != HAL_OK) {
+			Error_Handler();
+		}
+
+		LL_GPIO_SetOutputPin(M1_EN_DRIVER_GPIO_Port, M1_EN_DRIVER_Pin);
+		data_ready = true;
     }
 }
 
@@ -302,25 +225,8 @@ void HAL_SPI_TxRxCpltCallback(SPI_HandleTypeDef* hspi) {
  */
 void HAL_SPI_ErrorCallback(SPI_HandleTypeDef* hspi) {
     if (hspi->Instance == SPI1) {
-    	LL_GPIO_ResetOutputPin(M1_EN_DRIVER_GPIO_Port, M1_EN_DRIVER_Pin);
-
-    	last_spi_err = hspi->ErrorCode;
-
-    	TX_Buffer[0]     = FRAME_SOF;
-		TX_Buffer[1]     = 0;
-		TX_Buffer[2]     = hspi->ErrorCode;
-		TX_Buffer[3]     = 0;
-		TX_Buffer[4]     = 0;
-		TX_Buffer[5]     = FRAME_EOF;
-
-		new_data_received = 0;
-
-    	if (HAL_SPI_TransmitReceive_IT(&hspi1, TX_Buffer, RX_Buffer, FRAME_SIZE) != HAL_OK) {
-			Error_Handler();
-		}
-
-		LL_GPIO_SetOutputPin(M1_EN_DRIVER_GPIO_Port, M1_EN_DRIVER_Pin);
-//        Error_Handler();
+        LL_GPIO_ResetOutputPin(M1_EN_DRIVER_GPIO_Port, M1_EN_DRIVER_Pin);
+        HAL_SPI_TxRxCpltCallback(&hspi1);
     }
 }
 

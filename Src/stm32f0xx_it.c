@@ -59,6 +59,7 @@
 
 /* USER CODE BEGIN EV */
 extern SPI_HandleTypeDef hspi1;
+extern bool data_ready;
 
 /* USER CODE END EV */
 
@@ -104,6 +105,17 @@ void PendSV_Handler(void)
 
 void SPI1_IRQHandler(void)
 {
+	uint32_t itsource = hspi1.Instance->CR2;
+	uint32_t itflag   = hspi1.Instance->SR;
+	if (data_ready &&
+		(SPI_CHECK_FLAG(itflag, SPI_FLAG_OVR) == RESET) &&
+		(SPI_CHECK_FLAG(itflag, SPI_FLAG_RXNE) != RESET) &&
+		(SPI_CHECK_IT_SOURCE(itsource, SPI_IT_RXNE) != RESET))
+	{
+		LL_GPIO_ResetOutputPin(M1_EN_DRIVER_GPIO_Port, M1_EN_DRIVER_Pin);
+		data_ready = false;
+	}
+
     HAL_SPI_IRQHandler(&hspi1);
 }
 
