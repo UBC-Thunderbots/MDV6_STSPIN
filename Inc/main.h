@@ -94,7 +94,7 @@ void Error_Handler(void);
 #define M1_PWM_VH_GPIO_Port GPIOA
 #define M1_PWM_WH_Pin LL_GPIO_PIN_10
 #define M1_PWM_WH_GPIO_Port GPIOA
-#define M1_EN_DRIVER_Pin LL_GPIO_PIN_11
+#define M1_EN_DRIVER_Pin LL_GPIO_PIN_6
 #define M1_EN_DRIVER_GPIO_Port GPIOA
 #define TMS_Pin LL_GPIO_PIN_13
 #define TMS_GPIO_Port GPIOA

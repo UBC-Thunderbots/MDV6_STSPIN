@@ -182,7 +182,8 @@ ErrorStatus LL_SPI_Init(SPI_TypeDef *SPIx, LL_SPI_InitTypeDef *SPI_InitStruct)
 
   /* Check the SPI parameters from SPI_InitStruct*/
   assert_param(IS_LL_SPI_TRANSFER_DIRECTION(SPI_InitStruct->TransferDirection));
-  assert_param(IS_LL_SPI_MODE(SPI_InitStruct->Mode));
+  assert_param(IS_LL_SPI_MODE(SPI_InitStruct->Mod
+#endif /* USE_FULL_LL_DRIVER */e));
   assert_param(IS_LL_SPI_DATAWIDTH(SPI_InitStruct->DataWidth));
   assert_param(IS_LL_SPI_POLARITY(SPI_InitStruct->ClockPolarity));
   assert_param(IS_LL_SPI_PHASE(SPI_InitStruct->ClockPhase));
