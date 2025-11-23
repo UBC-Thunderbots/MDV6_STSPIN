@@ -21,7 +21,7 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-
+#include "crc.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -52,8 +52,18 @@ UART_HandleTypeDef huart1;
 DMA_HandleTypeDef hdma_usart1_rx;
 DMA_HandleTypeDef hdma_usart1_tx;
 
-/* USER CODE BEGIN PV */
 SPI_HandleTypeDef hspi1;
+
+/* USER CODE BEGIN PV */
+
+int16_t ax = 0;
+int16_t bx = 0;
+
+uint8_t tx[FRAME_SIZE] = {};
+uint8_t rx[FRAME_SIZE] = {};
+
+bool data_ready = false;
+
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -64,10 +74,11 @@ static void MX_ADC_Init(void);
 static void MX_TIM1_Init(void);
 static void MX_TIM2_Init(void);
 static void MX_USART1_UART_Init(void);
+static void MX_SPI1_Init(void);
 static void MX_NVIC_Init(void);
 
 /* USER CODE BEGIN PFP */
-static void MX_SPI1_Init(void);
+
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
@@ -107,38 +118,23 @@ int main(void) {
 	MX_TIM1_Init();
 	MX_TIM2_Init();
 	MX_USART1_UART_Init();
+	MX_SPI1_Init();
 	MX_MotorControl_Init();
 
 	/* Initialize interrupts */
 	MX_NVIC_Init();
+
 	/* USER CODE BEGIN 2 */
 
+	// Initial frame
+	tx[0] = FRAME_SOF;
+	tx[1] = ACK;
+	tx[2] = 0;
+	tx[3] = 0;
+	tx[4] = crc_gen_checksum(ACK, 0);
+	tx[5] = FRAME_EOF;
 
-	MX_SPI1_Init();
-
-	// call it once for live expression
-	MC_GetSTMStateMotor1(); // set a breakpoint on the line if reading the state via Debugger
-	MC_GetOccurredFaultsMotor1();
-
-	MC_ProgramSpeedRampMotor1_F(3000, 400);
-
-	MC_StartMotor1();
-
-	HAL_Delay(1000);
-
-	MC_ProgramSpeedRampMotor1_F(700, 400);
-
-	HAL_Delay(5000);
-
-	MC_ProgramSpeedRampMotor1_F(0, 2000);
-
-	HAL_Delay(500);
-
-	MC_ProgramSpeedRampMotor1_F(-1000, 500);
-
-	HAL_Delay(2000);
-
-	MC_StopMotor1();
+	HAL_SPI_TxRxCpltCallback(&hspi1);
 
 	/* USER CODE END 2 */
 
@@ -203,6 +199,9 @@ void SystemClock_Config(void) {
  * @retval None
  */
 static void MX_NVIC_Init(void) {
+    /* SPI1_IRQn interrupt configuration */
+    HAL_NVIC_SetPriority(SPI1_IRQn, 0, 0);
+    HAL_NVIC_EnableIRQ(SPI1_IRQn);
 	/* USART1_IRQn interrupt configuration */
 	HAL_NVIC_SetPriority(USART1_IRQn, 3, 0);
 	HAL_NVIC_EnableIRQ(USART1_IRQn);
@@ -473,28 +472,29 @@ static void MX_GPIO_Init(void) {
 	__HAL_RCC_GPIOA_CLK_ENABLE();
 	__HAL_RCC_GPIOB_CLK_ENABLE();
 
-	/*Configure GPIO pin Output Level */
-	HAL_GPIO_WritePin(M1_EN_DRIVER_GPIO_Port, M1_EN_DRIVER_Pin, GPIO_PIN_SET);
-
-	/*Configure GPIO pin : Start_Stop_Pin */
-	GPIO_InitStruct.Pin = Start_Stop_Pin;
-	GPIO_InitStruct.Mode = GPIO_MODE_IT_FALLING;
-	GPIO_InitStruct.Pull = GPIO_PULLUP;
-	HAL_GPIO_Init(Start_Stop_GPIO_Port, &GPIO_InitStruct);
-
 	/*Configure GPIO pin : M1_EN_DRIVER_Pin */
 	GPIO_InitStruct.Pin = M1_EN_DRIVER_Pin;
-	GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
-	GPIO_InitStruct.Pull = GPIO_PULLDOWN;
+	GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
+	GPIO_InitStruct.Pull = GPIO_NOPULL;
 	GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
 	HAL_GPIO_Init(M1_EN_DRIVER_GPIO_Port, &GPIO_InitStruct);
+
+	/*Configure GPIO pin : M1_DRDY_Pin */
+	GPIO_InitStruct.Pin = M1_DRDY_Pin;
+	GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+	GPIO_InitStruct.Pull = GPIO_NOPULL;
+	GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_HIGH;
+	HAL_GPIO_Init(M1_DRDY_GPIO_Port, &GPIO_InitStruct);
 
 	/* USER CODE BEGIN MX_GPIO_Init_2 */
 	/* USER CODE END MX_GPIO_Init_2 */
 }
 
-/* USER CODE BEGIN 4 */
-
+/**
+ * @brief SPI1 Initialization Function
+ * @param None
+ * @retval None
+ */
 static void MX_SPI1_Init(void) {
 	hspi1.Instance = SPI1;
 	hspi1.Init.Mode = SPI_MODE_SLAVE;
@@ -513,6 +513,103 @@ static void MX_SPI1_Init(void) {
 	if (HAL_SPI_Init(&hspi1) != HAL_OK) {
 		Error_Handler();
 	}
+}
+
+/* USER CODE BEGIN 4 */
+
+/**
+ * @brief  TxRx Transfer completed callback.
+ * @param  hspi: pointer to a SPI_HandleTypeDef structure.
+ * @retval None
+ */
+void HAL_SPI_TxRxCpltCallback(SPI_HandleTypeDef* hspi) {
+    if (hspi->Instance == SPI1) {
+
+		// Frame integrity check
+		if (rx[0] != FRAME_SOF ||
+			rx[5] != FRAME_EOF ||
+			rx[4] != crc_gen_checksum(rx[1], (rx[2] << 8) + rx[3])) {
+
+			// Send NACK
+			tx[0] = FRAME_SOF;
+			tx[1] = NACK;
+			tx[2] = 0;
+			tx[3] = 0;
+			tx[4] = crc_gen_checksum(NACK, 0);
+			tx[5] = FRAME_EOF;
+
+		} else {
+
+			uint16_t data = 0;
+
+			switch (rx[1]) {
+				case MOV_AX:
+					ax = (rx[2] << 8) + rx[3];
+					break;
+				case GET_AX:
+					data = ax;
+					break;
+				case MOV_BX:
+					bx = (rx[2] << 8) + rx[3];
+					break;
+				case GET_BX:
+					data = bx;
+					break;
+				case SET_SPEEDRAMP:
+					MC_ProgramSpeedRampMotor1_F(ax, bx);
+					break;
+				case GET_SPEED:
+					data = MC_GetMecSpeedReferenceMotor1();
+					break;
+				case START_MOTOR:
+					MC_StartMotor1();
+					break;
+				case STOP_MOTOR:
+					MC_StopMotor1();
+					break;
+				case ACK_FAULTS:
+					MC_AcknowledgeFaultMotor1();
+					break;
+				case GET_FAULT:
+					data = MC_GetOccurredFaultsMotor1();
+					break;
+				case GET_ENCODER:
+				case SET_CURRENT:
+				case GET_CURRENT:
+				default:
+					break;
+			}
+
+			tx[0] = FRAME_SOF;
+			tx[1] = ACK;
+			tx[2] = (data >> 8) & 0xFF;
+			tx[3] = data & 0xFF;
+			tx[4] = crc_gen_checksum(ACK, data);
+			tx[5] = FRAME_EOF;
+		}
+
+		if (HAL_SPI_TransmitReceive_IT(&hspi1, tx, rx, FRAME_SIZE) != HAL_OK) {
+			Error_Handler();
+		}
+
+		HAL_GPIO_WritePin(M1_DRDY_GPIO_Port, M1_DRDY_Pin, GPIO_PIN_SET);
+		data_ready = true;
+    }
+}
+
+/**
+ * @brief  SPI error callback.
+ * @param  hspi: pointer to a SPI_HandleTypeDef structure.
+ * @retval None
+ */
+void HAL_SPI_ErrorCallback(SPI_HandleTypeDef* hspi) {
+    if (hspi->Instance == SPI1) {
+    	HAL_GPIO_WritePin(M1_DRDY_GPIO_Port, M1_DRDY_Pin, GPIO_PIN_RESET);
+        data_ready = false;
+
+        // Retry last transaction
+        HAL_SPI_TxRxCpltCallback(&hspi1);
+    }
 }
 
 /* USER CODE END 4 */

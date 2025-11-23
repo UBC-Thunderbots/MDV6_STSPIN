@@ -57,7 +57,8 @@
 /* External variables --------------------------------------------------------*/
 
 /* USER CODE BEGIN EV */
-
+extern SPI_HandleTypeDef hspi1;
+extern bool data_ready;
 /* USER CODE END EV */
 
 /******************************************************************************/
@@ -99,5 +100,25 @@ void PendSV_Handler(void)
 /******************************************************************************/
 
 /* USER CODE BEGIN 1 */
+
+void SPI1_IRQHandler(void)
+{
+	// Set data ready pin to low if we are about to receive data
+	// (master has started the transaction); we do this here so
+	// that the data ready pin is not high when the transaction is
+	// complete and master is ready to start the next transaction.
+	uint32_t itsource = hspi1.Instance->CR2;
+	uint32_t itflag   = hspi1.Instance->SR;
+	if (data_ready &&
+		(SPI_CHECK_FLAG(itflag, SPI_FLAG_OVR) == RESET) &&
+		(SPI_CHECK_FLAG(itflag, SPI_FLAG_RXNE) != RESET) &&
+		(SPI_CHECK_IT_SOURCE(itsource, SPI_IT_RXNE) != RESET))
+	{
+		HAL_GPIO_WritePin(M1_DRDY_GPIO_Port, M1_DRDY_Pin, GPIO_PIN_RESET);
+		data_ready = false;
+	}
+
+    HAL_SPI_IRQHandler(&hspi1);
+}
 
 /* USER CODE END 1 */
