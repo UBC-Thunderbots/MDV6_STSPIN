@@ -43,7 +43,7 @@
 		<link>
 			<name>Application/User/crc.c</name>
 			<type>1</type>
-			<location>/home/william/NEW_MDV6_STSPIN/Src/crc.c</location>
+			<locationURI>PARENT-1-PROJECT_LOC/Src/crc.c</locationURI>
 		</link>
 		<link>
 			<name>Application/User/hall_speed_pos_fdbk.c</name>
@@ -233,12 +233,12 @@
 		<link>
 			<name>Drivers/STM32F0xx_HAL_Driver/stm32f0xx_hal_spi.c</name>
 			<type>1</type>
-			<location>/home/william/NEW_MDV6_STSPIN/Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_spi.c</location>
+			<locationURI>PARENT-1-PROJECT_LOC/Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_spi.c</locationURI>
 		</link>
 		<link>
 			<name>Drivers/STM32F0xx_HAL_Driver/stm32f0xx_hal_spi_ex.c</name>
 			<type>1</type>
-			<location>/home/william/NEW_MDV6_STSPIN/Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_spi_ex.c</location>
+			<locationURI>PARENT-1-PROJECT_LOC/Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_spi_ex.c</locationURI>
 		</link>
 		<link>
 			<name>Drivers/STM32F0xx_HAL_Driver/stm32f0xx_hal_tim.c</name>
