@@ -219,6 +219,13 @@
   * @}
   */
 
+/**
+ * We get hard faults when bit packing is enabled, seemingly due to some byte
+ * alignment issue with pTxBuffPtr and pRxBuffPtr that I can't resolve.
+ * Disabling bit packing mode is an acceptable fix for now.
+ */
+#define USE_PACKING_MODE 0
+
 /* Private macros ------------------------------------------------------------*/
 /* Private variables ---------------------------------------------------------*/
 /* Private function prototypes -----------------------------------------------*/
@@ -1504,7 +1511,7 @@ HAL_StatusTypeDef HAL_SPI_TransmitReceive(SPI_HandleTypeDef *hspi, uint8_t *pTxD
   {
     hspi->State = HAL_SPI_STATE_READY;
   }
-  
+
 error :
   __HAL_UNLOCK(hspi);
   return errorcode;
@@ -1784,6 +1791,7 @@ HAL_StatusTypeDef HAL_SPI_TransmitReceive_IT(SPI_HandleTypeDef *hspi, uint8_t *p
   }
 #endif /* USE_SPI_CRC */
 
+#if USE_PACKING_MODE
   /* Check if packing mode is enabled and if there is more than 2 data to receive */
   if ((hspi->Init.DataSize > SPI_DATASIZE_8BIT) || (Size >= 2U))
   {
@@ -1791,6 +1799,7 @@ HAL_StatusTypeDef HAL_SPI_TransmitReceive_IT(SPI_HandleTypeDef *hspi, uint8_t *p
     CLEAR_BIT(hspi->Instance->CR2, SPI_RXFIFO_THRESHOLD);
   }
   else
+#endif /* USE_PACKING_MODE */
   {
     /* Set RX Fifo threshold according the reception data length: 8 bit */
     SET_BIT(hspi->Instance->CR2, SPI_RXFIFO_THRESHOLD);
@@ -1950,13 +1959,13 @@ HAL_StatusTypeDef HAL_SPI_Receive_DMA(SPI_HandleTypeDef *hspi, uint8_t *pData, u
 
   /* Check rx dma handle */
   assert_param(IS_SPI_DMA_HANDLE(hspi->hdmarx));
-  
+
   if (hspi->State != HAL_SPI_STATE_READY)
   {
     errorcode = HAL_BUSY;
     goto error;
   }
-  
+
   if ((hspi->Init.Direction == SPI_DIRECTION_2LINES) && (hspi->Init.Mode == SPI_MODE_MASTER))
   {
     hspi->State = HAL_SPI_STATE_BUSY_RX;
@@ -3497,6 +3506,7 @@ static void SPI_DMARxAbortCallback(DMA_HandleTypeDef *hdma)
   */
 static void SPI_2linesRxISR_8BIT(struct __SPI_HandleTypeDef *hspi)
 {
+#if USE_PACKING_MODE
   /* Receive data in packing mode */
   if (hspi->RxXferCount > 1U)
   {
@@ -3511,6 +3521,7 @@ static void SPI_2linesRxISR_8BIT(struct __SPI_HandleTypeDef *hspi)
   }
   /* Receive data in 8 Bit mode */
   else
+#endif /* USE_PACKING_MODE */
   {
     *hspi->pRxBuffPtr = *((__IO uint8_t *)&hspi->Instance->DR);
     hspi->pRxBuffPtr++;
@@ -3582,6 +3593,7 @@ static void SPI_2linesRxISR_8BITCRC(struct __SPI_HandleTypeDef *hspi)
   */
 static void SPI_2linesTxISR_8BIT(struct __SPI_HandleTypeDef *hspi)
 {
+#if USE_PACKING_MODE
   /* Transmit data in packing Bit mode */
   if (hspi->TxXferCount >= 2U)
   {
@@ -3591,6 +3603,7 @@ static void SPI_2linesTxISR_8BIT(struct __SPI_HandleTypeDef *hspi)
   }
   /* Transmit data in 8 Bit mode */
   else
+#endif /* USE_PACKING_MODE */
   {
     *(__IO uint8_t *)&hspi->Instance->DR = (*hspi->pTxBuffPtr);
     hspi->pTxBuffPtr++;

@@ -126,11 +126,6 @@ int main(void) {
 
 	/* USER CODE BEGIN 2 */
 
-	MC_ProgramSpeedRampMotor1_F(3000, 100);
-	MC_StartMotor1();
-	HAL_Delay(5000);
-	MC_ProgramSpeedRampMotor1_F(0, 100);
-
 	// Initial frame
 	tx[0] = FRAME_SOF;
 	tx[1] = ACK;
@@ -485,6 +480,8 @@ static void MX_GPIO_Init(void) {
 	GPIO_InitStruct.Pull = GPIO_PULLDOWN;
 	GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
 	HAL_GPIO_Init(M1_EN_DRIVER_GPIO_Port, &GPIO_InitStruct);
+
+	HAL_GPIO_WritePin(M1_DRDY_GPIO_Port, M1_DRDY_Pin, GPIO_PIN_RESET);
 
 	/*Configure GPIO pin : M1_DRDY_Pin */
 	GPIO_InitStruct.Pin = M1_DRDY_Pin;
