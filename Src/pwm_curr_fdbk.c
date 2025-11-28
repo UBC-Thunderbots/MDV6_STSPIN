@@ -12,7 +12,7 @@
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; Copyright (c) 2023 STMicroelectronics.
+  * <h2><center>&copy; Copyright (c) 2025 STMicroelectronics.
   * All rights reserved.</center></h2>
   *
   * This software component is licensed by ST under Ultimate Liberty license
@@ -133,44 +133,6 @@ __weak void PWMC_GetOffsetCalib(PWMC_Handle_t *pHandle, PolarizationOffsets_t *o
 __attribute__( ( section ( ".ccmram" ) ) )
 #endif
 #endif
-/**
-  * @brief Returns the phase current of the motor as read by the ADC (in s16A unit).
-  *
-  * Returns the current values of phases A & B. Phase C current
-  * can be deduced thanks to the formula:
-  *
-  * @f[
-  * I_{C} = -I_{A} - I_{B}
-  * @f]
-  *
-  * @param  pHandle: Handler of the current instance of the PWM component.
-  * @param  Iab: Pointer to the structure that will receive motor current
-  *         of phases A & B in ElectricalValue format.
-  */
-//cstat !MISRAC2012-Rule-8.13 !RED-func-no-effect
-__weak void PWMC_GetPhaseCurrents(PWMC_Handle_t *pHandle, ab_t *Iab)
-{
-#ifdef NULL_PTR_CHECK_PWR_CUR_FDB
-  if (MC_NULL == pHandle)
-  {
-    /* Nothing to do */
-  }
-  else
-  {
-#endif
-    pHandle->pFctGetPhaseCurrents(pHandle, Iab);
-#ifdef NULL_PTR_CHECK_PWR_CUR_FDB
-  }
-#endif
-}
-
-#if defined (CCMRAM)
-#if defined (__ICCARM__)
-#pragma location = ".ccmram"
-#elif defined (__CC_ARM) || defined(__GNUC__)
-__attribute__( ( section ( ".ccmram" ) ) )
-#endif
-#endif
 
 /**
   * @brief  Converts input voltages @f$ V_{\alpha} @f$ and @f$ V_{\beta} @f$ into PWM duty cycles
@@ -215,8 +177,8 @@ __weak uint16_t PWMC_SetPhaseVoltage(PWMC_Handle_t *pHandle, alphabeta_t Valfa_b
     wUBeta = -(Valfa_beta.beta * ((int32_t)pHandle->PWMperiod)) * 2;
 
     wX = wUBeta;
-    wY = (wUBeta + wUAlpha) / 2;
-    wZ = (wUBeta - wUAlpha) / 2;
+    wY = ((int64_t)wUBeta + wUAlpha)>>1;
+    wZ = ((int64_t)wUBeta - wUAlpha)>>1;
 
     /* Sector calculation from wX, wY, wZ */
     if (wY < 0)
@@ -352,36 +314,6 @@ __weak uint16_t PWMC_SetPhaseVoltage(PWMC_Handle_t *pHandle, alphabeta_t Valfa_b
     pHandle->CntPhB = (uint16_t)(MAX(wTimePhB, 0));
     pHandle->CntPhC = (uint16_t)(MAX(wTimePhC, 0));
 
-    if (1U == pHandle->DTTest)
-    {
-      /* Dead time compensation */
-      if (pHandle->Ia > 0)
-      {
-        pHandle->CntPhA += pHandle->DTCompCnt;
-      }
-      else
-      {
-        pHandle->CntPhA -= pHandle->DTCompCnt;
-      }
-
-      if (pHandle->Ib > 0)
-      {
-        pHandle->CntPhB += pHandle->DTCompCnt;
-      }
-      else
-      {
-        pHandle->CntPhB -= pHandle->DTCompCnt;
-      }
-
-      if (pHandle->Ic > 0)
-      {
-        pHandle->CntPhC += pHandle->DTCompCnt;
-      }
-      else
-      {
-        pHandle->CntPhC -= pHandle->DTCompCnt;
-      }
-    }
     returnValue = pHandle->pFctSetADCSampPointSectX(pHandle);
 #ifdef NULL_PTR_CHECK_PWR_CUR_FDB
   }
@@ -641,23 +573,7 @@ __weak void *PWMC_OCP_Handler(PWMC_Handle_t *pHandle)
   else
   {
 #endif
-    if (false == pHandle->BrakeActionLock)
-    {
-      if (ES_GPIO == pHandle->LowSideOutputs)
-      {
-        LL_GPIO_ResetOutputPin(pHandle->pwm_en_u_port, pHandle->pwm_en_u_pin);
-        LL_GPIO_ResetOutputPin(pHandle->pwm_en_v_port, pHandle->pwm_en_v_pin);
-        LL_GPIO_ResetOutputPin(pHandle->pwm_en_w_port, pHandle->pwm_en_w_pin);
-      }
-      else
-      {
-        /* Nothing to do */
-      }
-    }
-    else
-    {
-      /* Nothing to do */
-    }
+    PWMC_SwitchOffPWM(pHandle);
     pHandle->OverCurrentFlag = true;
     tempPointer = &(pHandle->Motor);
 #ifdef NULL_PTR_CHECK_PWR_CUR_FDB
@@ -689,23 +605,7 @@ __weak void *PWMC_DP_Handler(PWMC_Handle_t *pHandle)
   else
   {
 #endif
-    if (false == pHandle->BrakeActionLock)
-    {
-      if (ES_GPIO == pHandle->LowSideOutputs)
-      {
-        LL_GPIO_ResetOutputPin(pHandle->pwm_en_u_port, pHandle->pwm_en_u_pin);
-        LL_GPIO_ResetOutputPin(pHandle->pwm_en_v_port, pHandle->pwm_en_v_pin);
-        LL_GPIO_ResetOutputPin(pHandle->pwm_en_w_port, pHandle->pwm_en_w_pin);
-      }
-      else
-      {
-        /* Nothing to do */
-      }
-    }
-    else
-    {
-      /* Nothing to do */
-    }
+    PWMC_SwitchOffPWM(pHandle);
     pHandle->driverProtectionFlag = true;
     tempPointer = &(pHandle->Motor);
 #ifdef NULL_PTR_CHECK_PWR_CUR_FDB
@@ -814,22 +714,6 @@ __weak void PWMC_OCPSetReferenceVoltage(PWMC_Handle_t *pHandle, uint16_t hDACVre
     pHandle->pFctOCPSetReferenceVoltage(pHandle, hDACVref);
 #ifdef NULL_PTR_CHECK_PWR_CUR_FDB
   }
-#endif
-}
-
-/**
-  * @brief  Retrieves the satus of TurnOnLowSides action.
-  *
-  * @param  pHandle: Handler of the current instance of the PWMC component.
-  * @retval bool State of TurnOnLowSides action:
-  *         **true** if TurnOnLowSides action is active, **false** otherwise.
-  */
-__weak bool PWMC_GetTurnOnLowSidesAction(const PWMC_Handle_t *pHandle)
-{
-#ifdef NULL_PTR_CHECK_PWR_CUR_FDB
-  return ((MC_NULL == pHandle) ? false : pHandle->TurnOnLowSidesAction);
-#else
-  return (pHandle->TurnOnLowSidesAction);
 #endif
 }
 
@@ -967,29 +851,6 @@ __weak void PWMC_RLTurnOnLowSidesAndStart(PWMC_Handle_t *pHandle)
   {
 #endif
     pHandle->pFctRLTurnOnLowSidesAndStart(pHandle);
-#ifdef NULL_PTR_CHECK_PWR_CUR_FDB
-  }
-#endif
-}
-/**
-  * @brief  Sets the aligned motor flag.
-  *
-  * @param  pHandle: Handler of the current instance of the PWMC component.
-  * @param  flag: Value to be applied as an 8 bit unsigned integer.
-  *				  1: motor is in aligned stage.
-  *               2: motor is not in aligned stage.
-  */
-void PWMC_SetAlignFlag(PWMC_Handle_t *pHandle, uint8_t flag)
-{
-#ifdef NULL_PTR_CHECK_PWR_CUR_FDB
-  if (MC_NULL ==  pHandle)
-  {
-    /* Nothing to do */
-  }
-  else
-  {
-#endif
-    pHandle->AlignFlag = flag;
 #ifdef NULL_PTR_CHECK_PWR_CUR_FDB
   }
 #endif
@@ -1228,4 +1089,4 @@ __weak void PWMC_RegisterRLDetectionModeSetDutyCallBack(PWMC_RLDetectSetDuty_Cb_
   * @}
   */
 
-/************************ (C) COPYRIGHT 2023 STMicroelectronics *****END OF FILE****/
+/************************ (C) COPYRIGHT 2025 STMicroelectronics *****END OF FILE****/

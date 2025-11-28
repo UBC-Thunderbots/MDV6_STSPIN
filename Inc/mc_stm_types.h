@@ -1,3 +1,4 @@
+
 /**
   ******************************************************************************
   * @file    mc_stm_types.h
@@ -6,7 +7,7 @@
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; Copyright (c) 2023 STMicroelectronics.
+  * <h2><center>&copy; Copyright (c) 2025 STMicroelectronics.
   * All rights reserved.</center></h2>
   *
   * This software component is licensed by ST under Ultimate Liberty license
@@ -38,6 +39,7 @@
 
 #ifdef NULL_PTR_CHECK
 #define NULL_PTR_CHECK_ASP
+#define NULL_PTR_CHECK_BADC
 #define NULL_PTR_CHECK_BUS_VOLT
 #define NULL_PTR_CHECK_CRC_LIM
 #define NULL_PTR_CHECK_DAC_UI
@@ -47,6 +49,7 @@
 #define NULL_PTR_CHECK_FEED_FWD_CTRL
 #define NULL_PTR_CHECK_FLUX_WEAK
 #define NULL_PTR_CHECK_HALL_SPD_POS_FDB
+#define NULL_PTR_CHECK_IPD_6S
 #define NULL_PTR_CHECK_MAX_TRQ_PER_AMP
 #define NULL_PTR_CHECK_MCP
 #define NULL_PTR_CHECK_MCPA
@@ -61,13 +64,16 @@
 #define NULL_PTR_CHECK_PQD_MOT_POW_MEAS
 #define NULL_PTR_CHECK_PWR_CUR_FDB
 #define NULL_PTR_CHECK_PWM_CUR_FDB_OVM
+#define NULL_PTR_CHECK_PWM_SIXSTEP
 #define NULL_PTR_CHECK_RDIV_BUS_VLT_SNS
 #define NULL_PTR_CHECK_REG_CON_MNG
 #define NULL_PTR_CHECK_REG_INT
 #define NULL_PTR_CHECK_REV_UP_CTL
+#define NULL_PTR_CHECK_REV_UP_CTL_6STEP
 #define NULL_PTR_CHECK_RMP_EXT_MNG
 #define NULL_PTR_CHECK_R1_PS_PWR_CUR_FDB
 #define NULL_PTR_CHECK_R3_2_PWM_CURR_FDB
+#define NULL_PTR_CHECK_SDC
 #define NULL_PTR_CHECK_SPD_POS_FBK
 #define NULL_PTR_CHECK_SPD_POT
 #define NULL_PTR_CHECK_SPD_REG_POT
@@ -93,6 +99,8 @@
   #include "stm32f0xx_ll_dac.h"
   #include "stm32f0xx_ll_dma.h"
   #include "stm32f0xx_ll_comp.h"
+  #include "stm32f0xx_ll_spi.h"
+  #include "stm32f0xx_ll_cortex.h"
 
 /* Make this define visible for all projects */
 #define NBR_OF_MOTORS             1
@@ -136,6 +144,17 @@ __STATIC_INLINE uint32_t LL_DMA_IsActiveFlag_HT(DMA_TypeDef *DMAx, uint32_t Chan
  return ((NULL == DMAx) ? 0U : ((READ_BIT(DMAx->ISR,
          (DMA_ISR_HTIF1 << ((Channel-LL_DMA_CHANNEL_1)<<2))) == (DMA_ISR_HTIF1 << ((Channel-LL_DMA_CHANNEL_1)<<2))) ?
          1UL : 0UL));
+}
+
+/*
+* Get ADC group regular conversion data, range fit for
+*        ADC resolution 12 bits Left Aligned.
+* param  ADCx ADC instance
+* retval Value between Min_Data=0x0000 and Max_Data=0xFFF0
+*/
+__STATIC_INLINE uint16_t LL_ADC_REG_ReadConversionData12L(const ADC_TypeDef *ADCx)
+{
+  return (uint16_t)(READ_REG(ADCx->DR) & 0x0000FFF0UL);
 }
 
 #define CIRCLE_LIMITATION_SQRT_M0
@@ -198,4 +217,4 @@ __STATIC_INLINE uint32_t LL_DMA_IsActiveFlag_HT(DMA_TypeDef *DMAx, uint32_t Chan
 */
 
 #endif /* MC_STM_TYPES_H */
-/******************* (C) COPYRIGHT 2023 STMicroelectronics *****END OF FILE****/
+/******************* (C) COPYRIGHT 2025 STMicroelectronics *****END OF FILE****/

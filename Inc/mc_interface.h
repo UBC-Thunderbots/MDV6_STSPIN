@@ -8,7 +8,7 @@
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; Copyright (c) 2023 STMicroelectronics.
+  * <h2><center>&copy; Copyright (c) 2025 STMicroelectronics.
   * All rights reserved.</center></h2>
   *
   * This software component is licensed by ST under Ultimate Liberty license
@@ -111,8 +111,9 @@ typedef enum
                           * case it goes back to the #FAULT_NOW state) or the application
                           * acknowledges the faults (in which case it goes to the #IDLE state).
                           */
-  WAIT_STOP_MOTOR = 20  /**< Temporisation to make sure the motor is stopped. */
-
+  WAIT_STOP_MOTOR = 20,  /**< Temporisation to make sure the motor is stopped. */
+  OTF_DETECTION = 21,  /**< Temporisation to make sure the motor is stopped. */
+  OTF_BRAKE = 22  /**< Temporisation to make sure the motor is stopped. */
 } MCI_State_t;
 
 /**
@@ -126,26 +127,26 @@ typedef enum
   MCI_MEASURE_OFFSETS,  /**< Start the ADCs Offset measurements procedure */
   /* Shouldn't we remove this command ? */
   MCI_ALIGN_ENCODER,    /**< Start the Encoder alignment procedure */
-  MCI_STOP              /**< Stop the Motor and the control */
+  MCI_STOP,              /**< Stop the Motor and the control */
 } MCI_DirectCommands_t;
 
 typedef struct
 {
-  SpeednTorqCtrl_Handle_t *pSTC;         /*!< Speed and torque controller object used by MCI.*/
-  pFOCVars_t pFOCVars;                   /*!< Pointer to FOC vars used by MCI.*/
-  PWMC_Handle_t *pPWM;                   /*!< Pointer to PWM handle structure.*/
-  MCI_UserCommands_t lastCommand;        /*!< Last command coming from the user.*/
-  int16_t hFinalSpeed;                   /*!< Final speed of last ExecSpeedRamp command.*/
-  int16_t hFinalTorque;                  /*!< Final torque of last ExecTorqueRamp command.*/
-  qd_t Iqdref;                           /*!< Current component of last SetCurrentReferences command.*/
-  ScaleParams_t *pScale;
-  uint16_t hDurationms;                  /*!< Duration in ms of last ExecSpeedRamp or ExecTorqueRamp command.*/
  MCI_DirectCommands_t DirectCommand;
  MCI_State_t State;
  uint16_t CurrentFaults;
  uint16_t PastFaults;
  MCI_CommandState_t CommandState;        /*!< The status of the buffered command.*/
+ MCI_UserCommands_t lastCommand;        /*!< Last command coming from the user.*/
  MC_ControlMode_t LastModalitySetByUser; /*!< The last MC_ControlMode_t set by the user. */
+ PWMC_Handle_t *pPWM;                   /*!< Pointer to PWM handle structure.*/
+ ScaleParams_t *pScale;
+ int16_t hFinalSpeed;                   /*!< Final speed of last ExecSpeedRamp command.*/
+ int16_t hFinalTorque;                  /*!< Final torque of last ExecTorqueRamp command.*/
+ uint16_t hDurationms;                  /*!< Duration in ms of last ExecSpeedRamp or ExecTorqueRamp command.*/
+  SpeednTorqCtrl_Handle_t *pSTC;         /*!< Speed and torque controller object used by MCI.*/
+  pFOCVars_t pFOCVars;                   /*!< Pointer to FOC vars used by MCI.*/
+  qd_t Iqdref;                           /*!< Current component of last SetCurrentReferences command.*/
 } MCI_Handle_t;
 
 /* Exported functions ------------------------------------------------------- */
@@ -181,12 +182,13 @@ MC_ControlMode_t MCI_GetControlMode(MCI_Handle_t *pHandle);
 int16_t MCI_GetImposedMotorDirection(MCI_Handle_t *pHandle);
 int16_t MCI_GetLastRampFinalSpeed(MCI_Handle_t *pHandle);
 int16_t MCI_GetLastRampFinalTorque(MCI_Handle_t *pHandle);
+float_t MCI_GetLastRampFinalTorque_F(MCI_Handle_t *pHandle);
 uint16_t MCI_GetLastRampFinalDuration(MCI_Handle_t *pHandle);
 bool MCI_RampCompleted(MCI_Handle_t *pHandle);
 float_t MCI_GetLastRampFinalSpeed_F(MCI_Handle_t *pHandle);
 bool MCI_StopSpeedRamp(MCI_Handle_t *pHandle);
 void MCI_StopRamp(MCI_Handle_t *pHandle);
-bool MCI_GetSpdSensorReliability(MCI_Handle_t *pHandle);
+bool MCI_GetSpdSensorReliability(const MCI_Handle_t *pHandle);
 int16_t MCI_GetAvrgMecSpeedUnit(MCI_Handle_t *pHandle);
 int16_t MCI_GetMecSpeedRefUnit(MCI_Handle_t *pHandle);
 ab_t MCI_GetIab(MCI_Handle_t *pHandle);
@@ -194,7 +196,6 @@ ab_f_t MCI_GetIab_F(MCI_Handle_t *pHandle);
 alphabeta_t MCI_GetIalphabeta(MCI_Handle_t *pHandle);
 qd_t MCI_GetIqd(MCI_Handle_t *pHandle);
 qd_f_t MCI_GetIqd_F(MCI_Handle_t *pHandle);
-qd_t MCI_GetIqdHF(MCI_Handle_t *pHandle);
 qd_t MCI_GetIqdref(MCI_Handle_t *pHandle);
 qd_f_t MCI_GetIqdref_F(MCI_Handle_t *pHandle);
 qd_t MCI_GetVqd(MCI_Handle_t *pHandle);
@@ -205,7 +206,6 @@ float_t MCI_GetTeref_F(MCI_Handle_t *pHandle );
 int16_t MCI_GetPhaseCurrentAmplitude(MCI_Handle_t *pHandle);
 int16_t MCI_GetPhaseVoltageAmplitude(MCI_Handle_t *pHandle);
 void MCI_Clear_Iqdref(MCI_Handle_t *pHandle);
-
 /**
   * @}
   */
@@ -224,5 +224,5 @@ void MCI_Clear_Iqdref(MCI_Handle_t *pHandle);
 
 #endif /* MC_INTERFACE_H */
 
-/******************* (C) COPYRIGHT 2023 STMicroelectronics *****END OF FILE****/
+/******************* (C) COPYRIGHT 2025 STMicroelectronics *****END OF FILE****/
 

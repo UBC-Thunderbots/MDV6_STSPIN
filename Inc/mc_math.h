@@ -9,7 +9,7 @@
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; Copyright (c) 2023 STMicroelectronics.
+  * <h2><center>&copy; Copyright (c) 2025 STMicroelectronics.
   * All rights reserved.</center></h2>
   *
   * This software component is licensed by ST under Ultimate Liberty license
@@ -74,7 +74,7 @@ typedef struct
   *         Ialpha and Ibeta in a stationary qd reference frame.
   *                               Ialpha = Ia
   *                       Ibeta = -(2*Ib+Ia)/sqrt(3)
-  * @param  Curr_Input: stator current Ia and Ib in ab_t format.
+  * @param  Input: stator current Ia and Ib in ab_t format.
   * @retval Stator current Ialpha and Ibeta in alphabeta_t format.
   */
 alphabeta_t MCM_Clarke(ab_t Input);
@@ -85,7 +85,7 @@ alphabeta_t MCM_Clarke(ab_t Input);
   *         synchronous reference frame (properly oriented), so as Iq and Id.
   *                   Id= Ialpha *sin(theta)+qIbeta *cos(Theta)
   *                   Iq=qIalpha *cos(Theta)-qIbeta *sin(Theta)
-  * @param  Curr_Input: stator values alpha and beta in alphabeta_t format.
+  * @param  Input: stator values alpha and beta in alphabeta_t format.
   * @param  Theta: rotating frame angular position in q1.15 format.
   * @retval Stator current q and d in qd_t format.
   */
@@ -97,7 +97,7 @@ qd_t MCM_Park(alphabeta_t Input, int16_t Theta);
   *         frame, so as to obtain qValpha and qVbeta:
   *                  Valfa= Vq*Cos(theta)+ Vd*Sin(theta)
   *                  Vbeta=-Vq*Sin(theta)+ Vd*Cos(theta)
-  * @param  Curr_Input: stator voltage Vq and Vd in qd_t format.
+  * @param  Input: stator voltage Vq and Vd in qd_t format.
   * @param  Theta: rotating frame angular position in q1.15 format.
   * @retval Stator values alpha and beta in alphabeta_t format.
   */
@@ -112,7 +112,7 @@ Trig_Components MCM_Trig_Functions(int16_t hAngle);
 
 /**
   * @brief  It calculates the square root of a non-negative s32. It returns 0 for negative s32.
-  * @param  Input int32_t number.
+  * @param  wInput int32_t number.
   * @retval int32_t Square root of Input (0 if Input<0).
   */
 int32_t MCM_Sqrt(int32_t wInput);
@@ -479,7 +479,7 @@ static inline int16_t MCM_PhaseComputation(int32_t wBemf_alfa_est, int32_t wBemf
 
 /**
   * @brief  This function codify a floting point number into the relative 32bit integer.
-  * @param  float_t Floting point number to be coded.
+  * @param  x Floting point number to be coded.
   * @retval uint32_t Coded 32bit integer.
   */
 uint32_t MCM_floatToIntBit(float_t x);
@@ -492,4 +492,4 @@ uint32_t MCM_floatToIntBit(float_t x);
   * @}
   */
 #endif /* MC_MATH_H*/
-/******************* (C) COPYRIGHT 2023 STMicroelectronics *****END OF FILE****/
+/******************* (C) COPYRIGHT 2025 STMicroelectronics *****END OF FILE****/

@@ -7,7 +7,7 @@
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; Copyright (c) 2023 STMicroelectronics.
+  * <h2><center>&copy; Copyright (c) 2025 STMicroelectronics.
   * All rights reserved.</center></h2>
   *
   * This software component is licensed by ST under Ultimate Liberty license
@@ -392,7 +392,21 @@ __weak float_t MC_GetLastRampFinalSpeedM1_F(void)
 {
   return (MCI_GetLastRampFinalSpeed_F(pMCI[M1]));
 }
+/**
+ * @brief Returns the final torque reference for Motor 1, expressed in Ampere.
+ */
+__weak float_t MC_GetFinalTorqueReferenceMotor1_F(void)
+{
+  return (MCI_GetLastRampFinalTorque_F(pMCI[M1]));
+}
 
+/**
+ * @brief Returns the final torque reference for Motor 1, expressed in digit.
+ */
+__weak int16_t MC_GetFinalTorqueReferenceMotor1(void)
+{
+  return (MCI_GetLastRampFinalTorque(pMCI[M1]));
+}
 /**
  * @brief Returns the Control Mode used for Motor 1 (either Speed or Torque)
  */
@@ -644,7 +658,7 @@ __weak MCI_State_t MC_GetSTMStateMotor1(void)
   * When this function completes successfully, the state of the polarization offsets measurement procedure
   * is set to #COMPLETED. See MC_GetPolarizationState().
   *
-  * @param PolarizationOffsets an pointer on a structure containing the offset values
+  * @param PolarizationOffsets pointer on the structure containing the offset values
   */
 bool MC_SetPolarizationOffsetsMotor1(PolarizationOffsets_t * PolarizationOffsets)
 {
@@ -660,7 +674,7 @@ bool MC_SetPolarizationOffsetsMotor1(PolarizationOffsets_t * PolarizationOffsets
   * @p PolarizationOffsets structure and #MC_SUCCESS is returned. Otherwise, nothing is done and
   * #MC_NO_POLARIZATION_OFFSETS_ERROR is returned.
   *
-  * @param PolarizationOffsets an pointer on the structure into which the polarization offsets will be
+  * @param PolarizationOffsets pointer on the structure into which the polarization offsets will be
   *        copied
   * @return #MC_SUCCESS if calibration data were present and could be copied into @p PolarizationOffsets,
   *         #MC_NO_POLARIZATION_OFFSETS_ERROR otherwise.
@@ -721,5 +735,5 @@ __weak uint8_t MC_ProfilerCommand(uint16_t rxLength, uint8_t *rxBuffer, int16_t 
   * @}
   */
 
-/************************ (C) COPYRIGHT 2023 STMicroelectronics *****END OF FILE****/
+/************************ (C) COPYRIGHT 2025 STMicroelectronics *****END OF FILE****/
 

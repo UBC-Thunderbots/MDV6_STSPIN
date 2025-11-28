@@ -60,17 +60,18 @@ void Error_Handler(void);
 /* USER CODE END EFP */
 
 /* Private defines -----------------------------------------------------------*/
-#define Start_Stop_Pin GPIO_PIN_15
-#define Start_Stop_GPIO_Port GPIOC
-#define Start_Stop_EXTI_IRQn EXTI4_15_IRQn
 #define M1_HALL_H1_Pin GPIO_PIN_0
 #define M1_HALL_H1_GPIO_Port GPIOA
 #define M1_HALL_H2_Pin GPIO_PIN_1
 #define M1_HALL_H2_GPIO_Port GPIOA
 #define M1_HALL_H3_Pin GPIO_PIN_2
 #define M1_HALL_H3_GPIO_Port GPIOA
+#define MD_DRDY_Pin GPIO_PIN_3
+#define MD_DRDY_GPIO_Port GPIOA
 #define M1_CURR_AMPL_Pin GPIO_PIN_5
 #define M1_CURR_AMPL_GPIO_Port GPIOA
+#define MD_ENABLE_Pin GPIO_PIN_6
+#define MD_ENABLE_GPIO_Port GPIOA
 #define M1_BUS_VOLTAGE_Pin GPIO_PIN_1
 #define M1_BUS_VOLTAGE_GPIO_Port GPIOB
 #define M1_OCP_Pin GPIO_PIN_12
@@ -87,8 +88,6 @@ void Error_Handler(void);
 #define M1_PWM_VH_GPIO_Port GPIOA
 #define M1_PWM_WH_Pin GPIO_PIN_10
 #define M1_PWM_WH_GPIO_Port GPIOA
-#define M1_EN_DRIVER_Pin GPIO_PIN_11
-#define M1_EN_DRIVER_GPIO_Port GPIOA
 #define TMS_Pin GPIO_PIN_13
 #define TMS_GPIO_Port GPIOA
 #define TCK_Pin GPIO_PIN_14

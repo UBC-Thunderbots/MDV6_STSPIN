@@ -9,7 +9,7 @@
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; Copyright (c) 2023 STMicroelectronics.
+  * <h2><center>&copy; Copyright (c) 2025 STMicroelectronics.
   * All rights reserved.</center></h2>
   *
   * This software component is licensed by ST under Ultimate Liberty license
@@ -25,7 +25,6 @@
 #include "main.h" //cstat !MISRAC2012-Rule-21.1
 //cstat +MISRAC2012-Rule-21.1
 #include "parameters_conversion.h"
-
 #include "r1_ps_pwm_curr_fdbk.h"
 
 /* USER CODE BEGIN Additional include */
@@ -39,6 +38,7 @@
   * @brief  Current sensor parameters Motor 1 - single shunt phase shift
   */
 //cstat !MISRAC2012-Rule-8.4
+
 const R1_Params_t R1_ParamsM1 =
 {
 /* Dual MC parameters --------------------------------------------------------*/
@@ -51,7 +51,7 @@ const R1_Params_t R1_ParamsM1 =
   .ISamplingTime = LL_ADC_SAMPLINGTIME_7CYCLES_5,
 
 /* PWM generation parameters --------------------------------------------------*/
-  .RepetitionCounter     = 2,
+  .RepetitionCounter     = REP_COUNTER,
   .TMin                  = TMIN,
   .TSample               = (uint16_t)(TBEFORE),
   .TIMx                  = TIM1,
@@ -69,12 +69,12 @@ ScaleParams_t scaleParams_M1 =
 {
  .voltage = NOMINAL_BUS_VOLTAGE_V/(1.73205 * 32767), /* sqrt(3) = 1.73205 */
  .current = CURRENT_CONV_FACTOR_INV,
- .frequency = (1.15 * MAX_APPLICATION_SPEED_UNIT * U_RPM)/(32768* SPEED_UNIT)
+ .frequency = U_RPM/SPEED_UNIT
 };
 
 /* USER CODE BEGIN Additional parameters */
 
 /* USER CODE END Additional parameters */
 
-/******************* (C) COPYRIGHT 2023 STMicroelectronics *****END OF FILE****/
+/******************* (C) COPYRIGHT 2025 STMicroelectronics *****END OF FILE****/
 

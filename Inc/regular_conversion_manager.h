@@ -8,7 +8,7 @@
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; Copyright (c) 2023 STMicroelectronics.
+  * <h2><center>&copy; Copyright (c) 2025 STMicroelectronics.
   * All rights reserved.</center></h2>
   *
   * This software component is licensed by ST under Ultimate Liberty license
@@ -48,55 +48,41 @@
   */
 typedef struct
 {
-  ADC_TypeDef *regADC;
-  uint8_t  channel;
-  uint32_t samplingTime;
-  uint8_t convHandle;          /*!< handler to the regular conversion */
+  ADC_TypeDef *regADC;    /*!< ADC peripheral used for the conversion */
+  uint32_t samplingTime;  /*!< ADC sampling time used for the conversion */
+  uint8_t channel;        /*!< ADC channel used for the conversion */
+  uint16_t data;          /*!< ADC converted value */
+  uint8_t id;             /*!< index of the conversion in RCM array */
 } RegConv_t;
-
-/**
- * @brief Conversion states
- */
-typedef enum
-{
-  RCM_USERCONV_IDLE,        /**< @brief No conversion currently scheduled. */
-  RCM_USERCONV_REQUESTED,   /**< @brief A conversion is scheduled for execution. */
-  RCM_USERCONV_EOC          /**< @brief A conversion has completed and the value is ready. */
-}RCM_UserConvState_t;
 
 typedef void (*RCM_exec_cb_t)(RegConv_t *regConv, uint16_t data, void *UserData);
 
 /* Exported functions ------------------------------------------------------- */
 
 /*  Function used to register a regular conversion */
-void RCM_RegisterRegConv(RegConv_t *regConv);
-
-/*  Function used to register a regular conversion with a callback attached*/
-void RCM_RegisterRegConv_WithCB(RegConv_t *regConv, RCM_exec_cb_t fctCB, void *data);
-
-/*  Function used to execute an already registered regular conversion */
-uint16_t RCM_ExecRegularConv(RegConv_t *regConv);
-
-/* select the handle conversion to be executed during the next call to RCM_ExecUserConv */
-bool RCM_RequestUserConv(RegConv_t *regConv);
-
-/* Return the latest user conversion value */
-uint16_t RCM_GetUserConv(void);
-
-/* Must be called by MC_TASK only to grantee proper scheduling */
-void RCM_ExecUserConv(void);
-
-/* return the state of the user conversion state machine*/
-RCM_UserConvState_t RCM_GetUserConvState(void);
-
-/* Function used to un-schedule a regular conversion exectuted after current sampling in HF task */
-bool RCM_PauseRegularConv(RegConv_t *regConv);
+bool RCM_RegisterRegConv(RegConv_t *regConv);
 
 /* Non blocking function to start conversion inside HF task */
 void RCM_ExecNextConv(void);
 
 /* Non blocking function used to read back already started regular conversion */
 void RCM_ReadOngoingConv(void);
+
+/*  Function used to execute an already registered regular conversion */
+uint16_t RCM_ExecRegularConv(RegConv_t *regConv);
+
+/* This function is used to read the result of a regular conversion stored in the data structure. */
+static inline uint16_t RCM_GetRegularConv(const RegConv_t *regConv)
+{
+#ifdef NULL_PTR_CHECK_REG_CON_MNG
+  return ((MC_NULL == regConv) ? 0U : regConv->data);
+#else
+  return (regConv->data);
+#endif
+}
+
+/* This function is used to wait for a the result of a regular conversion. */
+void RCM_WaitForConv(void);
 
 /**
   * @}
@@ -112,4 +98,4 @@ void RCM_ReadOngoingConv(void);
 
 #endif /* REGULAR_CONVERSION_MANAGER_H */
 
-/************************ (C) COPYRIGHT 2023 STMicroelectronics *****END OF FILE****/
+/************************ (C) COPYRIGHT 2025 STMicroelectronics *****END OF FILE****/

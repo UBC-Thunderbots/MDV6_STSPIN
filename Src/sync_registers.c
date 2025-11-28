@@ -1,15 +1,16 @@
 
 /**
   ******************************************************************************
-  * @file    register_interface.c
+  * @file    sync_registers.c
   * @author  Motor Control SDK Team, ST Microelectronics
-  * @brief   This file provides firmware functions that implement the register access for the MCP protocol
+  * @brief   This file provides firmware functions that implement the register
+  * access for the synchronous part of the MCP protocol.
   *
   *
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; Copyright (c) 2023 STMicroelectronics.
+  * <h2><center>&copy; Copyright (c) 2025 STMicroelectronics.
   * All rights reserved.</center></h2>
   *
   * This software component is licensed by ST under Ultimate Liberty license
@@ -167,12 +168,13 @@ uint8_t RI_SetRegisterMotor1(uint16_t regID, uint8_t typeID, uint8_t *data, uint
             retVal = MCP_ERROR_RO_REG;
             break;
           }
-
         case MC_REG_CONTROL_MODE:
         {
           uint8_t regdata8 = *data;
+
           if ((uint8_t)MCM_TORQUE_MODE == regdata8)
           {
+
             MCI_ExecTorqueRamp(pMCIN, MCI_GetTeref(pMCIN), 0);
           }
           else
@@ -188,7 +190,6 @@ uint8_t RI_SetRegisterMotor1(uint16_t regID, uint8_t typeID, uint8_t *data, uint
           {
             /* Nothing to do */
           }
-
           break;
         }
 
@@ -207,6 +208,7 @@ uint8_t RI_SetRegisterMotor1(uint16_t regID, uint8_t typeID, uint8_t *data, uint
       uint16_t regdata16 = *(uint16_t *)data; //cstat !MISRAC2012-Rule-11.3
       switch (regID)
       {
+
         case MC_REG_SPEED_KP:
         {
           PID_SetKP(&PIDSpeedHandle_M1, (int16_t)regdata16);
@@ -535,6 +537,7 @@ uint8_t RI_GetRegisterGlobal(uint16_t regID,uint8_t typeID,uint8_t * data,uint16
         {
           switch (regID)
           {
+
             case MC_REG_SPEED_KP:
             {
               *regdata16 = PID_GetKP(&PIDSpeedHandle_M1);
@@ -761,111 +764,4 @@ uint8_t RI_GetRegisterGlobal(uint16_t regID,uint8_t typeID,uint8_t * data,uint16
     return (retVal);
   }
 
-uint8_t RI_GetIDSize(uint16_t dataID)
-{
-  uint8_t typeID = ((uint8_t)dataID) & TYPE_MASK;
-  uint8_t result;
-
-  switch (typeID)
-  {
-    case TYPE_DATA_8BIT:
-    {
-      result = 1;
-      break;
-    }
-
-    case TYPE_DATA_16BIT:
-    {
-      result = 2;
-      break;
-    }
-
-    case TYPE_DATA_32BIT:
-    {
-      result = 4;
-      break;
-    }
-
-    default:
-    {
-      result=0;
-      break;
-    }
-  }
-
-  return (result);
-}
-
-__weak uint8_t RI_GetPtrReg(uint16_t dataID, void **dataPtr)
-{
-
-  uint8_t retVal = MCP_CMD_OK;
-  static uint16_t nullData16=0;
-
-#ifdef NULL_PTR_CHECK_REG_INT
-  if (MC_NULL == dataPtr)
-  {
-    retVal = MCP_CMD_NOK;
-  }
-  else
-  {
-#endif
-
-    MCI_Handle_t *pMCIN = &Mci[0];
-    uint16_t regID = dataID & REG_MASK;
-    uint8_t typeID = ((uint8_t)dataID) & TYPE_MASK;
-
-    switch (typeID)
-    {
-      case TYPE_DATA_16BIT:
-      {
-        switch (regID)
-        {
-
-          case MC_REG_V_Q:
-          {
-            *dataPtr = &(pMCIN->pFOCVars->Vqd.q);
-            break;
-          }
-
-          case MC_REG_V_D:
-          {
-            *dataPtr = &(pMCIN->pFOCVars->Vqd.d);
-            break;
-          }
-
-          case MC_REG_V_ALPHA:
-          {
-            *dataPtr = &(pMCIN->pFOCVars->Valphabeta.alpha);
-            break;
-          }
-
-          case MC_REG_V_BETA:
-          {
-            *dataPtr = &(pMCIN->pFOCVars->Valphabeta.beta);
-            break;
-          }
-
-          default:
-          {
-            *dataPtr = &nullData16;
-            retVal = MCP_ERROR_UNKNOWN_REG;
-            break;
-          }
-        }
-        break;
-      }
-
-      default:
-      {
-        *dataPtr = &nullData16;
-        retVal = MCP_ERROR_UNKNOWN_REG;
-        break;
-      }
-    }
-#ifdef NULL_PTR_CHECK_REG_INT
-  }
-#endif
-  return (retVal);
-}
-/************************ (C) COPYRIGHT 2023 STMicroelectronics *****END OF FILE****/
+/************************ (C) COPYRIGHT 2025 STMicroelectronics *****END OF FILE****/

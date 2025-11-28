@@ -8,7 +8,7 @@
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; Copyright (c) 2023 STMicroelectronics.
+  * <h2><center>&copy; Copyright (c) 2025 STMicroelectronics.
   * All rights reserved.</center></h2>
   *
   * This software component is licensed by ST under Ultimate Liberty license
@@ -42,12 +42,10 @@
   *
   * @brief Hall Sensor based Speed & Position Feedback implementation
   *
-  * This component is used in applications controlling a motor equipped with Hall effect sensors.
+  * This component requires a motor equipped with Hall effect sensors.
+  * It uses the sensors to provide a measure of the speed and the position of the rotor of the motor.
   *
-  * This component uses the output of two Hall effects sensors to provide a measure of the speed
-  * and the position of the rotor of the motor.
-  *
-  * @todo Document the Hall Speed & Position Feedback "module".
+  * More detail in [Hall sensor Feedback processing](rotor_speed_pos_feedback_hall.md).
   *
   * @{
   */
@@ -73,6 +71,9 @@
 
 #define NEGATIVE          (int8_t)-1
 #define POSITIVE          (int8_t)1
+
+/* Number of HALL TIM process for coming back from unriability */
+#define RELIABILITY_NB    (int16_t)7U
 
 /* With digit-per-PWM unit (here 2*PI rad = 0xFFFF): */
 #define HALL_MAX_PSEUDO_SPEED       ((int16_t)0x7FFF)
@@ -156,7 +157,7 @@ __weak void HALL_Init(HALL_Handle_t *pHandle)
     pHandle->SensorIsReliable = true;
 
     /* Set IC filter for Channel 1 (ICF1) */
-    LL_TIM_IC_SetFilter(TIMx, LL_TIM_CHANNEL_CH1, (uint32_t)(pHandle->ICx_Filter) << 20U);
+    LL_TIM_IC_SetFilter(TIMx, LL_TIM_CHANNEL_CH1, (uint32_t)(pHandle->ICx_Filter));
 
     /* Force the TIMx prescaler with immediate access (gen update event)
     */
@@ -394,6 +395,7 @@ __weak bool HALL_CalcAvrgMecSpeedUnit(HALL_Handle_t *pHandle, int16_t *hMecSpeed
       /* If speed is not reliable the El and Mec speed is set to 0 */
       pHandle->_Super.hElSpeedDpp = 0;
       *hMecSpeedUnit = 0;
+      pHandle->CompSpeed = 0;
     }
 
     pHandle->_Super.hAvrMecSpeedUnit = *hMecSpeedUnit;
@@ -426,25 +428,24 @@ __weak void *HALL_TIMx_CC_IRQHandler(void *pHandleVoid)
   uint8_t bPrevHallState;
   int8_t PrevDirection;
 
+  /* A capture event generated this interrupt */
+  bPrevHallState = pHandle->HallState;
+  PrevDirection = pHandle->Direction;
+
+  if (DEGREES_120 == pHandle->SensorPlacement)
+  {
+    pHandle->HallState  = (uint8_t)((LL_GPIO_IsInputPinSet(pHandle->H3Port, pHandle->H3Pin) << 2U)
+                                    | (LL_GPIO_IsInputPinSet(pHandle->H2Port, pHandle->H2Pin) << 1U)
+                                    | LL_GPIO_IsInputPinSet(pHandle->H1Port, pHandle->H1Pin));
+  }
+  else
+  {
+    pHandle->HallState  = (uint8_t)(((LL_GPIO_IsInputPinSet(pHandle->H2Port, pHandle->H2Pin) ^ 1U) << 2U)
+                                    | (LL_GPIO_IsInputPinSet(pHandle->H3Port, pHandle->H3Pin) << 1U)
+                                    | LL_GPIO_IsInputPinSet(pHandle->H1Port, pHandle->H1Pin));
+  }
   if (pHandle->SensorIsReliable)
   {
-    /* A capture event generated this interrupt */
-    bPrevHallState = pHandle->HallState;
-    PrevDirection = pHandle->Direction;
-
-    if (DEGREES_120 == pHandle->SensorPlacement)
-    {
-      pHandle->HallState  = (uint8_t)((LL_GPIO_IsInputPinSet(pHandle->H3Port, pHandle->H3Pin) << 2U)
-                                      | (LL_GPIO_IsInputPinSet(pHandle->H2Port, pHandle->H2Pin) << 1U)
-                                      | LL_GPIO_IsInputPinSet(pHandle->H1Port, pHandle->H1Pin));
-    }
-    else
-    {
-      pHandle->HallState  = (uint8_t)(((LL_GPIO_IsInputPinSet(pHandle->H2Port, pHandle->H2Pin) ^ 1U) << 2U)
-                                      | (LL_GPIO_IsInputPinSet(pHandle->H3Port, pHandle->H3Pin) << 1U)
-                                      | LL_GPIO_IsInputPinSet(pHandle->H1Port, pHandle->H1Pin));
-    }
-
     switch (pHandle->HallState)
     {
       case STATE_5:
@@ -745,6 +746,26 @@ __weak void *HALL_TIMx_CC_IRQHandler(void *pHandleVoid)
       pHandle->OVFCounter = 0U;
     }
   }
+  else
+  {
+    /* manage the come back to reliability */
+    if ((STATE_0 == pHandle->HallState) || (STATE_7 == pHandle->HallState))
+    {
+      pHandle->SensorReliabilityCounter = 0U;
+    }
+    else
+    {
+      pHandle->SensorReliabilityCounter++;
+    }
+    if (RELIABILITY_NB == pHandle->SensorReliabilityCounter)
+    {
+      pHandle->SensorIsReliable = true;
+      pHandle->_Super.bSpeedErrorNumber = 0U;
+    }
+    else{
+      /* Nothing to do */
+    }
+  }
   return (MC_NULL);
 }
 
@@ -902,19 +923,6 @@ __weak void HALL_SetMecAngle(HALL_Handle_t *pHandle, int16_t hMecAngle)
 {
 }
 #endif
-
-
-/*Code for reading hall pins*/
-
-uint8_t ReadHallPins(HALL_Handle_t *pHandle)
-{
-    uint8_t h1 = (uint8_t)HAL_GPIO_ReadPin(pHandle->H1Port, pHandle->H1Pin);
-    uint8_t h2 = (uint8_t)HAL_GPIO_ReadPin(pHandle->H2Port, pHandle->H2Pin);
-    uint8_t h3 = (uint8_t)HAL_GPIO_ReadPin(pHandle->H3Port, pHandle->H3Pin);
-
-    // Combine into a single value (H3 H2 H1)
-    return (h3 << 2) | (h2 << 1) | h1;
-}
 /**
   * @}
   */
@@ -928,4 +936,4 @@ uint8_t ReadHallPins(HALL_Handle_t *pHandle)
   */
 /** @} */
 
-/************************ (C) COPYRIGHT 2023 STMicroelectronics *****END OF FILE****/
+/************************ (C) COPYRIGHT 2025 STMicroelectronics *****END OF FILE****/

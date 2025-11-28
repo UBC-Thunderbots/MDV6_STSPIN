@@ -13,7 +13,7 @@
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; Copyright (c) 2023 STMicroelectronics.
+  * <h2><center>&copy; Copyright (c) 2025 STMicroelectronics.
   * All rights reserved.</center></h2>
   *
   * This software component is licensed by ST under Ultimate Liberty license
@@ -57,12 +57,12 @@
                  LL_DMA_DIRECTION_MEMORY_TO_PERIPH|LL_DMA_MDATAALIGN_HALFWORD|LL_DMA_PRIORITY_VERYHIGH|\
                  LL_DMA_MODE_CIRCULAR)
 
-#define DMA_TRANSFER_LENGTH_CCR  6u
+#define DMA_TRANSFER_LENGTH_CCR             6u
 #define DMA_TRANSFER_LENGTH_SAMPLING_POINT  3u
-#define DMA_TRANSFER_LENGTH_ADC  2u
-#define IA_OK 0x01
-#define IB_OK 0x02
-#define IC_OK 0x04
+#define DMA_TRANSFER_LENGTH_ADC             2u
+#define IA_OK                               0x01
+#define IB_OK                               0x02
+#define IC_OK                               0x04
 
 static const int8_t ALFLAG[3] = {IA_OK,IB_OK,IC_OK};
 /* Private typedef -----------------------------------------------------------*/
@@ -142,22 +142,73 @@ void R1_Init(PWMC_R1_Handle_t * pHandle)
   }
   /* Enable ADC */
   LL_ADC_Enable(ADC1);
-  /* Enable ADC DMA request*/
-  LL_ADC_REG_SetTriggerSource (ADCx, LL_ADC_REG_TRIG_SOFTWARE);
-  LL_ADC_REG_SetDMATransfer(ADC1 , LL_ADC_REG_DMA_TRANSFER_LIMITED);
 
   /* Wait ADC Ready */
   while (LL_ADC_IsActiveFlag_ADRDY(ADC1) == RESET)
   {}
 
-  LL_ADC_REG_SetTriggerSource (ADCx, LL_ADC_REG_TRIG_EXT_TIM1_TRGO);
+  /* Enable ADC DMA request*/
+  LL_ADC_REG_SetTriggerSource (ADCx, LL_ADC_REG_TRIG_SOFTWARE);
+  LL_ADC_REG_SetDMATransfer(ADC1 , LL_ADC_REG_DMA_TRANSFER_LIMITED);
+
+  /* Clear peripheral flags */
+  LL_DMA_ClearFlag_TC(DMAx, pHandle->pParams_str->DMAChannelX);
+  LL_DMA_ClearFlag_HT(DMAx, pHandle->pParams_str->DMAChannelX);
+
+  LL_DMA_ClearFlag_TC(DMAx, pHandle->pParams_str->DMASamplingPtChannelX);
+  LL_DMA_ClearFlag_HT(DMAx, pHandle->pParams_str->DMASamplingPtChannelX);
+
+  LL_TIM_ClearFlag_UPDATE(TIMx);
+
+  pHandle->TCCnt = 0;
+  pHandle->TCDoneFlag = false;
+  pHandle->FOCDurationFlag = false;
+
+  /* Start DMA that modifies CC register of CH1,2 and 3 in order to create the
+     phase shifting */
+  LL_DMA_SetDataLength(DMAx, pHandle->pParams_str->DMAChannelX, DMA_TRANSFER_LENGTH_CCR);
+  LL_DMA_EnableChannel(DMAx, pHandle->pParams_str->DMAChannelX);
+  LL_TIM_EnableDMAReq_UPDATE(TIMx);
+
+  /* Enable DMA related to sampling  */
+  LL_TIM_EnableDMAReq_CC4(TIMx);
+  LL_DMA_SetDataLength(DMAx, pHandle->pParams_str->DMASamplingPtChannelX, 3);
+  LL_DMA_EnableChannel(DMAx, pHandle->pParams_str->DMASamplingPtChannelX);
+  /* Set CCR4 to the very first sampling point
+     when CNT matches CCR4 value (first sampling point), it raises CH4 signal:
+     - it triggers the first ADC injected conversion
+     - it triggers a DMA transfer to load CCR4 with the second sampling value
+     which lowers CH4 signal.
+     when CNT matches CCR4 value (second sampling point value) it raises CH4 signal
+     - it triggers the second ADC injected conversion
+     - it triggers a DMA to transfer to load 0 into CCR4 register which makes CH4
+       stay high until next PWM cycle
+     when CNT matches CCR4 value (0 i.e start of a new PWM cycle) it lowers CH4 signal
+     - it triggers a DMA to transfer to load CCR4 with the first sampling point value */
+  LL_TIM_OC_SetCompareCH4(TIM1, (uint32_t) pHandle->CntSmp1);
+  LL_DMA_DisableChannel(DMAx, pHandle->pParams_str->DMA_ADC_DR_ChannelX);
+  LL_DMA_SetDataLength(DMAx, pHandle->pParams_str->DMA_ADC_DR_ChannelX, DMA_TRANSFER_LENGTH_ADC);
+  LL_DMA_EnableChannel(DMAx, pHandle->pParams_str->DMA_ADC_DR_ChannelX);
   LL_ADC_REG_SetSequencerChannels (ADCx, __LL_ADC_DECIMAL_NB_TO_CHANNEL (pHandle->pParams_str->IChannel));
+  LL_ADC_SetSamplingTimeCommonChannels (ADC1, pHandle->pParams_str->ISamplingTime);
+  LL_ADC_REG_SetDMATransfer(ADC1, LL_ADC_REG_DMA_TRANSFER_LIMITED);
+
+  LL_ADC_REG_StartConversion (ADC1);
+
+  /* Enable ADC trigger */
+  LL_TIM_SetTriggerOutput(TIMx, LL_TIM_TRGO_OC4REF);
+  LL_ADC_REG_SetTriggerSource (ADCx, LL_ADC_REG_TRIG_EXT_TIM1_TRGO);
+
+  /* Enable peripheral interrupt */
+  LL_DMA_EnableIT_TC(DMA1, pHandle->pParams_str->DMAChannelX);
+  LL_DMA_EnableIT_TC(DMA1, pHandle->pParams_str->DMA_ADC_DR_ChannelX);
+
+  LL_TIM_GenerateEvent_UPDATE(TIMx);
+  LL_TIM_ClearFlag_UPDATE(TIMx);
+  LL_TIM_EnableIT_UPDATE(TIM1);
 
   /* Clear the flags */
   LL_TIM_EnableCounter(TIM1);
-
-  pHandle->ADCRegularLocked=false; /* We allow ADC usage for regular conversion on Systick */
-  pHandle->_Super.DTTest = 0u;
 
 }
 
@@ -200,7 +251,6 @@ void R1_TIMxInit(TIM_TypeDef * TIMx, PWMC_R1_Handle_t * pHandle)
 
   /* Enable drive of TIMx CHy and CHyN by TIMx CHyRef*/
   LL_TIM_CC_EnableChannel(TIMx, TIMxCCER_MASK_CH123);
-
 }
 
 /**
@@ -210,6 +260,7 @@ void R1_TIMxInit(TIM_TypeDef * TIMx, PWMC_R1_Handle_t * pHandle)
 void R1_1ShuntMotorVarsInit(PWMC_Handle_t * pHdl)
 {
   PWMC_R1_Handle_t * pHandle = (PWMC_R1_Handle_t *)pHdl;
+  TIM_TypeDef *TIMx = pHandle->pParams_str->TIMx;
 
   /* Init motor vars */
   pHandle->iflag = 0;
@@ -220,6 +271,11 @@ void R1_1ShuntMotorVarsInit(PWMC_Handle_t * pHdl)
                    - (uint32_t)(pHandle->pParams_str->hTADConv + pHandle->pParams_str->TSample);
   pHandle->CntSmp2 = ((uint32_t)(pHandle->Half_PWMPeriod) >> 1)
                    + (uint32_t)(pHandle->pParams_str->hTADConv + pHandle->pParams_str->TSample);
+
+  /* Set all duty to 50% */
+  LL_TIM_OC_SetCompareCH1(TIMx, (uint32_t)(pHandle->Half_PWMPeriod >> 1));
+  LL_TIM_OC_SetCompareCH2(TIMx, (uint32_t)(pHandle->Half_PWMPeriod >> 1));
+  LL_TIM_OC_SetCompareCH3(TIMx, (uint32_t)(pHandle->Half_PWMPeriod >> 1));
 
   pHandle->_Super.CntPhA = pHandle->Half_PWMPeriod >> 1;
   pHandle->_Super.CntPhB = pHandle->Half_PWMPeriod >> 1;
@@ -294,8 +350,10 @@ __weak void R1_CurrentReadingCalibration(PWMC_Handle_t * pHdl)
 
     /* Offset calibration */
     /* Change function to be executed in ADCx_ISR */
+    __disable_irq();
     pHandle->_Super.pFctGetPhaseCurrents = &R1_HFCurrentsCalibration;
     pHandle->_Super.pFctSetADCSampPointSectX = &R1_SetADCSampPointPolarization;
+    __enable_irq();
 
     R1_SwitchOnPWM(&pHandle->_Super);
 
@@ -318,17 +376,23 @@ __weak void R1_CurrentReadingCalibration(PWMC_Handle_t * pHdl)
     }
 
     /* Change back function to be executed in ADCx_ISR */
+    __disable_irq();
     pHandle->_Super.pFctGetPhaseCurrents = &R1_GetPhaseCurrents;
     pHandle->_Super.pFctSetADCSampPointSectX = &R1_CalcDutyCycles;
+    __enable_irq();
   }
   else
   {
     /* Nothing to do */
   }
+
+  /* It over write TIMx CCRy wrongly written by FOC during calibration so as to
+   force 50% duty cycle on the three inverer legs */
+  R1_1ShuntMotorVarsInit(&pHandle->_Super);
+
   /* It re-enable drive of TIMx CHy and CHyN by TIMx CHyRef */
   LL_TIM_CC_EnableChannel(TIMx, TIMxCCER_MASK_CH123);
 
-  R1_1ShuntMotorVarsInit(&pHandle->_Super);
 }
 
 #if defined (CCMRAM)
@@ -770,7 +834,7 @@ static uint16_t R1_SetADCSampPointPolarization(PWMC_Handle_t *pHdl)
                    + (uint32_t)(pHandle->pParams_str->hTADConv + pHandle->pParams_str->TSample);
   LL_ADC_REG_SetSequencerChannels(ADC1, __LL_ADC_DECIMAL_NB_TO_CHANNEL (pHandle->pParams_str->IChannel));
   LL_ADC_SetSamplingTimeCommonChannels (ADC1, pHandle->pParams_str->ISamplingTime);
-  LL_ADC_REG_SetTriggerSource(ADC1, LL_ADC_REG_TRIG_EXT_TIM1_CH4);
+  LL_ADC_REG_SetTriggerSource(ADC1, LL_ADC_REG_TRIG_EXT_TIM1_TRGO);
 
   /* Check software error */
   if (pHandle->FOCDurationFlag == true)
@@ -811,15 +875,6 @@ __weak void R1_TurnOnLowSides(PWMC_Handle_t *pHdl, uint32_t ticks)
   LL_TIM_OC_SetCompareCH2(TIMx, ticks);
   LL_TIM_OC_SetCompareCH3(TIMx, ticks);
 
-  /* Clear Update Flag */
-  LL_TIM_ClearFlag_UPDATE(TIMx);
-
-  /* Wait until next update */
-  while (LL_TIM_IsActiveFlag_UPDATE(TIMx) == RESET)
-  {
-    /* Nothing to do */
-  }
-
   /* Main PWM Output Enable */
   LL_TIM_EnableAllOutputs(TIMx);
 
@@ -844,23 +899,8 @@ __weak void R1_SwitchOnPWM(PWMC_Handle_t *pHdl)
 {
   PWMC_R1_Handle_t *pHandle = (PWMC_R1_Handle_t *)pHdl;
   TIM_TypeDef *TIMx = pHandle->pParams_str->TIMx;
-  ADC_TypeDef *ADCx = pHandle->pParams_str->ADCx;
-  DMA_TypeDef *DMAx = pHandle->pParams_str->DMAx;
-  pHandle->CntSmp1 = ((uint32_t)(pHandle->Half_PWMPeriod) >> 1)
-                   - (uint32_t)(pHandle->pParams_str->hTADConv + pHandle->pParams_str->TSample);
-  pHandle->CntSmp2 = ((uint32_t)(pHandle->Half_PWMPeriod) >> 1)
-                   + (uint32_t)(pHandle->pParams_str->hTADConv + pHandle->pParams_str->TSample);
 
-  pHandle->_Super.TurnOnLowSidesAction = false;
-
-  pHandle->DmaBuffCCR_ADCTrig[0] = pHandle->CntSmp2;
-  pHandle->DmaBuffCCR_ADCTrig[2] = pHandle->CntSmp1;
-  LL_TIM_OC_SetCompareCH4(TIMx, (uint32_t)(pHandle->Half_PWMPeriod + 1));
-
-  /* Set all duty to 50% */
-  LL_TIM_OC_SetCompareCH1(TIMx, (uint32_t)(pHandle->Half_PWMPeriod >> 1));
-  LL_TIM_OC_SetCompareCH2(TIMx, (uint32_t)(pHandle->Half_PWMPeriod >> 1));
-  LL_TIM_OC_SetCompareCH3(TIMx, (uint32_t)(pHandle->Half_PWMPeriod >> 1));
+  R1_1ShuntMotorVarsInit(&pHandle->_Super);
 
   /* Main PWM Output Enable */
   LL_TIM_EnableAllOutputs(TIMx);
@@ -885,96 +925,7 @@ __weak void R1_SwitchOnPWM(PWMC_Handle_t *pHdl)
   {
     /* Nothing to do */
   }
-
-  /* Wait for second half PWM cycle to enable dma request */
-  if (LL_TIM_COUNTERDIRECTION_UP == LL_TIM_GetDirection(TIMx))
-  {
-    while (LL_TIM_COUNTERDIRECTION_UP == LL_TIM_GetDirection(TIMx))
-    {
-      /* TIMx is upcounting */
-    }
-  }
-  else
-  {
-    while (LL_TIM_COUNTERDIRECTION_DOWN == LL_TIM_GetDirection(TIMx))
-    {
-      /* TIMx is downcounting */
-    }
-    while (LL_TIM_COUNTERDIRECTION_UP == LL_TIM_GetDirection(TIMx))
-    {
-      /* TIMx is upcounting */
-    }
-  }
-
-  /* At this point we are down counting */
-
-  /* Clear peripheral flags */
-  LL_DMA_ClearFlag_TC(DMAx, pHandle->pParams_str->DMAChannelX);
-  LL_DMA_ClearFlag_HT(DMAx, pHandle->pParams_str->DMAChannelX);
-
-  LL_DMA_ClearFlag_TC(DMAx, pHandle->pParams_str->DMASamplingPtChannelX);
-  LL_DMA_ClearFlag_HT(DMAx, pHandle->pParams_str->DMASamplingPtChannelX);
-
-  LL_TIM_ClearFlag_UPDATE(TIMx);
-
-  pHandle->TCCnt = 0;
-  pHandle->TCDoneFlag = false;
-  pHandle->FOCDurationFlag = false;
-
-  /* Start DMA that modifies CC register of CH1,2 and 3 in order to create the
-     phase shifting */
-  LL_DMA_SetDataLength(DMAx, pHandle->pParams_str->DMAChannelX, DMA_TRANSFER_LENGTH_CCR);
-  LL_DMA_EnableChannel(DMAx, pHandle->pParams_str->DMAChannelX);
-  LL_TIM_EnableDMAReq_UPDATE(TIMx);
-
-  /* Enable DMA related to sampling  */
-  LL_TIM_EnableDMAReq_CC4(TIMx);
-
-  LL_DMA_SetDataLength(DMAx, pHandle->pParams_str->DMASamplingPtChannelX, 3);
-  LL_DMA_EnableChannel(DMAx, pHandle->pParams_str->DMASamplingPtChannelX);
-  /* Set CCR4 to the very first sampling point
-     when CNT matches CCR4 value (first sampling point), it raises CH4 signal:
-     - it triggers the first ADC injected conversion
-     - it triggers a DMA transfer to load CCR4 with the second sampling value
-     which lowers CH4 signal.
-     when CNT matches CCR4 value (second sampling point value) it raises CH4 signal
-     - it triggers the second ADC injected conversion
-     - it triggers a DMA to transfer to load 0 into CCR4 register which makes CH4
-       stay high until next PWM cycle
-     when CNT matches CCR4 value (0 i.e start of a new PWM cycle) it lowers CH4 signal
-     - it triggers a DMA to transfer to load CCR4 with the first sampling point value */
-  LL_TIM_OC_SetCompareCH4(TIMx, (uint32_t) (pHandle->Half_PWMPeriod+1));
-
-  LL_DMA_DisableChannel(DMAx, pHandle->pParams_str->DMA_ADC_DR_ChannelX);
-  LL_DMA_SetDataLength(DMAx, pHandle->pParams_str->DMA_ADC_DR_ChannelX, DMA_TRANSFER_LENGTH_ADC);
-  LL_DMA_EnableChannel(DMAx, pHandle->pParams_str->DMA_ADC_DR_ChannelX);
-  LL_ADC_REG_SetSequencerChannels (ADCx, __LL_ADC_DECIMAL_NB_TO_CHANNEL (pHandle->pParams_str->IChannel));
-  LL_ADC_SetSamplingTimeCommonChannels (ADC1, pHandle->pParams_str->ISamplingTime);
-  LL_ADC_REG_SetDMATransfer(ADC1, LL_ADC_REG_DMA_TRANSFER_LIMITED);
-  LL_ADC_REG_SetTriggerSource (ADC1, LL_ADC_REG_TRIG_EXT_TIM1_CH4);
-  LL_ADC_REG_StartConversion (ADC1);
-
-  /* Enable ADC trigger */
-  LL_TIM_SetTriggerOutput(TIMx, LL_TIM_TRGO_OC4REF);
-
-  /* Reset flag for FOC duration detection */
-  pHandle->FOCDurationFlag = false;
-
-  /* Lock ADC */
-  pHandle->ADCRegularLocked=true;
-
-  /* Enable peripheral interrupt */
-  LL_DMA_EnableIT_TC(DMAx, pHandle->pParams_str->DMAChannelX);
-  LL_DMA_EnableIT_TC(DMAx, pHandle->pParams_str->DMA_ADC_DR_ChannelX);
-
-  LL_TIM_ClearFlag_UPDATE(TIMx);
-  while ((LL_TIM_IsActiveFlag_UPDATE(TIMx) == RESET) || (LL_TIM_GetDirection(TIMx) == LL_TIM_COUNTERDIRECTION_DOWN))
-  {
-    /* TIMx is downcounting */
-  }
-  LL_TIM_EnableIT_UPDATE(TIM1);
-  LL_TIM_OC_SetCompareCH4(TIMx, (uint32_t) pHandle->CntSmp1);
-
+  pHandle->_Super.PWMState = true;
 }
 
 /**
@@ -986,38 +937,8 @@ __weak void R1_SwitchOffPWM(PWMC_Handle_t *pHdl)
 {
   PWMC_R1_Handle_t *pHandle = (PWMC_R1_Handle_t *)pHdl;
   TIM_TypeDef *TIMx = pHandle->pParams_str->TIMx;
-  DMA_TypeDef *DMAx = pHandle->pParams_str->DMAx;
-  pHandle->CntSmp1 = ((uint32_t)(pHandle->Half_PWMPeriod) >> 1)
-                   - (uint32_t)(pHandle->pParams_str->hTADConv + pHandle->pParams_str->TSample);
-  pHandle->CntSmp2 = ((uint32_t)(pHandle->Half_PWMPeriod) >> 1)
-                   + (uint32_t)(pHandle->pParams_str->hTADConv + pHandle->pParams_str->TSample);
 
-  /* This allow to control cycles during next sequence */
-  LL_TIM_DisableIT_UPDATE(TIMx);
-
-  /* Synchronize the disable of the DMA and all settings with the douwn counting */
-  if (LL_TIM_COUNTERDIRECTION_UP == LL_TIM_GetDirection(TIMx))
-  {
-    while (LL_TIM_COUNTERDIRECTION_UP == LL_TIM_GetDirection(TIMx))
-    {
-      /* TIMx is upcounting */
-    }
-  }
-  else
-  {
-    while (LL_TIM_COUNTERDIRECTION_DOWN == LL_TIM_GetDirection(TIMx))
-    {
-      /* TIMx is downcounting */
-    }
-    while (LL_TIM_COUNTERDIRECTION_UP == LL_TIM_GetDirection(TIMx))
-    {
-      /* TIMx is upcounting */
-    }
-  }
-
-  LL_DMA_DisableIT_TC(DMAx, pHandle->pParams_str->DMAChannelX);
-  LL_DMA_DisableIT_HT(DMAx, pHandle->pParams_str->DMAChannelX);
-
+  pHandle->_Super.PWMState = false;
   pHandle->_Super.TurnOnLowSidesAction = false;
 
   /* Main PWM Output Disable */
@@ -1035,42 +956,6 @@ __weak void R1_SwitchOffPWM(PWMC_Handle_t *pHdl)
       LL_GPIO_ResetOutputPin(pHandle->_Super.pwm_en_w_port, pHandle->_Super.pwm_en_w_pin);
     }
   }
-
-  /* Disable DMA channel related to ADC current sampling */
-  LL_DMA_DisableChannel(DMAx, pHandle->pParams_str->DMA_ADC_DR_ChannelX);
-  LL_DMA_ClearFlag_GI1(DMAx);
-  LL_DMA_ClearFlag_TC1(DMAx);
-  LL_DMA_ClearFlag_HT1(DMAx);
-
-  /* Disable DMA related to phase shift */
-  LL_DMA_DisableChannel(DMAx, pHandle->pParams_str->DMAChannelX);
-  LL_TIM_DisableDMAReq_UPDATE(TIMx);
-
-  /* Disable DMA related to sampling */
-  LL_DMA_DisableChannel(DMAx, pHandle->pParams_str->DMASamplingPtChannelX);
-  LL_TIM_DisableDMAReq_CC4(TIMx);
-
-  pHandle->DmaBuffCCR_ADCTrig[0] = pHandle->CntSmp2;
-  pHandle->DmaBuffCCR_ADCTrig[2] = pHandle->CntSmp1;
-  LL_TIM_OC_SetCompareCH4(TIMx, (uint32_t)(pHandle->Half_PWMPeriod + 1));
-
-  /* Disable ADC trigger */
-  LL_TIM_SetTriggerOutput(TIMx, LL_TIM_TRGO_RESET);
-
-  /* Clear potential ADC Ongoing conversion */
-  if (LL_ADC_REG_IsConversionOngoing (ADC1))
-  {
-    LL_ADC_REG_StopConversion (ADC1);
-    while (LL_ADC_REG_IsConversionOngoing(ADC1))
-    {
-      /* Nothing to do */
-    }
-  }
-
-  LL_ADC_REG_SetTriggerSource (ADC1, LL_ADC_REG_TRIG_SOFTWARE);
-
-   /* We allow ADC usage for regular conversion on Systick */
-  pHandle->ADCRegularLocked=false;
 
   R1_1ShuntMotorVarsInit(&pHandle->_Super);
 }
@@ -1254,7 +1139,7 @@ __weak uint16_t R1_CalcDutyCycles(PWMC_Handle_t *pHdl)
 
   LL_ADC_REG_SetSequencerChannels(ADC1, __LL_ADC_DECIMAL_NB_TO_CHANNEL (pHandle->pParams_str->IChannel));
   LL_ADC_SetSamplingTimeCommonChannels (ADC1, pHandle->pParams_str->ISamplingTime);
-  LL_ADC_REG_SetTriggerSource(ADC1, LL_ADC_REG_TRIG_EXT_TIM1_CH4);
+  LL_ADC_REG_SetTriggerSource(ADC1, LL_ADC_REG_TRIG_EXT_TIM1_TRGO);
 
   pHandle->DmaBuffCCR_ADCTrig[0] = SamplePoint2;
   pHandle->DmaBuffCCR_ADCTrig[2] = SamplePoint1;
@@ -1288,7 +1173,7 @@ __weak uint16_t R1_CalcDutyCycles(PWMC_Handle_t *pHdl)
 __weak void *R1_TIM1_UP_IRQHandler(PWMC_R1_Handle_t *pHandle)
 {
 
-  if (pHandle->TCDoneFlag ==true)
+  if ((pHandle->TCDoneFlag ==true) && (LL_TIM_GetDirection(TIM1) == LL_TIM_COUNTERDIRECTION_UP))
   {
     LL_ADC_REG_StartConversion(ADC1);
     LL_TIM_SetTriggerOutput(TIM1, LL_TIM_TRGO_OC4REF);
@@ -1324,7 +1209,7 @@ __weak void *R1_DMAx_TC_IRQHandler(PWMC_R1_Handle_t *pHandle)
 
   LL_DMA_ClearFlag_HT(DMAx, pHandle->pParams_str->DMAChannelX);
   pHandle->TCCnt++;
-  if (pHandle->TCCnt == pHandle->pParams_str->RepetitionCounter)
+  if (pHandle->TCCnt == (pHandle->pParams_str->RepetitionCounter + 1)>>1)
   {
     /* First half PWM period CCR value transfered by DMA */
     pHandle->DmaBuffCCR[0] = pHandle->DmaBuffCCR_latch[0];
@@ -1363,4 +1248,4 @@ __weak void *R1_DMAx_HT_IRQHandler(PWMC_R1_Handle_t *pHandle)
  * @}
  */
 
-/************************ (C) COPYRIGHT 2023 STMicroelectronics *****END OF FILE****/
+/************************ (C) COPYRIGHT 2025 STMicroelectronics *****END OF FILE****/

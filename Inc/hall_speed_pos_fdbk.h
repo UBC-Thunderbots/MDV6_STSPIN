@@ -8,7 +8,7 @@
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; Copyright (c) 2023 STMicroelectronics.
+  * <h2><center>&copy; Copyright (c) 2025 STMicroelectronics.
   * All rights reserved.</center></h2>
   *
   * This software component is licensed by ST under Ultimate Liberty license
@@ -54,19 +54,11 @@ extern "C" {
 /**
   * @brief HALL component parameters definition
   *
-  *  <Type @p type represents a thing that needs to be detailed more. Additional details
-  * are provided in the detailed section of the doxygen comment block.
-  *
-  * The brief line should be brief and light. It should avoid useless repetitions and expression such as
-  * "the CCC_Type_t type...". Expressions like "This type ..." are tolerated especially for key types
-  * (usually structures) where we may want ot be more formal.
-  *
-  * In general: be direct, avoid the obvious, tell the hidden.>
   */
 
 typedef struct
 {
-  SpeednPosFdbk_Handle_t _Super;
+  SpeednPosFdbk_Handle_t _Super; /**< @brief Common member of all components of type SpeednPosFdbk. */
   /* SW Settings */
   uint8_t  SensorPlacement; /*!< Define here the mechanical position of the sensors
                              with reference to an electrical cycle.
@@ -117,6 +109,7 @@ typedef struct
 
   bool SensorIsReliable;            /*!< Flag to indicate a wrong configuration
                                          of the Hall sensor signanls.*/
+  volatile uint16_t SensorReliabilityCounter;  /*!< Number of reliable HALL state */
 
   volatile bool RatioDec;           /*!< Flag to avoid consecutive prescaler
                                          decrement.*/
@@ -132,7 +125,7 @@ typedef struct
                                          bSpeedBufferSize the instantaneous
                                          measured speed is returned as average
                                          speed.*/
-  volatile uint8_t OVFCounter;     /*!< Count overflows if prescaler is too low
+  volatile uint16_t OVFCounter;     /*!< Count overflows if prescaler is too low
                                          */
 
   int32_t SensorPeriod[HALL_SPEED_FIFO_SIZE];/*!< Holding the last period captures */
@@ -140,7 +133,7 @@ typedef struct
   uint8_t SpeedFIFOIdx;/*!< Pointer of next element to be stored in
                                          the speed sensor buffer*/
 
-  int32_t  ElPeriodSum; /* Period accumulator used to speed up the average speed computation*/
+  int32_t  ElPeriodSum; /*!< Period accumulator used to speed up the average speed computation*/
 
   int16_t PrevRotorFreq; /*!< Used to store the last valid rotor electrical
                                speed in dpp used when HALL_MAX_PSEUDO_SPEED
@@ -204,7 +197,7 @@ typedef struct
                              (hMeasurementFrequency / hSpeedSamplingFreqHz) - 1.*/
   uint8_t PWMFreqScaling; /*!< Scaling factor to allow to store a PWMFrequency greater than 16 bits */
 
-  bool HallMtpa; /* if true at each sensor toggling, the true angle is set without ramp*/
+  bool HallMtpa; /*!< if true at each sensor toggling, the true angle is set without ramp*/
 
 } HALL_Handle_t;
 
@@ -232,4 +225,4 @@ void HALL_SetMecAngle(HALL_Handle_t *pHandle, int16_t hMecAngle);
 #endif /* __cpluplus */
 
 #endif /*HALL_SPEEDNPOSFDBK_H*/
-/******************* (C) COPYRIGHT 2023 STMicroelectronics *****END OF FILE****/
+/******************* (C) COPYRIGHT 2025 STMicroelectronics *****END OF FILE****/

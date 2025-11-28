@@ -8,7 +8,7 @@
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; Copyright (c) 2023 STMicroelectronics.
+  * <h2><center>&copy; Copyright (c) 2025 STMicroelectronics.
   * All rights reserved.</center></h2>
   *
   * This software component is licensed by ST under Ultimate Liberty license
@@ -41,11 +41,11 @@
                                    *Amplifying network gain)/(MCU supply voltage/2)
 */
 
-#define MOTOR_MAX_SPEED_RPM     4840 /*!< Maximum rated speed  */
 #define MOTOR_VOLTAGE_CONSTANT  3.8 /*!< Volts RMS ph-ph /kRPM */
+#define MOTOR_MAX_SPEED_RPM     4840 /*!< Maximum rated speed  */
 #define NOMINAL_CURRENT_A       9.5
 
-#define ID_DEMAG_A              (int16_t)-9.5 /*!< Demagnetization current */
+#define ID_DEMAG_A              -9.5 /*!< Demagnetization current */
 
 /***************** MOTOR SENSORS PARAMETERS  ******************************/
 /* Motor sensors parameters are always generated but really meaningful only
@@ -58,7 +58,7 @@
                                                  It can be either DEGREES_120 or
                                                  DEGREES_60 */
 
-#define HALL_PHASE_SHIFT        300 /*!< Define here in degrees
+#define HALL_PHASE_SHIFT        270 /*!< Define here in degrees
                                                  the electrical phase shift between
                                                  the low to high transition of
                                                  signal H1 and the maximum of
@@ -68,4 +68,4 @@
                                             revolution */
 
 #endif /* PMSM_MOTOR_PARAMETERS_H */
-/******************* (C) COPYRIGHT 2023 STMicroelectronics *****END OF FILE****/
+/******************* (C) COPYRIGHT 2025 STMicroelectronics *****END OF FILE****/

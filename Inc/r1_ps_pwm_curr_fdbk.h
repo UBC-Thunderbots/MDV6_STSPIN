@@ -1,3 +1,4 @@
+
 /**
   ******************************************************************************
   * @file    r1_ps_pwm_curr_fdbk.h
@@ -7,7 +8,7 @@
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; Copyright (c) 2023 STMicroelectronics.
+  * <h2><center>&copy; Copyright (c) 2025 STMicroelectronics.
   * All rights reserved.</center></h2>
   *
   * This software component is licensed by ST under Ultimate Liberty license
@@ -51,7 +52,7 @@ extern "C" {
 /* Exported types ------------------------------------------------------------*/
 
 /**
- * @brief  Paamters structure of the r1_ps_pwm_curr_fdbk Component.
+ * @brief  Parameters structure of the r1_ps_pwm_curr_fdbk Component.
  *
  */
 typedef struct
@@ -91,7 +92,7 @@ typedef struct
                                         ratio between the two PWM frequencies
                                         (higher/lower). Supported values are
                                         1, 2 or 3 */
-  uint8_t  IsHigherFreqTim;       /*!< When bFreqRatio is greather than 1
+  uint8_t  IsHigherFreqTim;       /*!< When FreqRatio is greather than 1
                                         this param is used to indicate if this
                                         instance is the one with the highest
                                         frequency. Allowed value are: HIGHER_FREQ
@@ -126,8 +127,7 @@ typedef struct
 
   bool UpdateFlagBuffer;       /*!< buffered version of Timer update IT flag */
   bool FOCDurationFlag;        /*!< This flag is used to detect FOC duration error.*/
-  bool TCDoneFlag;             /*!< This flag is used to indicate that last DMA TC of the period is done.*/
-  bool ADCRegularLocked;
+  volatile bool TCDoneFlag;             /*!< This flag is used to indicate that last DMA TC of the period is done.*/
   R1_Params_t const * pParams_str;
 
 } PWMC_R1_Handle_t;
@@ -235,4 +235,4 @@ void R1_GetOffsetCalib(PWMC_Handle_t *pHdl, PolarizationOffsets_t *offsets);
 
 #endif /*__R1_PS_F30X_PWMCURRFDBK_H*/
 
-/******************* (C) COPYRIGHT 2023 STMicroelectronics *****END OF FILE****/
+/******************* (C) COPYRIGHT 2025 STMicroelectronics *****END OF FILE****/
