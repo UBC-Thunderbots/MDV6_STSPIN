@@ -72,7 +72,7 @@ void EXTI4_15_IRQHandler (void);
   * @brief  This function handles current regulation interrupt request.
   * @param  None
   */
-void CURRENT_REGULATION_IRQHandler(void)
+void CURRENT_REGULATION_IRQHandler(void) // DMA1_Channel1_IRQHandler
 {
   /* USER CODE BEGIN CURRENT_REGULATION_IRQn 0 */
 
@@ -84,7 +84,7 @@ void CURRENT_REGULATION_IRQHandler(void)
   /* USER CODE BEGIN CURRENT_REGULATION_IRQn 1 */
 
   /* USER CODE END CURRENT_REGULATION_IRQn 1 */
-    TSK_HighFrequencyTask();
+  TSK_HighFrequencyTask();
 
   /* USER CODE BEGIN CURRENT_REGULATION_IRQn 2 */
 
@@ -95,7 +95,7 @@ void CURRENT_REGULATION_IRQHandler(void)
   * @brief  This function handles first motor TIMx Update, Break-in interrupt request.
   * @param  None
   */
-void TIMx_UP_BRK_M1_IRQHandler(void)
+void TIMx_UP_BRK_M1_IRQHandler(void) // TIM1_BRK_UP_TRG_COM_IRQHandler
 {
   /* USER CODE BEGIN TIMx_UP_BRK_M1_IRQn 0 */
 
@@ -131,7 +131,7 @@ void TIMx_UP_BRK_M1_IRQHandler(void)
   *         Required only for R1 with rep rate > 1
   * @param  None
   */
-void DMAx_R1_M1_IRQHandler(void)
+void DMAx_R1_M1_IRQHandler(void) // DMA1_Channel4_5_IRQHandler
 {
   /* USER CODE BEGIN DMAx_R1_M1_IRQn 0 */
 
@@ -154,7 +154,7 @@ void DMAx_R1_M1_IRQHandler(void)
   * @brief  This function handles TIMx global interrupt request for M1 Speed Sensor.
   * @param  None
   */
-void SPD_TIM_M1_IRQHandler(void)
+void SPD_TIM_M1_IRQHandler(void) // TIM2_IRQHandler
 {
   /* USER CODE BEGIN SPD_TIM_M1_IRQn 0 */
 
@@ -189,15 +189,6 @@ void SPD_TIM_M1_IRQHandler(void)
   /* USER CODE BEGIN SPD_TIM_M1_IRQn 1 */
 
   /* USER CODE END SPD_TIM_M1_IRQn 1 */
-}
-
-void DMA1_Channel2_3_IRQHandler (void)
-{
-  /* Buffer is ready by the HW layer to be processed */
-  if (LL_DMA_IsActiveFlag_TC (DMA_RX_A, DMACH_RX_A) ){
-    LL_DMA_ClearFlag_TC (DMA_RX_A, DMACH_RX_A);
-    ASPEP_HWDataReceivedIT (&aspepOverUartA);
-  }
 }
 
 void USART1_IRQHandler(void)
@@ -300,18 +291,9 @@ static uint8_t SystickDividerCounter = SYSTICK_DIVIDER;
   /* USER CODE END SysTick_IRQn 2 */
 }
 
-/**
-  * @brief  This function handles Button IRQ on PIN PC15.
-  */
 void EXTI4_15_IRQHandler (void)
 {
-	/* USER CODE BEGIN START_STOP_BTN */
-  if ( LL_EXTI_ReadFlag_0_31(LL_EXTI_LINE_15) )
-  {
-    LL_EXTI_ClearFlag_0_31 (LL_EXTI_LINE_15);
-    UI_HandleStartStopButton_cb ();
-  }
-
+  HAL_GPIO_EXTI_IRQHandler(GPIO_PIN_15);
 }
 
 /* USER CODE BEGIN 1 */

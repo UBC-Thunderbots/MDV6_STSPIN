@@ -93,10 +93,6 @@ void Error_Handler(void);
 #define TMS_GPIO_Port GPIOA
 #define TCK_Pin GPIO_PIN_14
 #define TCK_GPIO_Port GPIOA
-#define UART_TX_Pin GPIO_PIN_6
-#define UART_TX_GPIO_Port GPIOB
-#define UART_RX_Pin GPIO_PIN_7
-#define UART_RX_GPIO_Port GPIOB
 
 /* USER CODE BEGIN Private defines */
 

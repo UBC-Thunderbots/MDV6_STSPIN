@@ -48,11 +48,9 @@ TIM_HandleTypeDef htim2;
 DMA_HandleTypeDef hdma_tim1_ch4_trig_com;
 DMA_HandleTypeDef hdma_tim1_ch3_up;
 
-UART_HandleTypeDef huart1;
-DMA_HandleTypeDef hdma_usart1_rx;
-DMA_HandleTypeDef hdma_usart1_tx;
-
 SPI_HandleTypeDef hspi1;
+DMA_HandleTypeDef hdma_spi1_rx;
+DMA_HandleTypeDef hdma_spi1_tx;
 
 /* USER CODE BEGIN PV */
 
@@ -62,7 +60,7 @@ int16_t bx = 0;
 uint8_t tx[FRAME_SIZE] = {};
 uint8_t rx[FRAME_SIZE] = {};
 
-bool data_ready = false;
+volatile bool data_received = true;
 
 /* USER CODE END PV */
 
@@ -73,7 +71,6 @@ static void MX_DMA_Init(void);
 static void MX_ADC_Init(void);
 static void MX_TIM1_Init(void);
 static void MX_TIM2_Init(void);
-static void MX_USART1_UART_Init(void);
 static void MX_SPI1_Init(void);
 static void MX_NVIC_Init(void);
 
@@ -117,7 +114,6 @@ int main(void) {
 	MX_ADC_Init();
 	MX_TIM1_Init();
 	MX_TIM2_Init();
-	MX_USART1_UART_Init();
 	MX_SPI1_Init();
 	MX_MotorControl_Init();
 
@@ -127,19 +123,94 @@ int main(void) {
 	/* USER CODE BEGIN 2 */
 
 	// Initial frame
-	tx[0] = FRAME_SOF;
-	tx[1] = ACK;
-	tx[2] = 0;
-	tx[3] = 0;
-	tx[4] = crc_gen_checksum(ACK, 0);
-	tx[5] = FRAME_EOF;
+	rx[0] = FRAME_SOF;
+	rx[1] = ACK;
+	rx[2] = 0;
+	rx[3] = 0;
+	rx[4] = crc_gen_checksum(ACK, 0);
+	rx[5] = FRAME_EOF;
 
-	HAL_SPI_TxRxCpltCallback(&hspi1);
+	data_received = true;
 
 	/* USER CODE END 2 */
 
 	/* USER CODE BEGIN WHILE */
 	while (1) {
+
+		if (!data_received) {
+			continue;
+		}
+
+		data_received = false;
+
+		// Frame integrity check
+		if (rx[0] != FRAME_SOF ||
+			rx[5] != FRAME_EOF ||
+			rx[4] != crc_gen_checksum(rx[1], (rx[2] << 8) + rx[3])) {
+
+			// Send NACK
+			tx[0] = FRAME_SOF;
+			tx[1] = NACK;
+			tx[2] = 0;
+			tx[3] = 0;
+			tx[4] = crc_gen_checksum(NACK, 0);
+			tx[5] = FRAME_EOF;
+
+		} else {
+
+			uint16_t data = 0;
+
+			switch (rx[1]) {
+				case MOV_AX:
+					ax = (rx[2] << 8) + rx[3];
+					break;
+				case GET_AX:
+					data = ax;
+					break;
+				case MOV_BX:
+					bx = (rx[2] << 8) + rx[3];
+					break;
+				case GET_BX:
+					data = bx;
+					break;
+				case SET_SPEEDRAMP:
+					MC_ProgramSpeedRampMotor1_F(ax, bx);
+					break;
+				case GET_SPEED:
+					data = MC_GetMecSpeedReferenceMotor1();
+					break;
+				case START_MOTOR:
+					MC_StartMotor1();
+					break;
+				case STOP_MOTOR:
+					MC_StopMotor1();
+					break;
+				case ACK_FAULTS:
+					MC_AcknowledgeFaultMotor1();
+					break;
+				case GET_FAULT:
+					data = MC_GetOccurredFaultsMotor1();
+					break;
+				case GET_ENCODER:
+				case SET_CURRENT:
+				case GET_CURRENT:
+				default:
+					break;
+			}
+
+			tx[0] = FRAME_SOF;
+			tx[1] = ACK;
+			tx[2] = (data >> 8) & 0xFF;
+			tx[3] = data & 0xFF;
+			tx[4] = crc_gen_checksum(ACK, data);
+			tx[5] = FRAME_EOF;
+		}
+
+		if (HAL_SPI_TransmitReceive_DMA(&hspi1, tx, rx, FRAME_SIZE) != HAL_OK) {
+			Error_Handler();
+		}
+
+		HAL_GPIO_WritePin(M1_DRDY_GPIO_Port, M1_DRDY_Pin, GPIO_PIN_SET);
 
 		/* USER CODE END WHILE */
 		/* USER CODE BEGIN 3 */
@@ -154,7 +225,6 @@ int main(void) {
 void SystemClock_Config(void) {
 	RCC_OscInitTypeDef RCC_OscInitStruct = { 0 };
 	RCC_ClkInitTypeDef RCC_ClkInitStruct = { 0 };
-	RCC_PeriphCLKInitTypeDef PeriphClkInit = { 0 };
 
 	/** Initializes the RCC Oscillators according to the specified parameters
 	 * in the RCC_OscInitTypeDef structure.
@@ -183,11 +253,6 @@ void SystemClock_Config(void) {
 	if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_1) != HAL_OK) {
 		Error_Handler();
 	}
-	PeriphClkInit.PeriphClockSelection = RCC_PERIPHCLK_USART1;
-	PeriphClkInit.Usart1ClockSelection = RCC_USART1CLKSOURCE_PCLK1;
-	if (HAL_RCCEx_PeriphCLKConfig(&PeriphClkInit) != HAL_OK) {
-		Error_Handler();
-	}
 
 	/** Enables the Clock Security System
 	 */
@@ -199,29 +264,42 @@ void SystemClock_Config(void) {
  * @retval None
  */
 static void MX_NVIC_Init(void) {
-    /* SPI1_IRQn interrupt configuration */
-    HAL_NVIC_SetPriority(SPI1_IRQn, 0, 0);
-    HAL_NVIC_EnableIRQ(SPI1_IRQn);
-	/* USART1_IRQn interrupt configuration */
-	HAL_NVIC_SetPriority(USART1_IRQn, 3, 0);
-	HAL_NVIC_EnableIRQ(USART1_IRQn);
+//	/* DMA1_Channel1_IRQn interrupt configuration */
+//	HAL_NVIC_SetPriority(DMA1_Channel1_IRQn, 1, 0);
+//	HAL_NVIC_EnableIRQ(DMA1_Channel1_IRQn);
+//	/* DMA1_Channel4_5_IRQn interrupt configuration */
+//	HAL_NVIC_SetPriority(DMA1_Channel4_5_IRQn, 0, 0);
+//	HAL_NVIC_EnableIRQ(DMA1_Channel4_5_IRQn);
+//	/* DMA1_Channel2_3_IRQn interrupt configuration */
+//	HAL_NVIC_SetPriority(DMA1_Channel2_3_IRQn, 3, 0);
+//	HAL_NVIC_EnableIRQ(DMA1_Channel2_3_IRQn);
+//	/* TIM1_BRK_UP_TRG_COM_IRQn interrupt configuration */
+//	HAL_NVIC_SetPriority(TIM1_BRK_UP_TRG_COM_IRQn, 0, 0);
+//	HAL_NVIC_EnableIRQ(TIM1_BRK_UP_TRG_COM_IRQn);
+//	/* TIM2_IRQn interrupt configuration */
+//	HAL_NVIC_SetPriority(TIM2_IRQn, 3, 0);
+//	HAL_NVIC_EnableIRQ(TIM2_IRQn);
+//	/* EXTI4_15_IRQn interrupt configuration */
+//	HAL_NVIC_SetPriority(EXTI4_15_IRQn, 0, 0);
+//	HAL_NVIC_EnableIRQ(EXTI4_15_IRQn);
+
 	/* DMA1_Channel1_IRQn interrupt configuration */
-	HAL_NVIC_SetPriority(DMA1_Channel1_IRQn, 1, 0);
+	HAL_NVIC_SetPriority(DMA1_Channel1_IRQn, 0, 0);
 	HAL_NVIC_EnableIRQ(DMA1_Channel1_IRQn);
 	/* DMA1_Channel4_5_IRQn interrupt configuration */
 	HAL_NVIC_SetPriority(DMA1_Channel4_5_IRQn, 0, 0);
 	HAL_NVIC_EnableIRQ(DMA1_Channel4_5_IRQn);
 	/* DMA1_Channel2_3_IRQn interrupt configuration */
-	HAL_NVIC_SetPriority(DMA1_Channel2_3_IRQn, 3, 0);
+	HAL_NVIC_SetPriority(DMA1_Channel2_3_IRQn, 1, 0);
 	HAL_NVIC_EnableIRQ(DMA1_Channel2_3_IRQn);
 	/* TIM1_BRK_UP_TRG_COM_IRQn interrupt configuration */
 	HAL_NVIC_SetPriority(TIM1_BRK_UP_TRG_COM_IRQn, 0, 0);
 	HAL_NVIC_EnableIRQ(TIM1_BRK_UP_TRG_COM_IRQn);
 	/* TIM2_IRQn interrupt configuration */
-	HAL_NVIC_SetPriority(TIM2_IRQn, 3, 0);
+	HAL_NVIC_SetPriority(TIM2_IRQn, 0, 0);
 	HAL_NVIC_EnableIRQ(TIM2_IRQn);
 	/* EXTI4_15_IRQn interrupt configuration */
-	HAL_NVIC_SetPriority(EXTI4_15_IRQn, 3, 0);
+	HAL_NVIC_SetPriority(EXTI4_15_IRQn, 0, 0);
 	HAL_NVIC_EnableIRQ(EXTI4_15_IRQn);
 }
 
@@ -414,39 +492,6 @@ static void MX_TIM2_Init(void) {
 }
 
 /**
- * @brief USART1 Initialization Function
- * @param None
- * @retval None
- */
-static void MX_USART1_UART_Init(void) {
-
-	/* USER CODE BEGIN USART1_Init 0 */
-
-	/* USER CODE END USART1_Init 0 */
-
-	/* USER CODE BEGIN USART1_Init 1 */
-
-	/* USER CODE END USART1_Init 1 */
-	huart1.Instance = USART1;
-	huart1.Init.BaudRate = 1843200;
-	huart1.Init.WordLength = UART_WORDLENGTH_8B;
-	huart1.Init.StopBits = UART_STOPBITS_1;
-	huart1.Init.Parity = UART_PARITY_NONE;
-	huart1.Init.Mode = UART_MODE_TX_RX;
-	huart1.Init.HwFlowCtl = UART_HWCONTROL_NONE;
-	huart1.Init.OverSampling = UART_OVERSAMPLING_16;
-	huart1.Init.OneBitSampling = UART_ONE_BIT_SAMPLE_DISABLE;
-	huart1.AdvancedInit.AdvFeatureInit = UART_ADVFEATURE_NO_INIT;
-	if (HAL_UART_Init(&huart1) != HAL_OK) {
-		Error_Handler();
-	}
-	/* USER CODE BEGIN USART1_Init 2 */
-
-	/* USER CODE END USART1_Init 2 */
-
-}
-
-/**
  * Enable DMA controller clock
  */
 static void MX_DMA_Init(void) {
@@ -467,7 +512,6 @@ static void MX_GPIO_Init(void) {
 	/* USER CODE END MX_GPIO_Init_1 */
 
 	/* GPIO Ports Clock Enable */
-	__HAL_RCC_GPIOC_CLK_ENABLE();
 	__HAL_RCC_GPIOF_CLK_ENABLE();
 	__HAL_RCC_GPIOA_CLK_ENABLE();
 	__HAL_RCC_GPIOB_CLK_ENABLE();
@@ -486,9 +530,15 @@ static void MX_GPIO_Init(void) {
 	/*Configure GPIO pin : M1_DRDY_Pin */
 	GPIO_InitStruct.Pin = M1_DRDY_Pin;
 	GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
-	GPIO_InitStruct.Pull = GPIO_NOPULL;
+	GPIO_InitStruct.Pull = GPIO_PULLDOWN;
 	GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_HIGH;
 	HAL_GPIO_Init(M1_DRDY_GPIO_Port, &GPIO_InitStruct);
+
+	GPIO_InitStruct.Pin = GPIO_PIN_15;
+	GPIO_InitStruct.Mode = GPIO_MODE_IT_FALLING;
+	GPIO_InitStruct.Pull = GPIO_NOPULL;
+	GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_HIGH;
+	HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
 	/* USER CODE BEGIN MX_GPIO_Init_2 */
 	/* USER CODE END MX_GPIO_Init_2 */
@@ -528,77 +578,8 @@ static void MX_SPI1_Init(void) {
  */
 void HAL_SPI_TxRxCpltCallback(SPI_HandleTypeDef* hspi) {
     if (hspi->Instance == SPI1) {
-
-		// Frame integrity check
-		if (rx[0] != FRAME_SOF ||
-			rx[5] != FRAME_EOF ||
-			rx[4] != crc_gen_checksum(rx[1], (rx[2] << 8) + rx[3])) {
-
-			// Send NACK
-			tx[0] = FRAME_SOF;
-			tx[1] = NACK;
-			tx[2] = 0;
-			tx[3] = 0;
-			tx[4] = crc_gen_checksum(NACK, 0);
-			tx[5] = FRAME_EOF;
-
-		} else {
-
-			uint16_t data = 0;
-
-			switch (rx[1]) {
-				case MOV_AX:
-					ax = (rx[2] << 8) + rx[3];
-					break;
-				case GET_AX:
-					data = ax;
-					break;
-				case MOV_BX:
-					bx = (rx[2] << 8) + rx[3];
-					break;
-				case GET_BX:
-					data = bx;
-					break;
-				case SET_SPEEDRAMP:
-					MC_ProgramSpeedRampMotor1_F(ax, bx);
-					break;
-				case GET_SPEED:
-					data = MC_GetMecSpeedReferenceMotor1();
-					break;
-				case START_MOTOR:
-					MC_StartMotor1();
-					break;
-				case STOP_MOTOR:
-					MC_StopMotor1();
-					break;
-				case ACK_FAULTS:
-					MC_AcknowledgeFaultMotor1();
-					break;
-				case GET_FAULT:
-					data = MC_GetOccurredFaultsMotor1();
-					break;
-				case GET_ENCODER:
-				case SET_CURRENT:
-				case GET_CURRENT:
-				default:
-					break;
-			}
-
-			tx[0] = FRAME_SOF;
-			tx[1] = ACK;
-			tx[2] = (data >> 8) & 0xFF;
-			tx[3] = data & 0xFF;
-			tx[4] = crc_gen_checksum(ACK, data);
-			tx[5] = FRAME_EOF;
-		}
-
-		if (HAL_SPI_TransmitReceive_IT(&hspi1, tx, rx, FRAME_SIZE) != HAL_OK) {
-			Error_Handler();
-		}
-
-		HAL_GPIO_WritePin(M1_DRDY_GPIO_Port, M1_DRDY_Pin, GPIO_PIN_SET);
-		data_ready = true;
-    }
+    	data_received = true;
+	}
 }
 
 /**
@@ -608,12 +589,16 @@ void HAL_SPI_TxRxCpltCallback(SPI_HandleTypeDef* hspi) {
  */
 void HAL_SPI_ErrorCallback(SPI_HandleTypeDef* hspi) {
     if (hspi->Instance == SPI1) {
-    	HAL_GPIO_WritePin(M1_DRDY_GPIO_Port, M1_DRDY_Pin, GPIO_PIN_RESET);
-        data_ready = false;
-
-        // Retry last transaction
-        HAL_SPI_TxRxCpltCallback(&hspi1);
+        data_received = true;
     }
+}
+
+void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin) {
+	if (GPIO_Pin == GPIO_PIN_15) {
+		if (HAL_GPIO_ReadPin(GPIOA, GPIO_PIN_15) == GPIO_PIN_RESET) {
+			HAL_GPIO_WritePin(M1_DRDY_GPIO_Port, M1_DRDY_Pin, GPIO_PIN_RESET);
+		}
+	}
 }
 
 /* USER CODE END 4 */
