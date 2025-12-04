@@ -23,7 +23,6 @@
 
 /* Includes ------------------------------------------------------------------*/
 #include "mc_config.h"
-#include "mcp_config.h"
 #include "mc_type.h"
 #include "mc_tasks.h"
 
@@ -191,43 +190,6 @@ void SPD_TIM_M1_IRQHandler(void) // TIM2_IRQHandler
   /* USER CODE END SPD_TIM_M1_IRQn 1 */
 }
 
-void USART1_IRQHandler(void)
-{
-  /* USER CODE BEGIN USART1_IRQHandler 0 */
-  if ( LL_USART_IsActiveFlag_TC (USARTA) )
-  {
-    /* Disable the DMA channel to prepare the next chunck of data*/
-    LL_DMA_DisableChannel( DMA_TX_A, DMACH_TX_A );
-    LL_USART_ClearFlag_TC (USARTA);
-    /* Data Sent by UART*/
-    /* Need to free the buffer, and to check pending transfer*/
-    ASPEP_HWDataTransmittedIT (&aspepOverUartA);
-  }
-  if ( LL_USART_IsActiveFlag_ORE (USARTA) )
-  { /* Stopping the debugger will generate an OverRun error*/
-    LL_USART_ClearFlag_ORE (USARTA);
-    LL_USART_EnableIT_IDLE (USARTA);
-  }
-  if ( LL_USART_IsActiveFlag_IDLE (USARTA) && LL_USART_IsEnabledIT_IDLE (USARTA) )
-  { /* Stopping the debugger will generate an OverRun error*/
-
-    //LL_USART_ClearFlag_IDLE (USARTA);
-    LL_USART_DisableIT_IDLE (USARTA);
-    /* To be sure we fetch the potential pendig data*/
-    /* We disable the DMA request, Read the dummy data, endable back the DMA request */
-    LL_USART_DisableDMAReq_RX (USARTA);
-    LL_USART_ReceiveData8(USARTA);
-    LL_USART_EnableDMAReq_RX (USARTA);
-    ASPEP_HWDMAReset (&aspepOverUartA);
-
-  }
-  /* USER CODE END USART1_IRQHandlern 0 */
-
-  /* USER CODE BEGIN USART1_IRQHandler 1 */
-
-  /* USER CODE END USART1_IRQHandler 1 */
-}
-
 /**
   * @brief  This function handles Hard Fault exception.
   * @param  None
@@ -270,17 +232,6 @@ static uint8_t SystickDividerCounter = SYSTICK_DIVIDER;
   }
   SystickDividerCounter ++;
 #endif /* MC_HAL_IS_USED */
-
-  /* Buffer is ready by the HW layer to be processed */
-  if (LL_DMA_IsActiveFlag_TC (DMA_RX_A, DMACH_RX_A))
-  {
-    LL_DMA_ClearFlag_TC (DMA_RX_A, DMACH_RX_A);
-    ASPEP_HWDataReceivedIT(&aspepOverUartA);
-  }
-  else
-  {
-    /* Nothing to do */
-  }
 
   /* USER CODE BEGIN SysTick_IRQn 1 */
   /* USER CODE END SysTick_IRQn 1 */

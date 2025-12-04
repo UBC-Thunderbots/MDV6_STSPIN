@@ -36,11 +36,6 @@
 			<locationURI>PARENT-1-PROJECT_LOC/MDv6_wheel_hall_Mar22.ioc</locationURI>
 		</link>
 		<link>
-			<name>Application/User/aspep.c</name>
-			<type>1</type>
-			<locationURI>PARENT-1-PROJECT_LOC/Src/aspep.c</locationURI>
-		</link>
-		<link>
 			<name>Application/User/crc.c</name>
 			<type>1</type>
 			<locationURI>PARENT-1-PROJECT_LOC/Src/crc.c</locationURI>
@@ -96,16 +91,6 @@
 			<locationURI>PARENT-1-PROJECT_LOC/Src/mc_tasks.c</locationURI>
 		</link>
 		<link>
-			<name>Application/User/mcp.c</name>
-			<type>1</type>
-			<locationURI>PARENT-1-PROJECT_LOC/Src/mcp.c</locationURI>
-		</link>
-		<link>
-			<name>Application/User/mcp_config.c</name>
-			<type>1</type>
-			<locationURI>PARENT-1-PROJECT_LOC/Src/mcp_config.c</locationURI>
-		</link>
-		<link>
 			<name>Application/User/motorcontrol.c</name>
 			<type>1</type>
 			<locationURI>PARENT-1-PROJECT_LOC/Src/motorcontrol.c</locationURI>
@@ -119,11 +104,6 @@
 			<name>Application/User/r1_ps_pwm_curr_fdbk.c</name>
 			<type>1</type>
 			<locationURI>PARENT-1-PROJECT_LOC/Src/r1_ps_pwm_curr_fdbk.c</locationURI>
-		</link>
-		<link>
-			<name>Application/User/register_interface.c</name>
-			<type>1</type>
-			<locationURI>PARENT-1-PROJECT_LOC/Src/register_interface.c</locationURI>
 		</link>
 		<link>
 			<name>Application/User/regular_conversion_manager.c</name>
@@ -144,11 +124,6 @@
 			<name>Application/User/stm32f0xx_mc_it.c</name>
 			<type>1</type>
 			<locationURI>PARENT-1-PROJECT_LOC/Src/stm32f0xx_mc_it.c</locationURI>
-		</link>
-		<link>
-			<name>Application/User/usart_aspep_driver.c</name>
-			<type>1</type>
-			<locationURI>PARENT-1-PROJECT_LOC/Src/usart_aspep_driver.c</locationURI>
 		</link>
 		<link>
 			<name>Drivers/CMSIS/system_stm32f0xx.c</name>
