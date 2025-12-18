@@ -52,15 +52,15 @@ SPI_HandleTypeDef hspi1;
 DMA_HandleTypeDef hdma_spi1_rx;
 DMA_HandleTypeDef hdma_spi1_tx;
 
+int16_t ax;
+int16_t bx;
+
+uint8_t tx[FRAME_SIZE];
+uint8_t rx[FRAME_SIZE];
+
+volatile bool data_received;
+
 /* USER CODE BEGIN PV */
-
-int16_t ax = 0;
-int16_t bx = 0;
-
-uint8_t tx[FRAME_SIZE] = {};
-uint8_t rx[FRAME_SIZE] = {};
-
-volatile bool data_received = true;
 
 /* USER CODE END PV */
 
@@ -122,7 +122,16 @@ int main(void) {
 
 	/* USER CODE BEGIN 2 */
 
-	// Initial frame
+	ax = 0;
+	bx = 0;
+
+	tx[0] = 0;
+	tx[1] = 0;
+	tx[2] = 0;
+	tx[3] = 0;
+	tx[4] = 0;
+	tx[5] = 0;
+
 	rx[0] = FRAME_SOF;
 	rx[1] = ACK;
 	rx[2] = 0;
@@ -174,7 +183,7 @@ int main(void) {
 					data = bx;
 					break;
 				case SET_SPEEDRAMP:
-					MC_ProgramSpeedRampMotor1_F(ax, bx);
+					MC_ProgramSpeedRampMotor1(ax, bx);
 					break;
 				case GET_SPEED:
 					data = MC_GetMecSpeedReferenceMotor1();
@@ -264,25 +273,6 @@ void SystemClock_Config(void) {
  * @retval None
  */
 static void MX_NVIC_Init(void) {
-//	/* DMA1_Channel1_IRQn interrupt configuration */
-//	HAL_NVIC_SetPriority(DMA1_Channel1_IRQn, 1, 0);
-//	HAL_NVIC_EnableIRQ(DMA1_Channel1_IRQn);
-//	/* DMA1_Channel4_5_IRQn interrupt configuration */
-//	HAL_NVIC_SetPriority(DMA1_Channel4_5_IRQn, 0, 0);
-//	HAL_NVIC_EnableIRQ(DMA1_Channel4_5_IRQn);
-//	/* DMA1_Channel2_3_IRQn interrupt configuration */
-//	HAL_NVIC_SetPriority(DMA1_Channel2_3_IRQn, 3, 0);
-//	HAL_NVIC_EnableIRQ(DMA1_Channel2_3_IRQn);
-//	/* TIM1_BRK_UP_TRG_COM_IRQn interrupt configuration */
-//	HAL_NVIC_SetPriority(TIM1_BRK_UP_TRG_COM_IRQn, 0, 0);
-//	HAL_NVIC_EnableIRQ(TIM1_BRK_UP_TRG_COM_IRQn);
-//	/* TIM2_IRQn interrupt configuration */
-//	HAL_NVIC_SetPriority(TIM2_IRQn, 3, 0);
-//	HAL_NVIC_EnableIRQ(TIM2_IRQn);
-//	/* EXTI4_15_IRQn interrupt configuration */
-//	HAL_NVIC_SetPriority(EXTI4_15_IRQn, 0, 0);
-//	HAL_NVIC_EnableIRQ(EXTI4_15_IRQn);
-
 	/* DMA1_Channel1_IRQn interrupt configuration */
 	HAL_NVIC_SetPriority(DMA1_Channel1_IRQn, 0, 0);
 	HAL_NVIC_EnableIRQ(DMA1_Channel1_IRQn);
@@ -290,16 +280,16 @@ static void MX_NVIC_Init(void) {
 	HAL_NVIC_SetPriority(DMA1_Channel4_5_IRQn, 0, 0);
 	HAL_NVIC_EnableIRQ(DMA1_Channel4_5_IRQn);
 	/* DMA1_Channel2_3_IRQn interrupt configuration */
-	HAL_NVIC_SetPriority(DMA1_Channel2_3_IRQn, 1, 0);
+	HAL_NVIC_SetPriority(DMA1_Channel2_3_IRQn, 3, 0);
 	HAL_NVIC_EnableIRQ(DMA1_Channel2_3_IRQn);
 	/* TIM1_BRK_UP_TRG_COM_IRQn interrupt configuration */
 	HAL_NVIC_SetPriority(TIM1_BRK_UP_TRG_COM_IRQn, 0, 0);
 	HAL_NVIC_EnableIRQ(TIM1_BRK_UP_TRG_COM_IRQn);
 	/* TIM2_IRQn interrupt configuration */
-	HAL_NVIC_SetPriority(TIM2_IRQn, 0, 0);
+	HAL_NVIC_SetPriority(TIM2_IRQn, 2, 0);
 	HAL_NVIC_EnableIRQ(TIM2_IRQn);
 	/* EXTI4_15_IRQn interrupt configuration */
-	HAL_NVIC_SetPriority(EXTI4_15_IRQn, 0, 0);
+	HAL_NVIC_SetPriority(EXTI4_15_IRQn, 3, 0);
 	HAL_NVIC_EnableIRQ(EXTI4_15_IRQn);
 }
 
@@ -516,12 +506,10 @@ static void MX_GPIO_Init(void) {
 	__HAL_RCC_GPIOA_CLK_ENABLE();
 	__HAL_RCC_GPIOB_CLK_ENABLE();
 
-	HAL_GPIO_WritePin(M1_EN_DRIVER_GPIO_Port, M1_EN_DRIVER_Pin, GPIO_PIN_SET);
-
 	/*Configure GPIO pin : M1_EN_DRIVER_Pin */
 	GPIO_InitStruct.Pin = M1_EN_DRIVER_Pin;
-	GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
-	GPIO_InitStruct.Pull = GPIO_PULLDOWN;
+	GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
+	GPIO_InitStruct.Pull = GPIO_PULLUP;
 	GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
 	HAL_GPIO_Init(M1_EN_DRIVER_GPIO_Port, &GPIO_InitStruct);
 
@@ -530,7 +518,7 @@ static void MX_GPIO_Init(void) {
 	/*Configure GPIO pin : M1_DRDY_Pin */
 	GPIO_InitStruct.Pin = M1_DRDY_Pin;
 	GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
-	GPIO_InitStruct.Pull = GPIO_PULLDOWN;
+	GPIO_InitStruct.Pull = GPIO_NOPULL;
 	GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_HIGH;
 	HAL_GPIO_Init(M1_DRDY_GPIO_Port, &GPIO_InitStruct);
 
@@ -571,22 +559,12 @@ static void MX_SPI1_Init(void) {
 
 /* USER CODE BEGIN 4 */
 
-/**
- * @brief  TxRx Transfer completed callback.
- * @param  hspi: pointer to a SPI_HandleTypeDef structure.
- * @retval None
- */
 void HAL_SPI_TxRxCpltCallback(SPI_HandleTypeDef* hspi) {
     if (hspi->Instance == SPI1) {
     	data_received = true;
 	}
 }
 
-/**
- * @brief  SPI error callback.
- * @param  hspi: pointer to a SPI_HandleTypeDef structure.
- * @retval None
- */
 void HAL_SPI_ErrorCallback(SPI_HandleTypeDef* hspi) {
     if (hspi->Instance == SPI1) {
         data_received = true;

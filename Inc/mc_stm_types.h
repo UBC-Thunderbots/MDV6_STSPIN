@@ -186,7 +186,7 @@ __STATIC_INLINE uint32_t LL_DMA_IsActiveFlag_HT(DMA_TypeDef *DMAx, uint32_t Chan
  *
  * @{
  */
-#define SPEED_UNIT U_01HZ
+#define SPEED_UNIT U_RPM
 
 /* USER CODE END DEFINITIONS */
 /*!< Convenient macro to convert user friendly RPM into SpeedUnit used by MC API */

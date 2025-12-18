@@ -67,11 +67,11 @@
                                                            Hz */
 /* Gains values for torque and flux control loops */
 #define PID_TORQUE_KP_DEFAULT         2737
-#define PID_TORQUE_KI_DEFAULT         3992
-#define PID_TORQUE_KD_DEFAULT         100
+#define PID_TORQUE_KI_DEFAULT         0
+#define PID_TORQUE_KD_DEFAULT         0
 #define PID_FLUX_KP_DEFAULT           3727
-#define PID_FLUX_KI_DEFAULT           3992
-#define PID_FLUX_KD_DEFAULT           100
+#define PID_FLUX_KI_DEFAULT           0
+#define PID_FLUX_KD_DEFAULT           0
 
 /* Torque/Flux control loop gains dividers*/
 #define TF_KPDIV                      1024
