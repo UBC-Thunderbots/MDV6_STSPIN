@@ -52,8 +52,8 @@ SPI_HandleTypeDef hspi1;
 DMA_HandleTypeDef hdma_spi1_rx;
 DMA_HandleTypeDef hdma_spi1_tx;
 
-int16_t ax;
-int16_t bx;
+volatile int16_t ax;
+volatile int16_t bx;
 
 uint8_t tx[FRAME_SIZE];
 uint8_t rx[FRAME_SIZE];
@@ -133,15 +133,20 @@ int main(void) {
 	tx[5] = 0;
 
 	rx[0] = FRAME_SOF;
-	rx[1] = ACK;
+	rx[1] = SPI_NOOP;
 	rx[2] = 0;
 	rx[3] = 0;
-	rx[4] = crc_gen_checksum(ACK, 0);
+	rx[4] = crc_gen_checksum(SPI_NOOP, 0);
 	rx[5] = FRAME_EOF;
 
 	data_received = true;
 
 	/* USER CODE END 2 */
+
+//	MC_ProgramSpeedRampMotor1(1000, 300);
+//	MC_StartMotor1();
+//	HAL_Delay(5000);
+//	MC_StopMotor1();
 
 	/* USER CODE BEGIN WHILE */
 	while (1) {
