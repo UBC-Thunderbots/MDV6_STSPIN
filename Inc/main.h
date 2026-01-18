@@ -89,6 +89,8 @@ void Error_Handler(void);
 #define M1_EN_DRIVER_GPIO_Port GPIOA
 #define M1_DRDY_Pin GPIO_PIN_3
 #define M1_DRDY_GPIO_Port GPIOA
+#define M1_LED_GPIO_Port GPIOA
+#define M1_LED_Pin GPIO_PIN_4
 #define TMS_Pin GPIO_PIN_13
 #define TMS_GPIO_Port GPIOA
 #define TCK_Pin GPIO_PIN_14
