@@ -2,6 +2,7 @@
 #define __COMMON_TYPES
 
 #define FRAME_SIZE 6
+#define FRAME_DELIMITER 0x67
 
 #define OPCODE_VALUES                    \
     DEF_VALUE(SPI_NOOP, 0b00000000)      \
@@ -44,11 +45,6 @@ enum FAULT_CODES {
     SAMPLE_FAULT = 0x0100,
     OVERCURR_SW  = 0x0200,
     DP_FAULT     = 0x0400,
-};
-
-enum FRAME_PARTS {
-    FRAME_SOF = 0x73,
-    FRAME_EOF = 0x45,
 };
 
 #endif

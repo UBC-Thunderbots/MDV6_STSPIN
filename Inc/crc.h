@@ -2,6 +2,7 @@
 #define __CRC_H
 
 #include <stdint.h>
+#include <stddef.h>
 
 #include "types.h"
 
@@ -36,13 +37,13 @@
 /**
  * @brief Generates a CRC-8 checksum using the AUTOSAR polynomial (0x2F)
  *
- * @param opcode The command opcode from @ref OPCODES enum
- * @param data   16-bit data value to include in the CRC calculation
- * @return uint8_t The calculated 8-bit CRC checksum
- *
  * This CRC calculation is based off the AUTOSAR Specificiation.
  * It has poly 0x2F, initial value 0xFF, and is finally xor'd with 0xFF.
+ *
+ * @param data     The array of bytes to calculate a checksum for
+ * @param len      The length of the data array
+ * @return uint8_t The calculated 8-bit CRC checksum
  */
-uint8_t crc_gen_checksum(enum OPCODES opcode, uint16_t data);
+uint8_t CrcGenerateChecksum(const uint8_t *data, size_t len);
 
 #endif

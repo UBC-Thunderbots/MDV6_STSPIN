@@ -22,6 +22,8 @@
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include "crc.h"
+
+#include <string.h>
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -52,13 +54,14 @@ SPI_HandleTypeDef hspi1;
 DMA_HandleTypeDef hdma_spi1_rx;
 DMA_HandleTypeDef hdma_spi1_tx;
 
-volatile int16_t ax;
-volatile int16_t bx;
+uint8_t rx_bufs[2][FRAME_SIZE];
+uint8_t tx_bufs[2][FRAME_SIZE];
 
-uint8_t tx[FRAME_SIZE];
-uint8_t rx[FRAME_SIZE];
+volatile bool txrx_half_completed;
+volatile bool txrx_completed;
 
-volatile bool data_received;
+bool motor_enabled;
+int16_t motor_target_speed;
 
 /* USER CODE BEGIN PV */
 
@@ -75,7 +78,7 @@ static void MX_SPI1_Init(void);
 static void MX_NVIC_Init(void);
 
 /* USER CODE BEGIN PFP */
-
+void ProcessSpiTransaction(uint8_t *rx, uint8_t *tx);
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
@@ -122,114 +125,92 @@ int main(void) {
 
 	/* USER CODE BEGIN 2 */
 
-	ax = 0;
-	bx = 0;
+	memset(rx_bufs, 0, sizeof(rx_bufs));
+	memset(tx_bufs, 0, sizeof(tx_bufs));
 
-	tx[0] = 0;
-	tx[1] = 0;
-	tx[2] = 0;
-	tx[3] = 0;
-	tx[4] = 0;
-	tx[5] = 0;
+	txrx_half_completed = false;
+	txrx_completed = false;
 
-	rx[0] = FRAME_SOF;
-	rx[1] = SPI_NOOP;
-	rx[2] = 0;
-	rx[3] = 0;
-	rx[4] = crc_gen_checksum(SPI_NOOP, 0);
-	rx[5] = FRAME_EOF;
+	motor_enabled = false;
+	motor_target_speed = 0;
 
-	data_received = true;
+	ProcessSpiTransaction(rx_bufs[0], tx_bufs[0]);
+	ProcessSpiTransaction(rx_bufs[1], tx_bufs[1]);
 
 	/* USER CODE END 2 */
 
-//	MC_ProgramSpeedRampMotor1(1000, 300);
-//	MC_StartMotor1();
-//	HAL_Delay(5000);
-//	MC_StopMotor1();
-
-	/* USER CODE BEGIN WHILE */
-	while (1) {
-
-		if (!data_received) {
-			continue;
-		}
-
-		data_received = false;
-
-		// Frame integrity check
-		if (rx[0] != FRAME_SOF ||
-			rx[5] != FRAME_EOF ||
-			rx[4] != crc_gen_checksum(rx[1], (rx[2] << 8) + rx[3])) {
-
-			// Send NACK
-			tx[0] = FRAME_SOF;
-			tx[1] = NACK;
-			tx[2] = 0;
-			tx[3] = 0;
-			tx[4] = crc_gen_checksum(NACK, 0);
-			tx[5] = FRAME_EOF;
-
-		} else {
-
-			uint16_t data = 0;
-
-			switch (rx[1]) {
-				case MOV_AX:
-					ax = (rx[2] << 8) + rx[3];
-					break;
-				case GET_AX:
-					data = ax;
-					break;
-				case MOV_BX:
-					bx = (rx[2] << 8) + rx[3];
-					break;
-				case GET_BX:
-					data = bx;
-					break;
-				case SET_SPEEDRAMP:
-					MC_ProgramSpeedRampMotor1(ax, bx);
-					break;
-				case GET_SPEED:
-					data = MC_GetMecSpeedReferenceMotor1();
-					break;
-				case START_MOTOR:
-					MC_StartMotor1();
-					break;
-				case STOP_MOTOR:
-					MC_StopMotor1();
-					break;
-				case ACK_FAULTS:
-					MC_AcknowledgeFaultMotor1();
-					break;
-				case GET_FAULT:
-					data = MC_GetOccurredFaultsMotor1();
-					break;
-				case GET_ENCODER:
-				case SET_CURRENT:
-				case GET_CURRENT:
-				default:
-					break;
-			}
-
-			tx[0] = FRAME_SOF;
-			tx[1] = ACK;
-			tx[2] = (data >> 8) & 0xFF;
-			tx[3] = data & 0xFF;
-			tx[4] = crc_gen_checksum(ACK, data);
-			tx[5] = FRAME_EOF;
-		}
-
-		if (HAL_SPI_TransmitReceive_DMA(&hspi1, tx, rx, FRAME_SIZE) != HAL_OK) {
-			Error_Handler();
-		}
-
-		HAL_GPIO_WritePin(M1_DRDY_GPIO_Port, M1_DRDY_Pin, GPIO_PIN_SET);
-
-		/* USER CODE END WHILE */
-		/* USER CODE BEGIN 3 */
+	if (HAL_SPI_TransmitReceive_DMA(&hspi1, (uint8_t *)tx_bufs, (uint8_t *)rx_bufs, FRAME_SIZE * 2) != HAL_OK) {
+		Error_Handler();
 	}
+
+	while (1) {		
+
+		if (txrx_half_completed) {
+			ProcessSpiTransaction(rx_bufs[0], tx_bufs[0]);
+			txrx_half_completed = false;
+		}
+		
+		if (txrx_completed) {
+			ProcessSpiTransaction(rx_bufs[1], tx_bufs[1]);
+			txrx_completed = false;
+		}
+	}
+
 	/* USER CODE END 3 */
+}
+
+void ProcessSpiTransaction(uint8_t *rx, uint8_t *tx) {
+
+	//  Incoming frames received from master have the following format:
+	//
+	//  +-------+--------+---------------+-------+-------+
+	//  | DELIM | ENABLE |   SPEED_RPM   |       |  CRC  |
+	//  +-------+--------+---------------+-------+-------+
+	//      0       1        2       3       4       5
+	//
+	//  The byte order of SPEED_RPM is big endian; i.e. the MSB is
+	//  transmitted first. Byte 4 is currently unused.
+
+	uint8_t rx_copy[FRAME_SIZE];
+	memcpy(rx_copy, rx, FRAME_SIZE);
+
+	// Frame integrity check
+	if (rx_copy[0] == FRAME_DELIMITER &&
+		rx_copy[5] == CrcGenerateChecksum(rx_copy, FRAME_SIZE - 1)) {
+
+		bool old_motor_enabled = motor_enabled;
+
+		motor_enabled = rx_copy[1];
+		motor_target_speed = (rx_copy[2] << 8) | rx_copy[3];
+
+		MC_ProgramSpeedRampMotor1(motor_target_speed, 0);
+
+		if (!old_motor_enabled && motor_enabled) {
+			MC_StartMotor1();
+		} else if (old_motor_enabled && !motor_enabled) {
+			MC_StopMotor1();
+		}
+	}
+
+	//  Outgoing frames have the following format:
+	//
+	//  +-------+---------------+----------------+-------+
+	//  | DELIM |   SPEED_RPM   |     FAULTS     |  CRC  |
+	//  +-------+---------------+----------------+-------+
+	//      0       1       2        3      4        5
+	//
+	//  The byte order of SPEED_RPM and FAULTS is big endian;
+	//  i.e. the MSB is transmitted first.
+
+	int16_t motor_current_speed = MC_GetMecSpeedAverageMotor1();
+	int16_t motor_faults = MC_GetOccurredFaultsMotor1();
+
+	tx[0] = FRAME_DELIMITER;
+	tx[1] = (motor_current_speed >> 8) & 0xFF;
+	tx[2] = motor_current_speed & 0xFF;
+	tx[3] = (motor_faults >> 8) & 0xFF;
+	tx[4] = motor_faults & 0xFF;
+	tx[5] = CrcGenerateChecksum(tx, FRAME_SIZE - 1);
 }
 
 /**
@@ -518,8 +499,6 @@ static void MX_GPIO_Init(void) {
 	GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
 	HAL_GPIO_Init(M1_EN_DRIVER_GPIO_Port, &GPIO_InitStruct);
 
-	HAL_GPIO_WritePin(M1_DRDY_GPIO_Port, M1_DRDY_Pin, GPIO_PIN_RESET);
-
 	/*Configure GPIO pin : M1_DRDY_Pin */
 	GPIO_InitStruct.Pin = M1_DRDY_Pin;
 	GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
@@ -533,12 +512,6 @@ static void MX_GPIO_Init(void) {
 	GPIO_InitStruct.Pull = GPIO_NOPULL;
 	GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
 	HAL_GPIO_Init(M1_LED_GPIO_Port, &GPIO_InitStruct);
-
-	GPIO_InitStruct.Pin = GPIO_PIN_15;
-	GPIO_InitStruct.Mode = GPIO_MODE_IT_FALLING;
-	GPIO_InitStruct.Pull = GPIO_NOPULL;
-	GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_HIGH;
-	HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
 	/* USER CODE BEGIN MX_GPIO_Init_2 */
 	/* USER CODE END MX_GPIO_Init_2 */
@@ -571,24 +544,22 @@ static void MX_SPI1_Init(void) {
 
 /* USER CODE BEGIN 4 */
 
+void HAL_SPI_TxRxHalfCpltCallback(SPI_HandleTypeDef* hspi) {
+    if (hspi->Instance == SPI1) {
+		txrx_half_completed = true;
+	}
+}
+
 void HAL_SPI_TxRxCpltCallback(SPI_HandleTypeDef* hspi) {
     if (hspi->Instance == SPI1) {
-    	data_received = true;
+		txrx_completed = true;
 	}
 }
 
 void HAL_SPI_ErrorCallback(SPI_HandleTypeDef* hspi) {
     if (hspi->Instance == SPI1) {
-        data_received = true;
+    	// Do nothing for now
     }
-}
-
-void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin) {
-	if (GPIO_Pin == GPIO_PIN_15) {
-		if (HAL_GPIO_ReadPin(GPIOA, GPIO_PIN_15) == GPIO_PIN_RESET) {
-			HAL_GPIO_WritePin(M1_DRDY_GPIO_Port, M1_DRDY_Pin, GPIO_PIN_RESET);
-		}
-	}
 }
 
 /* USER CODE END 4 */
