@@ -60,8 +60,13 @@ uint8_t tx_bufs[2][FRAME_SIZE];
 volatile bool txrx_half_completed;
 volatile bool txrx_completed;
 
+responseType_t response_type;
+
 bool motor_enabled;
-int16_t motor_target_speed;
+
+extern PID_Handle_t PIDSpeedHandle_M1;
+extern PID_Handle_t PIDIqHandle_M1;
+extern PID_Handle_t PIDIdHandle_M1;
 
 /* USER CODE BEGIN PV */
 
@@ -79,6 +84,18 @@ static void MX_NVIC_Init(void);
 
 /* USER CODE BEGIN PFP */
 void ProcessSpiTransaction(uint8_t *rx, uint8_t *tx);
+
+void ProcessRx_SetTargetSpeed(uint8_t *rx);
+void ProcessRx_SetTargetTorque(uint8_t *rx);
+void ProcessRx_SetResponseType(uint8_t *rx);
+void ProcessRx_SetPidTorqueKpKi(uint8_t *rx);
+void ProcessRx_SetPidFluxKpKi(uint8_t *rx);
+void ProcessRx_SetPidSpeedKpKi(uint8_t *rx);
+
+void PopulateTx_ResponseSpeedAndFaults(uint8_t *tx);
+void PopulateTx_ResponseIqAndId(uint8_t *tx);
+
+void SetMotorEnabled(bool enabled);
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
@@ -131,86 +148,229 @@ int main(void) {
 	txrx_half_completed = false;
 	txrx_completed = false;
 
+	response_type = SPEED_AND_FAULTS;
+
 	motor_enabled = false;
-	motor_target_speed = 0;
 
 	ProcessSpiTransaction(rx_bufs[0], tx_bufs[0]);
 	ProcessSpiTransaction(rx_bufs[1], tx_bufs[1]);
-
-	/* USER CODE END 2 */
 
 	if (HAL_SPI_TransmitReceive_DMA(&hspi1, (uint8_t *)tx_bufs, (uint8_t *)rx_bufs, FRAME_SIZE * 2) != HAL_OK) {
 		Error_Handler();
 	}
 
 	while (1) {		
-
 		if (txrx_half_completed) {
 			ProcessSpiTransaction(rx_bufs[0], tx_bufs[0]);
 			txrx_half_completed = false;
 		}
-		
 		if (txrx_completed) {
 			ProcessSpiTransaction(rx_bufs[1], tx_bufs[1]);
 			txrx_completed = false;
 		}
 	}
 
-	/* USER CODE END 3 */
+	/* USER CODE END 2 */
 }
 
+/**
+ * Processes a complete SPI transaction by executing the received command
+ * in the RX buffer and populating the TX buffer based on the current 
+ * response type.
+ *
+ * @param rx Pointer to the received SPI frame.
+ * @param tx Pointer to the transmit SPI frame.
+ */
 void ProcessSpiTransaction(uint8_t *rx, uint8_t *tx) {
-
-	//  Incoming frames received from master have the following format:
-	//
-	//  +-------+--------+---------------+-------+-------+
-	//  | DELIM | ENABLE |   SPEED_RPM   |       |  CRC  |
-	//  +-------+--------+---------------+-------+-------+
-	//      0       1        2       3       4       5
-	//
-	//  The byte order of SPEED_RPM is big endian; i.e. the MSB is
-	//  transmitted first. Byte 4 is currently unused.
-
 	uint8_t rx_copy[FRAME_SIZE];
 	memcpy(rx_copy, rx, FRAME_SIZE);
 
 	// Frame integrity check
-	if (rx_copy[0] == FRAME_DELIMITER &&
-		rx_copy[5] == CrcGenerateChecksum(rx_copy, FRAME_SIZE - 1)) {
+	if (rx_copy[5] == CrcGenerateChecksum(rx_copy, FRAME_SIZE - 1)) {
 
-		bool old_motor_enabled = motor_enabled;
+		const opcode_t opcode = rx_copy[0];
 
-		motor_enabled = rx_copy[1];
-		motor_target_speed = (rx_copy[2] << 8) | rx_copy[3];
-
-		MC_ProgramSpeedRampMotor1(motor_target_speed, 0);
-
-		if (!old_motor_enabled && motor_enabled) {
-			MC_StartMotor1();
-		} else if (old_motor_enabled && !motor_enabled) {
-			MC_StopMotor1();
+		switch (opcode) {
+			case NO_OP:
+				break;
+			case SET_TARGET_SPEED:
+				ProcessRx_SetTargetSpeed(rx_copy);
+				break;
+			case SET_TARGET_TORQUE:
+				ProcessRx_SetTargetTorque(rx_copy);
+				break;
+			case SET_RESPONSE_TYPE:
+				ProcessRx_SetResponseType(rx_copy);
+				break;
+			case SET_PID_TORQUE_KP_KI:
+				ProcessRx_SetPidTorqueKpKi(rx_copy);
+				break;
+			case SET_PID_FLUX_KP_KI:
+				ProcessRx_SetPidFluxKpKi(rx_copy);
+				break;
+			case SET_PID_SPEED_KP_KI:
+				ProcessRx_SetPidSpeedKpKi(rx_copy);
+				break;
 		}
 	}
 
-	//  Outgoing frames have the following format:
-	//
-	//  +-------+---------------+----------------+-------+
-	//  | DELIM |   SPEED_RPM   |     FAULTS     |  CRC  |
-	//  +-------+---------------+----------------+-------+
-	//      0       1       2        3      4        5
-	//
-	//  The byte order of SPEED_RPM and FAULTS is big endian;
-	//  i.e. the MSB is transmitted first.
+	switch (response_type) {
+		case SPEED_AND_FAULTS:
+			PopulateTx_ResponseSpeedAndFaults(tx);
+			break;
+		case IQ_AND_ID:
+			PopulateTx_ResponseIqAndId(tx);
+			break;
+	}
+}
 
-	int16_t motor_current_speed = MC_GetMecSpeedAverageMotor1();
-	int16_t motor_faults = MC_GetOccurredFaultsMotor1();
+/**
+ * Processes the received SPI frame to update the target speed for 
+ * the motor and start/stop the motor based on the enable flag.
+ *
+ *  +--------+--------+---------------+-------+-------+
+ *  | Opcode | Enable |     Speed     |       |  CRC  |
+ *  +--------+--------+---------------+-------+-------+
+ *      0        1        2       3       4       5
+ */
+void ProcessRx_SetTargetSpeed(uint8_t *rx) {
+	const int16_t motor_target_speed = (rx[2] << 8) | rx[3];
+	MC_ProgramSpeedRampMotor1(motor_target_speed, 0);
+	SetMotorEnabled(rx[1]);
+}
 
-	tx[0] = FRAME_DELIMITER;
+/**
+ * Processes the received SPI frame to update the target torque for 
+ * the motor and start/stop the motor based on the enable flag.
+ *
+ *  +--------+--------+---------------+-------+-------+
+ *  | Opcode | Enable |    Torque     |       |  CRC  |
+ *  +--------+--------+---------------+-------+-------+
+ *      0        1        2       3       4       5
+ */
+void ProcessRx_SetTargetTorque(uint8_t *rx) {
+	const int16_t motor_target_torque = (rx[2] << 8) | rx[3];
+	MC_ProgramTorqueRampMotor1(motor_target_torque, 0);
+	SetMotorEnabled(rx[1]);
+}
+
+/**
+ * Processes the received SPI frame to update the type of response 
+ * that will be sent back to the master in subsequent transactions.
+ *
+ *  +--------+--------+-----------------------+-------+
+ *  | Opcode |  Type  |                       |  CRC  |
+ *  +--------+--------+-----------------------+-------+
+ *      0        1         2      3      4        5
+ */
+void ProcessRx_SetResponseType(uint8_t *rx) {
+	response_type = rx[1];
+}
+
+/**
+ * Processes the received SPI frame to update the Kp and Ki 
+ * parameters for the torque (Iq) PID controller.
+ *
+ *  +--------+----------------+---------------+-------+
+ *  | Opcode |       Kp       |       Ki      |  CRC  |
+ *  +--------+----------------+---------------+-------+
+ *      0        1       2        3       4       5
+ */
+void ProcessRx_SetPidTorqueKpKi(uint8_t *rx) {
+	const int16_t kp = (rx[1] << 8) | rx[2];
+	const int16_t ki = (rx[3] << 8) | rx[4];
+
+	PID_SetKP(&PIDIqHandle_M1, kp);
+	PID_SetKI(&PIDIqHandle_M1, ki);
+}
+
+/**
+ * Processes the received SPI frame to update the Kp and Ki 
+ * parameters for the flux (Id) PID controller.
+ *
+ *  +--------+----------------+---------------+-------+
+ *  | Opcode |       Kp       |       Ki      |  CRC  |
+ *  +--------+----------------+---------------+-------+
+ *      0        1       2        3       4       5
+ */
+void ProcessRx_SetPidFluxKpKi(uint8_t *rx) {
+	const int16_t kp = (rx[1] << 8) | rx[2];
+	const int16_t ki = (rx[3] << 8) | rx[4];
+	
+	PID_SetKP(&PIDIdHandle_M1, kp);
+	PID_SetKI(&PIDIdHandle_M1, ki);
+}
+
+/**
+ * Processes the received SPI frame to update the Kp and Ki 
+ * parameters for the speed PID controller.
+ *
+ *  +--------+----------------+---------------+-------+
+ *  | Opcode |       Kp       |       Ki      |  CRC  |
+ *  +--------+----------------+---------------+-------+
+ *      0        1       2        3       4       5
+ */
+void ProcessRx_SetPidSpeedKpKi(uint8_t *rx) {
+	const int16_t kp = (rx[1] << 8) | rx[2];
+	const int16_t ki = (rx[3] << 8) | rx[4];
+	
+	PID_SetKP(&PIDSpeedHandle_M1, kp);
+	PID_SetKI(&PIDSpeedHandle_M1, ki);
+}
+
+/**
+ * Populates the TX buffer with fields corresponding to the
+ * current measured speed and motor faults.
+ *
+ *  +--------+---------------+----------------+-------+
+ *  |  Type  |  Speed (RPM)  |     Faults     |  CRC  |
+ *  +--------+---------------+----------------+-------+
+ *      0        1       2        3      4       5
+ */
+void PopulateTx_ResponseSpeedAndFaults(uint8_t *tx) {
+	const int16_t motor_current_speed = MC_GetMecSpeedAverageMotor1();
+	const int16_t motor_faults = MC_GetOccurredFaultsMotor1();
+
+	tx[0] = SPEED_AND_FAULTS;
 	tx[1] = (motor_current_speed >> 8) & 0xFF;
 	tx[2] = motor_current_speed & 0xFF;
 	tx[3] = (motor_faults >> 8) & 0xFF;
 	tx[4] = motor_faults & 0xFF;
 	tx[5] = CrcGenerateChecksum(tx, FRAME_SIZE - 1);
+}
+
+/**
+ * Populates the TX buffer with fields corresponding to the
+ * current Iq and Id values for the motor.
+ *
+ *  +--------+---------------+----------------+-------+
+ *  |  Type  |      Iq       |       Id       |  CRC  |
+ *  +--------+---------------+----------------+-------+
+ *      0        1       2        3      4       5
+ */
+void PopulateTx_ResponseIqAndId(uint8_t *tx) {
+	const qd_t motor_iqd = MC_GetIqdMotor1();
+
+	tx[0] = IQ_AND_ID;
+	tx[1] = (motor_iqd.q >> 8) & 0xFF;
+	tx[2] = motor_iqd.q & 0xFF;
+	tx[3] = (motor_iqd.d >> 8) & 0xFF;
+	tx[4] = motor_iqd.d & 0xFF;
+	tx[5] = CrcGenerateChecksum(tx, FRAME_SIZE - 1);
+}
+
+/**
+ * Enables or disables the motor based on the provided flag.
+ *
+ * @param enabled Whether to enable or disable the motor.
+ */
+void SetMotorEnabled(bool enabled) {
+	if (enabled && !motor_enabled) {
+		MC_StartMotor1();
+	} else if (!enabled && motor_enabled) {
+		MC_StopMotor1();
+	}
+	motor_enabled = enabled;
 }
 
 /**
